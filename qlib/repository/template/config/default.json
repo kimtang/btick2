@@ -1,0 +1,12 @@
+{
+	"example":{
+		"dependsOn":{
+			"repository":{"dontcare":{"path":"pathtorepository" } },
+			"config":{ "dontcare1":{"path": "home"} }
+		}
+	},	
+	"dependsOn":{
+		"repository":{"dontcare":{"path":"pathtorepository" }},
+		"config":{"dontcare1":{"path":"home" }}
+	}
+}
