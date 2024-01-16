@@ -57,8 +57,6 @@ d)fnc btick2.os.treen
 
 
 .os.hdel:{[path]
- if[10=abs type path;path:`$path];
- if[not ":"=first string path;path:hsym path];
  allFiles:.os.tree path;
  hdel@'reverse allFiles`fullPath
  }
