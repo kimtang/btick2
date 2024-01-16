@@ -162,19 +162,22 @@ d) fnc btick2.util.arg
 
 
 
-.util.seed:sum "J"$9 cut reverse string .z.i + "j"$.z.P
+/ .util.seed:sum "J"$9 cut reverse string .z.i + "j"$.z.P
 
-.util.setSeed:{[x] system .bt.print["S %0"] x}
+.util.setSeed:{[x] system .bt.print["S %0"] x;system"S"}
 
 d) fnc btick2.util.setSeed
  Function to show the path of the json file
  q) .util.setSeed 1132664680
 
-
-.util.setRandomSeed:{ .util.setSeed .util.seed}
+.util.setRandomSeed:{
+ if[type[x]in -6 -7h;:.util.setSeed x];
+ if[not -314159i~oldSeed:system"S";:oldSeed];
+ .util.setSeed sum "J"$9 cut reverse string .z.i + "j"$.z.P
+ }
 
 d) fnc btick2.util.setRandomSeed
- Function to show the path of the json file
+ Function to set the random seed. It will ignore if a seed exists.
  q) .util.setRandomSeed[]
 
 .util.guid:{[x]x?0ng }

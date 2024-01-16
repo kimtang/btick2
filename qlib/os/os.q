@@ -6,12 +6,15 @@ d)lib btick2.os
  q).import.module"btick2/qlib/os/os.q"
 
 .os.treeIgnore:{[ignore;x]
- if[10h =  abs type x;x:`$x];
+ if[10h = abs type x;x:`$x];
+ if[not ":"=first string x;x:hsym x]; 
  t:enlist `sym`parent`child`fullPath!(x;0;0;x);
  if[11h=abs type ignore;ignore:string ignore];
- if[10h=type ignore;ignore:enlist ignore]; 
+ if[10h=type ignore;ignore:enlist ignore];
+ ignore:{if[0=count x;:x];if[not ":"=x 0;:":",x];x}@'ignore;
  raze .os.treeIgnore0[ignore] scan t
- } 
+ }
+
 
 d)fnc btick2.os.treeIgnore 
  return all available files & folders in the root directory with an ignore list
@@ -38,6 +41,7 @@ d)fnc btick2.os.tree
 
 .os.treeIgnoren:{[ignore;n;x]
  if[10h =  abs type x;x:`$x];
+ if[not ":"=first string x;x:hsym x]; 
  t:enlist `sym`parent`child`fullPath!(x;0;0;x);
  if[11h=abs type ignore;ignore:string ignore];
  if[10h=type ignore;ignore:enlist ignore];  
@@ -50,3 +54,17 @@ d)fnc btick2.os.treen
  return all available files & folders up to level n
  q) .os.treen[2]`:. / show all files and folder in the current directory
  q) .os.treen[2]`:anyFolder
+
+
+.os.hdel:{[path]
+ if[10=abs type path;path:`$path];
+ if[not ":"=first string path;path:hsym path];
+ allFiles:.os.tree path;
+ hdel@'reverse allFiles`fullPath
+ }
+
+d)fnc btick2.os.hdel
+ delete the folder together with its contents
+ q) .os.hdel`:anyFolder
+ q) .os.hdel`anyFolder
+ q) .os.hdel"anyFolder"
