@@ -43,11 +43,16 @@ d)fnc qtx.qtx.module
  Load the given tests. We will ignore loading errors
  q) qtx.module "repo=`btick2,lib=`os" 
 
+
 .qtx.testSuite:{[testSuite;description;arg]
  arg0:update uid:.Q.dd[repo;(lib;testSuite)] from cols[.qtx.con]#arg:(`testSuite`description`before`after`argument!(testSuite;description;::;::;()!())),arg;
  delete from `.qtx.con2 where tuid.uid=arg0`uid;
+ update tuid:get tuid from `.qtx.con2;
  delete from `.qtx.con1 where uid = arg0`uid;
+ update uid:get uid from `.qtx.con1;
  delete from `.qtx.con where uid = arg0`uid;
+ update uid:`.qtx.con$uid from `.qtx.con1;
+ update tuid:`.qtx.con1$tuid from `.qtx.con2;
  `.qtx.con upsert cols[.qtx.con]#arg0;
  .qtx.addTestCase0[arg0`uid]@'raze arg`testCase;
  arg0`uid
@@ -193,7 +198,7 @@ d)fnc qtx.qtx.after
 .qtx.test0[`should]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
  meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`should)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
- meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
+ meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  rr:r`result;
  if[null r`error;meta0:meta0,.bt.md[`pass]rr`test];
@@ -205,9 +210,9 @@ d)fnc qtx.qtx.after
 .qtx.test0[`shouldFail]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
  meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldFail)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
- meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
+ meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
- if[null r`error;meta0:meta0,.bt.md[`pass]fncArg[`failMessage] ~ r`error];
+ if[not null r`error;meta0:meta0,.bt.md[`pass]fncArg[`failMessage] ~ r`error];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;
  if[99h=type meta0`result;arg:arg,meta0`result];
  arg
@@ -216,7 +221,7 @@ d)fnc qtx.qtx.after
 .qtx.test0[`shouldEq]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
  meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldEq)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
- meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
+ meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass]fncArg[`expectedResult] ~ r`result];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;
@@ -227,7 +232,7 @@ d)fnc qtx.qtx.after
 .qtx.test0[`shouldTrue]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
  meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldTrue)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
- meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
+ meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass] r`result];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;

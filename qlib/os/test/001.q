@@ -12,7 +12,8 @@
     }]
   .qtx.after[{[path] @[.os.hdel;path;{}]}]  
   .qtx.testCase[`test.os.treeIgnore;"test os treeIgnore"][
-    .qtx.should["description";{[path] r:.bt.md[`allFiles]allFiles: .os.tree path;
+    .qtx.should["description";{[path]
+      r:.bt.md[`allFiles]allFiles: .os.tree path;
       .qtx.out[r;] 7=count allFiles
       }]
     .qtx.shouldTrue["description";{[allFiles] min `a`f.q`b`d`c.q`e.q in allFiles`sym }]
