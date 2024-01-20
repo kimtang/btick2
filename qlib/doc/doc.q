@@ -1,5 +1,7 @@
 
-.d.e:{.doc.e0[`$first" "vs a 0]a:"\n"vs x}
+.d.rspace:{[x] if[" "= first x;:.d.rspace 1_x];x }
+
+.d.e:{.doc.e0[`$ first " "vs .d.rspace a 0]a:"\n"vs x}
 .doc.r:{[x] {if[not " " = x 0;:x];1_x } over x }
 
 .doc.conLib:2!flip`repo`lib`description`example!()
@@ -72,4 +74,4 @@ d)fnc btick2.doc.example
  q) .doc.example `os
  q) .doc.example "os"
  q) .doc.example `.os.tree`.os.treen
- q) .doc.example ".os.tree"12345`	
+ q) .doc.example ".os.tree"

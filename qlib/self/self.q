@@ -1,6 +1,7 @@
 
 .self.btick2:getenv`btick2
-.self.os:first string .z.o
+.self.zo:.z.o
+.self.os:first string .self.zo
 .self.getHome0:()!()
 .self.getHome0["w"]:{getenv[`USERPROFILE] }
 .self.getHome0["l"]:{getenv[`HOME] }

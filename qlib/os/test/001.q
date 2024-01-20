@@ -1,6 +1,6 @@
 
-.import.require`repository`os`qtx 
-.util.setRandomSeed[] / set a random seed
+.import.require`repository`os`qtx; 
+.util.setRandomSeed[]; / set a random seed
 
 .qtx.testSuite[`test.btick2.os;"test os"]
   .qtx.repo[`btick2]

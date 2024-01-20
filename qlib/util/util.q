@@ -110,12 +110,6 @@ d) fnc btick2.util.radnomSeed
  q) .util.radnomSeed[] \ set random seed if it is not already set
  q) .util.radnomSeed[`reset] \reset the random seed
 
-.util.windowSize:{ lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
-
-d) fnc btick2.util.windowSize
- Function to get windows size
- q) .util.windowSize[] \ set random seed
-
 .util.posArg0:{[name;p;default;lst] enlist[(`posArg0;name;p;default)],$[not all 10h=type @'lst;lst;enlist lst] }
 .util.optArg0:{[name;p;default;lst] enlist[(`optArg0;name;p;default)],$[not all 10h=type @'lst;lst;enlist lst] }
 
@@ -208,4 +202,8 @@ d) fnc btick2.util.genTmpFolder
  q) .util.genTmpFolder .bt.md[`uid] "asdwerfd" / you can also provide your own uid
 
 
+.util.windowSize:{ lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
 
+d) fnc btick2.util.windowSize
+ Function to get windows size
+ q) .util.windowSize[] \ set random seed

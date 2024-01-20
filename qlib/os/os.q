@@ -3,7 +3,7 @@ d)lib btick2.os
  Library for working with the os
  q).import.module`os 
  q).import.module`btick2.os
- q).import.module"btick2/qlib/os/os.q"
+ q).import.module"%btick2%/qlib/os/os.q"
 
 .os.treeIgnore:{[ignore;x]
  if[10h = abs type x;x:`$x];
@@ -44,7 +44,8 @@ d)fnc btick2.os.tree
  if[not ":"=first string x;x:hsym x]; 
  t:enlist `sym`parent`child`fullPath!(x;0;0;x);
  if[11h=abs type ignore;ignore:string ignore];
- if[10h=type ignore;ignore:enlist ignore];  
+ if[10h=type ignore;ignore:enlist ignore];
+ ignore:{if[not ":"=first x;:":",x];x}@'ignore;  
  raze (.os.treeIgnore0[ignore])\[n;t]
  } 
 

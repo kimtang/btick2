@@ -1,6 +1,6 @@
 
 d)lib btick2.qtx 
- Library for texting. It supports parameter injection.
+ Library for testing. It supports parameter injection.
  q).import.module`qtx 
  q).import.module`btick2.qtx
  q).import.module"btick2/qlib/qtx/qtx.q"
@@ -16,8 +16,9 @@ d)lib btick2.qtx
  allFolder:.os.treen[1]repo;
  allFolder:select from allFolder where not sym in (`.dignore,repo);
  allFolder:raze {update lib:x[`sym] from select from .os.treen[1;x`fullPath] where sym=`test}@'allFolder;
- allFolder:raze {update lib:x`lib from select from .os.treen[1;x`fullPath] where sym like "*.q"}@'allFolder; 
- select repo:x,lib,fullPath:`$1_/:string fullPath from allFolder   
+ allFolder:raze {update lib:x`lib from select from .os.treen[1;x`fullPath] where sym like "*.q"}@'allFolder;
+ if[()~allFolder;:()];
+ select repo:x,lib,fullPath:`$1_/:string fullPath from allFolder
  }
 
 .qtx.summary:{[x]
@@ -43,13 +44,10 @@ d)fnc qtx.qtx.module
  Load the given tests. We will ignore loading errors
  q) qtx.module "repo=`btick2,lib=`os" 
 
-
 .qtx.testSuite:{[testSuite;description;arg]
  arg0:update uid:.Q.dd[repo;(lib;testSuite)] from cols[.qtx.con]#arg:(`testSuite`description`before`after`argument!(testSuite;description;::;::;()!())),arg;
- delete from `.qtx.con2 where tuid.uid=arg0`uid;
- update tuid:get tuid from `.qtx.con2;
- delete from `.qtx.con1 where uid = arg0`uid;
- update uid:get uid from `.qtx.con1;
+ update tuid:get tuid from delete from `.qtx.con2 where tuid.uid=arg0`uid;
+ update uid:get uid from delete from `.qtx.con1 where uid = arg0`uid;
  delete from `.qtx.con where uid = arg0`uid;
  update uid:`.qtx.con$uid from `.qtx.con1;
  update tuid:`.qtx.con1$tuid from `.qtx.con2;
@@ -266,4 +264,4 @@ d)fnc qtx.qtx.after
  }
 
 
-.qtx.fail:{ con3:1_.qtx.con3;select from con3 where not pass}
+.qtx.fail:{ con3:1_.qtx.con3;`stime xdesc select from con3 where not pass}

@@ -15,7 +15,11 @@ d) lib btick2.import
  }
 .import.module0[`symbol]:{[x]
  cnt:count x0:` vs arg:x`arg;
- if[1=cnt; x:x,`repository`module`file!(`btick2;arg;.bt.print["%0.q"]arg) ];
+
+ if[1=cnt;
+   t:first where {[x;y]x in key hsym`$y,"/qlib"}[arg]@'.import.repository.con;
+   x:x,`repository`module`file!(t;arg;.bt.print["%0.q"]arg)
+   ];
  if[(2=cnt) and x0[0] in key .import.repository.con;
   x:x,`repository`module`file!(x0 0;x0 1;.bt.print["%1.q"]x0)
   ];
@@ -77,8 +81,9 @@ d)fnc btick2.import.module
 
 .import.require:{[x]
  if[max x~/:(`;::);:1_.import.module1.con]; / show which file has been loaded
+ if[10h=type x;x:enlist x];
  :.import.require2@'x
- } 
+ }
 
 d)fnc btick2.import.require 
  load files with no reload
