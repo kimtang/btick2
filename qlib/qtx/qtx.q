@@ -108,7 +108,7 @@ d)fnc qtx.qtx.after
  q) .qtx.after[{`a`b`c`d!3 4 5 6}]
 
 
-.qtx.addArg:{[arg0;arg] arg,.bt.md[`argument] arg0 }
+.qtx.addArg:{[arg0;arg] if[`argument in key arg; arg0:arg[`argument],arg0]; arg,.bt.md[`argument] arg0 }
 
 .qtx.nil:.bt.md[`]{}
 
@@ -265,3 +265,19 @@ d)fnc qtx.qtx.after
 
 
 .qtx.fail:{ con3:1_.qtx.con3;`stime xdesc select from con3 where not pass}
+
+d)fnc qtx.qtx.fail 
+ Show failed test cases
+ q) .qtx.fail[] 0
+
+.qtx.debug:{[arg]
+ r0:first r:?[.qtx.fail[];;0b;()] `guid`uid{enlist[=;x;y]}'(::;enlist)@'arg`guid`uid;
+ if[0=count r;'`.qtx.debug.notfound];
+ .bt.getArg[r0`body] set' r0`arg;
+ r0`body  
+ }
+
+
+d)fnc qtx.qtx.debug 
+ Debug the given function
+ q) .qtx.debug .qtx.fail[] 0 
