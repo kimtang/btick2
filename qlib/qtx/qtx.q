@@ -9,7 +9,7 @@ d)lib btick2.qtx
 .qtx.con1:1!enlist`tuid`uid`testCase`tdescription`tafter`tbefore`targument!(`;first`.qtx.con$();`;"**";::;::;()!())
 .qtx.con2:1!enlist`fuid`tuid`fdescription`testFnc`fncArg!(`;first`.qtx.con1$();"**";::;()!())
 
-.qtx.con3:enlist`guid`uid`mode`testSuite`repo`lib`fnc`stime`dtime`etime`result`error`body`arg`pass`used`heap`peak`wmax`mmap`mphy`syms`symw!(0ng;`;`;`;`;`;{x};0np;0nn;0np;();`;{x};();0b),(8#0nj)
+.qtx.con3:enlist`guid`fuid`testSuite`repo`lib`fnc`stime`dtime`etime`result`error`body`arg`pass`used`heap`peak`wmax`mmap`mphy`syms`symw!(0ng;`;`;`;`;{x};0np;0nn;0np;();`;{x};();0b),(8#0nj)
 
 .qtx.summary0:{[x]
  repo: `$.bt.print[":%path%/qlib"] .import.repository.con((1#`path)!1#x);
@@ -155,7 +155,7 @@ d)fnc qtx.qtx.after
 
 .qtx.result:{[filter]
  if[max filter~/:(`;::;"";" ";"*");filter:()];  
- con3:1_.qtx.con3;
+ con3:(1_.qtx.con3) lj .qtx.con2 lj .qtx.con1 lj .qtx.con; 
  if[10h = type filter;filter:.util.parsec filter];  
  con3:?[con3;filter;0b;()!()];
  `ntime xdesc select ntime:min `time$stime,xtime:`time$max etime,dtime:`second$sum dtime ,ntest:count i,npass:sum pass,ppass:100*sum[pass] % count i  by testSuite,guid:`$first@'"-"vs/: string guid from con3 where not null guid,fnc like "should*"
@@ -195,7 +195,7 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`should]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`should)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`should)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  rr:r`result;
@@ -207,7 +207,7 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`shouldFail]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldFail)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldFail)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[not null r`error;meta0:meta0,.bt.md[`pass]fncArg[`failMessage] ~ r`error];
@@ -218,7 +218,7 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`shouldEq]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldEq)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldEq)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass]fncArg[`expectedResult] ~ r`result];
@@ -229,7 +229,7 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`shouldTrue]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`mode`uid`fnc!(.z.P;`fuid;t2`fuid;`shouldTrue)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldTrue)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass] r`result];
@@ -264,17 +264,18 @@ d)fnc qtx.qtx.after
  }
 
 
-.qtx.fail:{ con3:1_.qtx.con3;`stime xdesc select from con3 where not pass}
+.qtx.fail:{ con3:(1_.qtx.con3) lj .qtx.con2 lj .qtx.con1 lj .qtx.con;`stime xdesc select from con3 where not pass}
 
 d)fnc qtx.qtx.fail 
  Show failed test cases
  q) .qtx.fail[] 0
 
 .qtx.debug:{[arg]
- r0:first r:?[.qtx.fail[];;0b;()] `guid`uid{enlist[=;x;y]}'(::;enlist)@'arg`guid`uid;
+ con3:(1_.qtx.con3) lj .qtx.con2 lj .qtx.con1 lj .qtx.con;
+ r0:first r:?[con3;;0b;()] `guid`fuid{enlist[=;x;y]}'(::;enlist)@'arg`guid`fuid;
  if[0=count r;'`.qtx.debug.notfound];
  .bt.getArg[r0`body] set' r0`arg;
- r0`body  
+ r0`body
  }
 
 

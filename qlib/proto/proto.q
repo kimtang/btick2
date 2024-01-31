@@ -6,7 +6,7 @@ d)lib btick2.proto
  q).import.module"%btick2%/qlib/proto/proto.q"
 
 .proto.summary:{} 
-.import.module `$"%btick2%/qlib/proto/unparse.q";
+.import.module "%btick2%/qlib/proto/unparse.q";
 
 \d .proto
 
@@ -37,7 +37,10 @@ operator:{[u;o]
  }
 
 udata:{[o;data;e;r]o:(`nme xkey operator0 lj([nme:key o]fnc:value o)) ;if[not o[`Colon;`fnc]~e 0;:data];data[e 1]:r;data}
-eval0:{[e]if[1=count e;:first e];0 e}
+
+eval1:{[x] 0 x }
+
+eval0:{[e]if[1=count e;:first e];eval1 e}
 
 s:{[a;o;x]data:x`data;u:x`u;
  u0:adata[u]data;
@@ -78,6 +81,7 @@ prote:{[a;o;exn]d:`arg`exn`a`o!(1#`x;exn;a;o);proto0[count d`arg][d]  }
 \d .
 
 d) fnc proto.proto.proto
+ Add logging
  q){@[`.;key x;:;value x]} .proto
  q)"big numbers"
  q)cns:{(til count r)!"J"$'r:reverse string x}

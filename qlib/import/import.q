@@ -4,56 +4,78 @@ d) lib btick2.import
 
 .import.repository.con:(1#`btick2)!enlist .self.btick2
 
-.import.module1.con:enlist`arg`path`ltime0`ftime`dtime`cmd`error!({};"**";0np;0np;0nn;"**";`)
+.import.module0.con:enlist`arg`path`ltime0`ftime`dtime`cmd`error!({};"**";0np;0np;0nn;"**";`)
 
-.import.module0:()!()
-.import.module0[`dict]:{[x]
+.import.cpath0:()!()
+.import.cpath0[`dict]:{
  x0:x,(1#`repository)!enlist .import.repository.con x`repository;
- cmd:.bt.print["l %path%"] .bt.md[`path]path:.bt.print["%repository%/qlib/%module%/%file%"] x0; 
- result:(`arg`path`ltime0`ftime`cmd`error!(x;path;.z.P;0np;cmd;`)),x0; 
- :.import.module0[`exec] result
+ :.bt.print["%repository%/qlib/%module%/%file%"] x0
  }
-.import.module0[`symbol]:{[x]
- cnt:count x0:` vs arg:x`arg;
 
+.import.cpath0[`symbol]:{
+ cnt:count x0:` vs x;
  if[1=cnt;
-   t:first where {[x;y]x in key hsym`$y,"/qlib"}[arg]@'.import.repository.con;
-   x:x,`repository`module`file!(t;arg;.bt.print["%0.q"]arg)
+   t:first where {[x;y]x in key hsym`$y,"/qlib"}[x]@'.import.repository.con;
+   x:`repository`module`file!(t;x;.bt.print["%0.q"]x)
    ];
  if[(2=cnt) and x0[0] in key .import.repository.con;
-  x:x,`repository`module`file!(x0 0;x0 1;.bt.print["%1.q"]x0)
+  x:`repository`module`file!(x0 0;x0 1;.bt.print["%1.q"]x0)
   ];
  if[(2=cnt) and not x0[0] in key .import.repository.con;
-  x:x,`repository`module`file!(`btick2;x0 0;.bt.print["%1.q"]x0)
+  x:`repository`module`file!(`btick2;x0 0;.bt.print["%1.q"]x0)
   ];
  if[(3<=cnt) and x0[0] in key .import.repository.con;
-  x:x,`repository`module`file!(x0 0;x0 1;.bt.print["%0.q"] enlist "/"sv string 2_x0)
+  x:`repository`module`file!(x0 0;x0 1;.bt.print["%0.q"] enlist "/"sv string 2_x0)
   ];
  if[(3<=cnt) and not x0[0] in key .import.repository.con;
-  x:x,`repository`module`file!(`btick2;x0 0;.bt.print["%0.q"] enlist "/"sv string 1_x0)
+  x:`repository`module`file!(`btick2;x0 0;.bt.print["%0.q"] enlist "/"sv string 1_x0)
   ];
- :.import.module0[`dict] x
+ :.import.cpath0[`dict] x  
  }
-.import.module0[`character]:{[x]
- cmd:.bt.print["l %path%"] .bt.md[`path] path:.bt.print[arg:x`arg] .import.repository.con;
- result:x,`path`ltime0`ftime`cmd`error!(path;.z.P;0np;cmd;`); 
- :.import.module0[`exec] result
+
+.import.cpath0[`character]:{
+ :.bt.print[x] .import.repository.con
  }
-.import.module0[`exec]:{[x]
- loaded:"b"$count select from .import.module1.con where path like x`path,null error;
+
+.import.cpath:{
+ if[max x~/:(`;::;"";" ");:.import.repository.con]; / show which file has been loaded
+ t:(99 11 10h!`dict`symbol`character) abs type x;
+ :.import.cpath0[t] x
+ }
+
+d)fnc btick2.import.cpath 
+ return all available files & folders in the root directory with an ignore list
+ q) .import.cpath`self  / Generate the path to btick2/qlib/self/self.q
+ q) .import.cpath"%btick2%/qlib/self/self.q"  / load self module in btick2 repository
+ q) .import.cpath`os  / load os modules in btick2 repository
+ q) .import.cpath`import.repository  / load from btick2 repository
+ q) .import.cpath`repository`module`file!(`btick2;`os;"os.q")
+ q) .import.cpath"%btick2%/qlib/import/repository.q"  / load from btick2 repository
+ q) .import.cpath `btick2.import
+ q) .import.cpath `btick2.import.repository
+ q) .import.cpath `import.repository.tmp
+
+.import.loadFile:{[x]
+ loaded:"b"$count select from .import.module0.con where path like x`path,null error;
  if[loaded and not x`reload;:()];
  x:update dtime:ftime - ltime0 from x,(``ftime!(`;.z.P)),@[{`result`error!(system x;`)};x`cmd;{`result`error!(();`$x)}];
- `.import.module1.con insert x:cols[.import.module1.con]#x;
+ `.import.module0.con insert x:cols[.import.module0.con]#x;
  x
  }
 
+.import.module1:{[x]
+ cmd:.bt.print["l %path%"] .bt.md[`path]path: .import.cpath x`arg;
+ result:(`arg`path`ltime0`ftime`cmd`error!(x;path;.z.P;0np;cmd;`)),x;
+ :.import.loadFile result  
+ }
+
 .import.module2:{[x]
- t:(99 11 10h!`dict`symbol`character) abs type x;
- :.import.module0[t] `reload`arg!(1b;x)
+ / t:(99 11 10h!`dict`symbol`character) abs type x;
+ :.import.module1 `reload`arg!(1b;x)
  }
 
 .import.module:{[x]
- if[max x~/:(`;::);:1_.import.module1.con]; / show which file has been loaded
+ if[max x~/:(`;::);:1_.import.module0.con]; / show which file has been loaded
  if[10h = type x;x: enlist x];  
  :.import.module2@'x
  }
@@ -71,16 +93,16 @@ d)fnc btick2.import.module
  q) .import.module `import.repository
  q) .import.module `btick2.import
  q) .import.module `btick2.import.repository
- q) .import.module `import.repository.tmp     
+ q) .import.module `import.repository.tmp
+
 
 .import.require2:{[x]
- if[max x~/:(`;::);:.import.summary[]]; / if not showing anything then return a summary of available repositories and requires.
- t:(99 11 10h!`dict`symbol`character) abs type x;
- :.import.module0[t] `reload`arg!(0b;x)
+ / t:(99 11 10h!`dict`symbol`character) abs type x;
+ :.import.module1 `reload`arg!(0b;x)
  }
 
 .import.require:{[x]
- if[max x~/:(`;::);:1_.import.module1.con]; / show which file has been loaded
+ if[max x~/:(`;::);:1_.import.module0.con]; / show which file has been loaded
  if[10h=type x;x:enlist x];
  :.import.require2@'x
  }
@@ -101,7 +123,7 @@ d)fnc btick2.import.require
  q) .import.require `import.repository.tmp     
 
 
-.import.require`os`util
+.import.require`os`util;
 
 / (::)x:`btick2
 .import.summary:{
@@ -120,11 +142,11 @@ d)fnc btick2.import.require
   :select from .doc.conLib where repo =x 
  }
 
-
 d)fnc btick2.import.summary 
  return all available files & folders in the root directory with an ignore list
  q) .import.summary[] / show all available modules and lib
  q) .import.summary`btick2  / show all modules in btick2 repository
+
 
 if[()~key `.import.json;.import.json:`default];  / what is the default json file? Where to read it? 
 

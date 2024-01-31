@@ -23,4 +23,4 @@
     .qtx.shouldTrue["description";{[path] .os.hdel path; ()~key hsym `$path}]    
     .qtx.nil
     ]
-  .qtx.nil
+  .qtx.nil;

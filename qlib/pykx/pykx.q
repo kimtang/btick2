@@ -3,7 +3,7 @@ d)lib btick2.pykx
  Library for working with the lib pykx
  q).import.module`pykx 
  q).import.module`btick2.pykx
- q).import.module"btick2/qlib/pykx/pykx.q"
+ q).import.module"*btick2*/qlib/pykx/pykx.q"
 
 .pykx.summary:{} 
 

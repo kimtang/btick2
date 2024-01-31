@@ -28,4 +28,4 @@
     .qtx.shouldTrue["description";{[allData] 1b}]
     .qtx.nil
     ]
-  .qtx.nil
+  .qtx.nil;
