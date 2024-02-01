@@ -16,7 +16,7 @@ ts:{
 scheduleAt:{[fnc;arg;scheduleAt] `.bt.tme insert `id`fnc`arg`res`scheduleAt`runAt!(count .bt.tme;fnc;arg;{};scheduleAt;0np);}
 scheduleIn:{[fnc;arg;scheduleIn] `.bt.tme insert `id`fnc`arg`res`scheduleAt`runAt!(count .bt.tme;fnc;arg;{};.z.P + scheduleIn;0np);}
 
-.z.ts:.bt.ts
+if[()~key `.z.ts;.z.ts:.bt.ts]; / we will set timer if it is not set before.
 
 stdOut:{[level;msg] level: (`info`error!("INFO ";"ERROR")) level;1 .bt.print["%level%|%time%|%msg%\n"] `level`msg`time!(level;msg;.z.t) }
 stdOut0:{[level;library;msg] level: (`info`error!("INFO ";"ERROR")) level;1 .bt.print["%level%|%time%|%library%|%msg%\n"] `level`msg`time`library!(level;msg;.z.t;library) }

@@ -1,4 +1,6 @@
 
+.import.require`baum;
+
 .qtx.testSuite[`test.btick2.baum;"test baum"]
   .qtx.repo[`btick2]
   .qtx.lib[`baum]

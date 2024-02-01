@@ -9,18 +9,6 @@ d) fnc btick2.util.summary
  show configured std.out
  q) .util.summary[]
 
-
-.util.parse0:{raze .Q.s2 x}
-.util.printf0:{""sv enlist[first s],{(.util.parse0 x"J"$first y),1_y}[1_x]each 1_s:"%"vs x 0};
-.util.printf2:{raze@[s;t;:;]{$[10h = abs type x;x;.util.parse0 x]}@'x[1]`$s t:t where"b"$mod[;2]t:til count s:"%"vs x 0}
-.util.printf:{$[10h=t:abs type x;(::);not 0h=t;.util.parse0;99h=type x 1;.util.printf2;.util.printf0] x}
-.util.printf1:{(0 -10 10 100h!(.util.printf;enlist;::;{x[]}))[type x] x}
-.util.print:{[x;y] .util.printf $[99h=type y;(x;y);enlist[x],y] }
-
-d) fnc btick2.util.print
- Generate string like printf
- q) .util.print["abc:%abc% - bcd:%bcd%"] `abc`bcd!(1 2 3;"bcd")
-
 .util.setOutputTrace:{ if[not 11h = abs type x;:.bt.showTrace ]; .bt.showTrace:x; .bt.showTrace}
 
 d) fnc btick2.util.setOutputTrace
