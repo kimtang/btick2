@@ -6,8 +6,8 @@ d)lib btick2.qtx
  q).import.module"%btick2%/qlib/qtx/qtx.q"
 
 .qtx.con: 1!enlist`uid`repo`lib`testSuite`description`after`before`argument!(`;`;`;`;"**";::;::;()!())
-.qtx.con1:1!enlist`tuid`uid`testCase`tdescription`tafter`tbefore`targument!(`;first`.qtx.con$();`;"**";::;::;()!())
-.qtx.con2:1!enlist`fuid`tuid`fdescription`testFnc`fncArg!(`;first`.qtx.con1$();"**";::;()!())
+.qtx.con1:1!enlist`tuid`uid`testCase`tdescription`tafter`tbefore`targument!(`;`;`;"**";::;::;()!())
+.qtx.con2:1!enlist`fuid`tuid`fdescription`testFnc`fncArg!(`;`;"**";::;()!())
 
 .qtx.con3:enlist`guid`fuid`testSuite`repo`lib`fnc`stime`dtime`etime`result`error`body`arg`pass`used`heap`peak`wmax`mmap`mphy`syms`symw!(0ng;`;`;`;`;{x};0np;0nn;0np;();`;{x};();0b),(8#0nj)
 
@@ -49,11 +49,10 @@ d)fnc qtx.qtx.module
 
 .qtx.testSuite:{[testSuite;description;arg]
  arg0:update uid:.qtx.toSha1 .Q.dd[repo;(lib;testSuite)] from cols[.qtx.con]#arg:(`testSuite`description`before`after`argument!(testSuite;description;::;::;()!())),arg;
- update tuid:get tuid from delete from `.qtx.con2 where tuid.uid=arg0`uid;
- update uid:get uid from delete from `.qtx.con1 where uid = arg0`uid;
- delete from `.qtx.con where uid = arg0`uid;
- update uid:`.qtx.con$uid from `.qtx.con1;
- update tuid:`.qtx.con1$tuid from `.qtx.con2;
+ tuids: exec tuid from .qtx.con1 where uid = arg0`uid;
+ delete from `.qtx.con2 where tuid in tuids;
+ delete from `.qtx.con1 where uid =arg0`uid;
+ delete from `.qtx.con where uid =arg0`uid;
  `.qtx.con upsert cols[.qtx.con]#arg0;
  .qtx.addTestCase0[arg0`uid]@'raze arg`testCase;
  arg0`uid
@@ -65,13 +64,17 @@ d)fnc qtx.qtx.testSuite
 
 
 .qtx.addTestCase0:{[uid0;testCase0]
- `.qtx.con1 upsert 1!enlist cols[.qtx.con1]#arg:update tuid:.qtx.toSha1@' .Q.dd'[uid0;testCase],uid:uid0 from testCase0;
+ arg:update tuid:.qtx.toSha1@' .Q.dd'[uid0;testCase],uid:uid0 from testCase0;
+ delete from `.qtx.con2 where tuid = arg`tuid;
+ `.qtx.con1 upsert 1!enlist cols[.qtx.con1]#arg;
  .qtx.addTestFnc[arg`tuid]@'reverse arg`should;
  arg`tuid
  }
 
-.qtx.addTestCase:{[uid;arg]
- .qtx.addTestCase0[uid]@'raze arg`testCase;
+.qtx.addTestCase:{[testSuite0;arg]
+ uid:first exec uid from .qtx.con where testSuite=testSuite0;
+ arg:update uid:uid from arg;
+ .qtx.addTestCase0[arg`uid]@'raze arg`testCase;
  uid
  }
 
@@ -171,12 +174,12 @@ d)fnc qtx.qtx.after
  lcon0:cols[.qtx.con]#t0;
  rcon0:flip(cols[.qtx.con] except `uid) _ t0;
  arg:(lcon0`argument),arg;
- fuid:.qtx.toSha1 .Q.dd[get t0`uid;`before];
+ fuid:.qtx.toSha1 .Q.dd[t0`uid;`before];
  r:.qtx.execute[guid,`fuid`testSuite`repo`lib`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;`before);lcon0`before;arg];
  if[not null r`error;:()];
  if[99h=type r`result;arg:arg,r`result];
  arg0:(,) scan .qtx.fmain1[guid,`repo`lib`testSuite#lcon0;arg]@'0!cols[.qtx.con1] xgroup rcon0;
- fuid:.qtx.toSha1 .Q.dd[get t0`uid;`after]; 
+ fuid:.qtx.toSha1 .Q.dd[t0`uid;`after]; 
  r:.qtx.execute[guid,`fuid`testSuite`repo`lib`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;`after);lcon0`after;arg];
  guid`guid
  }
@@ -189,12 +192,12 @@ d)fnc qtx.qtx.after
  arg:(t1`targument),arg;
  lcon1:cols[.qtx.con1]#t1;
  rcon1:flip(cols[.qtx.con1] except `tuid) _ t1;
- fuid:.qtx.toSha1 .Q.dd[get t1`tuid;`before];
+ fuid:.qtx.toSha1 .Q.dd[t1`tuid;`before];
  r:.qtx.execute[meta0,`fuid`fnc!(fuid;`before);t1`tbefore;arg];
  if[not null r`error;:()];
  if[99h=type r`result;arg:arg,r`result];
  arg0:(,) scan .qtx.test[meta0;;] over 1_({};arg), rcon1;
- fuid:.qtx.toSha1 .Q.dd[get t1`tuid;`after];
+ fuid:.qtx.toSha1 .Q.dd[t1`tuid;`after];
  r:.qtx.execute[meta0,`fuid`fnc!(fuid;`after);t1`tafter;arg0,arg]; 
  }
 
