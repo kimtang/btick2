@@ -152,7 +152,7 @@ if[()~key `.import.json;.import.json:`default];  / what is the default json file
 
 .import.getConfig:{
  if[max x~/:(`;::);x:.import.json]; / give .import.json as the default file  
- `name`path!enlist[.import.json;]`$.bt.print[":%home%/.config/btick2/%cfg%.json"] ((1#`cfg)!1#x),.self
+ `name`path!enlist[.import.json;]`$.bt.print[":%home%/%cfg%.json"] ((1#`cfg)!1#x),.self
  }
 
 d)fnc btick2.import.getConfig 
@@ -162,7 +162,7 @@ d)fnc btick2.import.getConfig
  q) .import.getConfig `dontcare / you can also specify a file or a repository name
 
 
-/ x:`$":C:\\Users\\kimkt/.config/btick2/default.json"
+/ x:`$":C:\\Users\\kimkt/default.json"
 / .import.readPath x
 
 .import.readPath:{[x]
@@ -170,7 +170,7 @@ d)fnc btick2.import.getConfig
  dependsOn:config`dependsOn;
  if[0=count config0:dependsOn`config;:flip`name`path!()];
  tbl:{ `name xcols update name:key x from value x } config0;
- tbl:update path:{[name] `$.bt.print[":%home%/.config/btick2/%name%.json"] .self,.bt.md[`name]name }@'name from tbl where path like"home";
+ tbl:update path:{[name] `$.bt.print[":%home%/%name%.json"] .self,.bt.md[`name]name }@'name from tbl where path like"home";
  tbl 
  }
 
