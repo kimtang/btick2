@@ -184,7 +184,7 @@ d) fnc remote.remote.sbl
  Function to write a config file for sbl. Path can be config in the qlib.json. "remote":{"path": "../cfg","user":"yourname","passwd":"yourpasswd"}
  q) .remote.sbl []
 
-.remote.cfile:{[x] {file:`$.bt.print[":proc/%uid%.q"] x;cont:enlist .bt.print["/ %uid%:%host%:%port%:%user%:%passwd%"] x;file 0: cont}@'x}
+.remote.cfile:{[x] {file:`$.bt.print[":proc/%uid%.q"] x;cont:enlist .bt.print["/ %uid%:%host%:%port%:%user%:%passwd%"] x;if[file~key file;:file ]; file 0: cont}@'x}
 
 
 d) fnc remote.remote.cfile
@@ -323,14 +323,15 @@ d) fnc remote.remote.fdeepDuplicate
  if[not name~key name;:()];
  if[not 100h=t:type body:get name;:()];
  fncs:`name`body!(name;body);
- l:count get[body] 1;
+ l:count (gbody:get body) 1;
+ if[0=count gbody 0;:()];
  name set nbody:.remote.trace.duplicate0[l][fncs];
  `.remote.trace.con1 upsert `name`body`nbody!(name;body;nbody) ;
  name
  }
 
 .remote.trace.fduplicate:{[]
-  names:system["f"] except `upd`updEntityChange`statusview;
+  names:system "f";
  .remote.trace.duplicate names;
  }
 
@@ -356,7 +357,8 @@ d) fnc remote.remote.fdeepDuplicate
  }
 
 .remote.trace.getCon0:{[uids]
- if[max uids~/:(`;::);uids:.f.proc];  
+ if[max uids~/:(`;::);uids:.f.proc];
+ uids:(),uids;  
  r:.remote.query[;"select bseq,eseq,name,zw,st,et,dt,error,arg,result from .remote.trace.con"]@'uids;
  `st xasc `proc xcols raze exec {[x;y] update proc:y from x }'[result;proc]from r
  }
@@ -384,7 +386,9 @@ d) fnc remote.remote.fdeepDuplicate
 .remote.trace.rec0[99h]:{[x] k:key[x];if[not 11h= type k;:()];k:k except ` ;l:.Q.dd'[x;k]; .remote.trace.rec1@'l }
 .remote.trace.rec1:{if[()~key x;:()] ;if[not (t:type get x) in key .remote.trace.rec0;:()];.remote.trace.rec0[t] x }
 / .remote.trace.rec:{.remote.trace.rec1 @' (system"f"),.Q.dd'[`;]l where {2<count @'string x} l:key[`] except `z`q`Q`h`j`o`remote }
-.remote.trace.rec:{.remote.trace.rec1 @'{x except `upd`updEntityChange} (system"f"),.Q.dd'[`;]@'`limitCheck`dtools`fw`mon`obr`initState`strategyPanel`validation`pvbp`techPanel`strategyScheduler`dataTransfer`dataInspector`sb`fxDelta`manualOrder`daf`positions`algoDash`strategyPnL`latency`algo`util`strategy`logTicker`pnlEngine`dataloader`saml`txMonitor`algoEngine`traderPermissions`liquidity`tfo`backtest`watchlist`hub`xxml`daas`dafh`pnl`orderbook`riskUpd`dl`preTrade`dataRetention`pricingEngine`drawdown`riskReports`dax`positions`position`riskUIUpd`strategyImportExport`algoOrders`futures`limit`BOND1`dbmaint`init`preTradeUpd`preTradeCheck`limitUpd`limits`limitsPub`sordev }
+.remote.trace.recOld1:{.remote.trace.rec1 @'{x except `upd`updEntityChange} (system"f"),.Q.dd'[`;]@'`limitCheck`dtools`fw`mon`obr`initState`strategyPanel`validation`pvbp`techPanel`strategyScheduler`dataTransfer`dataInspector`sb`fxDelta`manualOrder`daf`positions`algoDash`strategyPnL`latency`algo`util`strategy`logTicker`pnlEngine`dataloader`saml`txMonitor`algoEngine`traderPermissions`liquidity`tfo`backtest`watchlist`hub`xxml`daas`dafh`pnl`orderbook`riskUpd`dl`preTrade`dataRetention`pricingEngine`drawdown`riskReports`dax`positions`position`riskUIUpd`strategyImportExport`algoOrders`futures`limit`BOND1`dbmaint`init`preTradeUpd`preTradeCheck`limitUpd`limits`limitsPub`sordev }
+.remote.trace.recOld:{.remote.trace.rec1 @'{x except `upd`updEntityChange`updx`updinstructcfg`psd`updbulkx`instructx`instructCond} (system"f"),`midRateRT,.Q.dd'[`;]@'`smbcUtils`midRate }
+.remote.trace.rec:{.remote.trace.rec1 @' (system"f"),`quoteRT`midRateRT,.Q.dd'[`;]@'`smbcUtils`midRate }
 
 .remote.trace.putArg0:()!()
 
