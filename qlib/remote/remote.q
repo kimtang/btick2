@@ -345,15 +345,15 @@ d) fnc remote.remote.fdeepDuplicate
  .remote.async[;(set;`.remote.trace;.remote.trace)] @'procs;
  }
 
-.remote.trace.trace:{[proc]
- .remote.query[proc;(".remote.trace.rec";`)];
+.remote.trace.trace:{[proc;x]
+ .remote.query[proc;(".remote.trace.rec";x)];
  }
 
-.remote.trace.initTrace:{[procs]
+.remote.trace.initTrace:{[procs;x]
  if[0>type procs;procs:enlist procs];
  .remote.trace.init[procs]; 
  .remote.query[;(set;`.remote.trace;.remote.trace)] @'procs;
- :.remote.trace.trace@'procs
+ :.remote.trace.trace[;x]@'procs
  }
 
 .remote.trace.getCon0:{[uids]
@@ -386,9 +386,8 @@ d) fnc remote.remote.fdeepDuplicate
 .remote.trace.rec0[99h]:{[x] k:key[x];if[not 11h= type k;:()];k:k except ` ;l:.Q.dd'[x;k]; .remote.trace.rec1@'l }
 .remote.trace.rec1:{if[()~key x;:()] ;if[not (t:type get x) in key .remote.trace.rec0;:()];.remote.trace.rec0[t] x }
 / .remote.trace.rec:{.remote.trace.rec1 @' (system"f"),.Q.dd'[`;]l where {2<count @'string x} l:key[`] except `z`q`Q`h`j`o`remote }
-.remote.trace.recOld1:{.remote.trace.rec1 @'{x except `upd`updEntityChange} (system"f"),.Q.dd'[`;]@'`limitCheck`dtools`fw`mon`obr`initState`strategyPanel`validation`pvbp`techPanel`strategyScheduler`dataTransfer`dataInspector`sb`fxDelta`manualOrder`daf`positions`algoDash`strategyPnL`latency`algo`util`strategy`logTicker`pnlEngine`dataloader`saml`txMonitor`algoEngine`traderPermissions`liquidity`tfo`backtest`watchlist`hub`xxml`daas`dafh`pnl`orderbook`riskUpd`dl`preTrade`dataRetention`pricingEngine`drawdown`riskReports`dax`positions`position`riskUIUpd`strategyImportExport`algoOrders`futures`limit`BOND1`dbmaint`init`preTradeUpd`preTradeCheck`limitUpd`limits`limitsPub`sordev }
-.remote.trace.recOld:{.remote.trace.rec1 @'{x except `upd`updEntityChange`updx`updinstructcfg`psd`updbulkx`instructx`instructCond} (system"f"),`midRateRT,.Q.dd'[`;]@'`smbcUtils`midRate }
-.remote.trace.rec:{.remote.trace.rec1 @' (system"f"),`quoteRT`midRateRT,.Q.dd'[`;]@'`smbcUtils`midRate }
+
+.remote.trace.rec:{[x].remote.trace.rec1 @' x }
 
 .remote.trace.putArg0:()!()
 
@@ -411,4 +410,16 @@ d) fnc remote.remote.fdeepDuplicate
  }
 
 .remote.trace.putArg:{[x] .remote.trace.putArg0[type x]x }
+
+
+.remote.trace.conAddParent0:{[x;y] xw:x`w;yw:y`w;
+ p:max where (xw[;0] < yw[0]) and xw[;1] > yw[1];
+ y[`p]:$[p=-0wj;y `x;x[ p]`x];
+ x,y
+ }
+
+.remote.trace.conAddParent:{
+ p:.remote.trace.conAddParent0 over enlist[1#tmp0 ], 1_tmp0:flip `x`w`p!flip exec flip (bseq;flip (bseq;eseq);bseq) from x;
+ update parent:p`p from x   
+ }
 

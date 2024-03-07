@@ -166,6 +166,7 @@ d)fnc btick2.import.getConfig
 / .import.readPath x
 
 .import.readPath:{[x]
+ if[not x ~ key x;:flip`name`path!()];
  config:.j.k "c"$read1 x;
  dependsOn:config`dependsOn;
  if[0=count config0:dependsOn`config;:flip`name`path!()];
