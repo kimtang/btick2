@@ -95,4 +95,4 @@ d) fnc hopen.hopen.pc
  q) .bt.add[`.hopen.pc;`.my.fnc]{[zw] zw } / zw is the closed handle  
 
 / add protection to prevent it from double loop
-.bt.action[`.hopen.init] ()!();
+/ .bt.action[`.hopen.init] ()!();

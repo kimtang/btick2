@@ -30,6 +30,9 @@ d) fnc btick2.util.parseb
 
 .util.parsea:{ if[not 10h=type x;:x];if[""~x;:()!()]; parse["select ",x," from t"]4}
 
+.util.parseda:{ if[not 10h=type x;:x];if[""~x;:()!()]; first parse["delete ",x," from t"]4}
+
+
 d) fnc btick2.util.parsea
  return the select column from a select statement
  q) .util.parsea "not null a, tmp:b=`h"

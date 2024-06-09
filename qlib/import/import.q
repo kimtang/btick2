@@ -101,7 +101,7 @@ d)fnc btick2.import.module
  :.import.module1 `reload`arg!(0b;x)
  }
 
-.import.require:{[x]
+.import.require:{[x]  
  if[max x~/:(`;::);:1_.import.module0.con]; / show which file has been loaded
  if[10h=type x;x:enlist x];
  :.import.require2@'x
@@ -175,20 +175,46 @@ d)fnc btick2.import.getConfig
  tbl 
  }
 
+.import.pconfig:{[config]
+ tmp:.util.ctable config;  
+ .util.cdict {[x] if[not (l:last x`sym) in `$'upper[t],t:.Q.t except" ";:x]; x[`sym]: -1_x`sym; x[`v]: (string[l]0)$x`v;x }@'tmp
+ / param:{
+ /  cnt:count s:"."vs string x;
+ /  if[cnt=1;:(x;x;"*")]; 
+ /  if[not any last[`$s]=/:`$'upper[t],t:.Q.t except" ";:(x;x;"*")];
+ /  :(`$"." sv -1_s;x;first last s)
+ /  }@'k:key config;
+ / ?[config param[;0]!param[;1] ;();0b;]param[;0]!flip($;param[;2];param[;0]) 
+ }
+
 .import.init:{
  default:`$.bt.print[":%btick2%/qlib/repository/template/config/default.json"] .self;
  conf:.import.getConfig[];
  if[not{x ~ key x}conf`path;conf[`path] 1: read1 default]; 
  allConfigs:{ r:raze .import.readPath@'x`path;x,update priority:i+1+max x`priority from select from r where not path in x`path} over update priority:i from enlist conf;
  allConfigs:select from allConfigs where {x ~ key x} @'path; 
- allConfigs:update cfg:{.j.k "c"$read1 x }@'path from allConfigs ;  
+ allConfigs:update cfg:{.import.pconfig .j.k "c"$read1 x }@'path from allConfigs ;  
  allRepositories:{`name xcols update name:key x,path:path from value x} raze { dependsOn:x . `dependsOn`repository }@'allConfigs`cfg;
  allRepositories:select from allRepositories where not {()~k:key hsym x}@'`$path; 
  .import.allConfig:allConfigs;
  .import.repository.con:((1#`btick2)!enlist .self.btick2),exec name!path from allRepositories;
  .import.config:.util.deepMerge over exec cfg from `priority xdesc allConfigs;
- .bt.action[`.import.loaded] ()!(); / notify other libs that config has been loaded. 
+ .bt.action[`.import.init_loop] ()!(); / notify other libs that config has been loaded. 
  }
+
+.import.status:{
+ a:count select from .import.module0.con where not null error;
+ b:count select from .bt.history where not null error;
+ `healthy`error 0<a+b
+ }
+
+
+.bt.add[`;`.import.init_loop]{}
+
+.bt.addDelay[`.import.init]{`tipe`time!(`in;00:00:01)}
+.bt.add[`.import.init_loop;`.import.init]{}
+
+// .bt.scheduleIn[.import.init;`a`b!1 2;00:00:01]
 
 .import.init[]  / we will init 
 

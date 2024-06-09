@@ -196,7 +196,9 @@ d)fnc qtx.qtx.after
  r:.qtx.execute[meta0,`fuid`fnc!(fuid;`before);t1`tbefore;arg];
  if[not null r`error;:()];
  if[99h=type r`result;arg:arg,r`result];
- arg0:(,) scan .qtx.test[meta0;;] over 1_({};arg), rcon1;
+ arg0:.qtx.test[meta0;;] over 1_({};arg), rcon1;
+ if[not 99h=type arg0;arg0:(,) scan arg0];
+ / arg0:(,) scan .qtx.test[meta0;;] over 1_({};arg), rcon1;
  fuid:.qtx.toSha1 .Q.dd[t1`tuid;`after];
  r:.qtx.execute[meta0,`fuid`fnc!(fuid;`after);t1`tafter;arg0,arg]; 
  }

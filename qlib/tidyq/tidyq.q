@@ -46,7 +46,7 @@ d) fnc tidyq.tidyq.dcast
 
 
 .tidyq.melt:{[t;ids;formula]
- k:key .util.parsea ids;
+ k:key .util.parsea (),ids;
  p:(`cls`func!"~~" vs) @'"||" vs formula;
  p:update acls:{`$s where 1=til[ count s:"%"vs x] mod 2 }@'func from p;
  p:update bcls:{`$first"_"vs x }@'func from p;
