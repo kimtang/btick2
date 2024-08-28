@@ -412,14 +412,23 @@ d) fnc remote.remote.fdeepDuplicate
 .remote.trace.putArg:{[x] .remote.trace.putArg0[type x]x }
 
 
-.remote.trace.conAddParent0:{[x;y] xw:x`w;yw:y`w;
- p:max where (xw[;0] < yw[0]) and xw[;1] > yw[1];
- y[`p]:$[p=-0wj;y `x;x[ p]`x];
- x,y
+.remote.trace.summary:{[x]
+ pcon:`bseq xasc update p:i,c:i from `bseq xasc select bseq,eseq,name,st,et,dt from x;
+ pcon:`bseq xasc pcon lj 1!select bseq:bseq + 1,c:p from pcon;
+ pcon:{[x]`bseq xasc x lj 1!select bseq:eseq + 1,c:c from x} over pcon;
+ pcon
  }
 
-.remote.trace.conAddParent:{
- p:.remote.trace.conAddParent0 over enlist[1#tmp0 ], 1_tmp0:flip `x`w`p!flip exec flip (bseq;flip (bseq;eseq);bseq) from x;
- update parent:p`p from x   
+.remote.trace.summary1:{[x]
+ pcon:`bseq xasc update p:i,c:i from `bseq xasc select bseq,eseq,name,st,et,dt from x;
+ pcon:`bseq xasc pcon lj 1!select bseq:bseq + 1,c:p from pcon;
+ pcon:{[x]`bseq xasc x lj 1!select bseq:eseq + 1,c:c from x} over pcon;
+ allCon:select from0:(p!name)c,t0:name  from pcon;
+ allCon0:distinct allCon;
+ m:1+group 1_pcon`c;
+ dt0:{[x;y] @[x;y`k;-;sum x y`v] }over enlist[pcon`dt],([]k:key m;v:value m);
+ pcon:update dt0 from pcon;
+ dt1:sum pcon`dt0;
+ summary1:0!update spdt:sums pdt from `pdt xdesc select cnt:count i,dt0:sum dt0,pdt:sum[ dt0] % dt1 by name from pcon   
  }
 

@@ -17,6 +17,21 @@ d)fnc pykx.pykx.summary
  "b" "python -c \"import pykx;pykx.install_into_QHOME()\"";
  }
 
-.pykx.init[]
+.pykx.init[];
 
-"p" "print(\"Hello World\")";
+"p" "1+1;";
+
+.pykx.type0:.pykx.eval["lambda x: str(type(x))"]
+.pykx.type:{ssr[;"'>";""] ssr[;"<class '";""] string .pykx.type0[x]`}
+.pykx.None:.pykx.eval"None"
+.pykx.dir0:.pykx.eval["lambda x: dir(x)"]
+.pykx.dir:{ .pykx.dir0[x]`}
+.pykx.getattr0:.pykx.eval["lambda module,element_name: getattr(module,element_name)"]
+.pykx.getattr:{  .pykx.getattr0[x;y]}
+
+.v.e:{t:"\n"vs x;.pykx.pyexec"\n"sv enlist[t 0],{1_x}@'1_t}
+
+
+/ { .pykx.print .pykx.eval["lambda x: type(x)"] x }
+
+

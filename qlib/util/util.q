@@ -42,12 +42,12 @@ d) fnc btick2.util.parsea
 .util.untree:{raze{
   if[not 99h = type x`v;:enlist x];
   if[ 98h = type key x`v;:enlist x];
-  (@[x;`v;:;::] ),([]sym: x[`sym] .Q.dd' key x`v;v:value x`v) 
+  (@[x;`v;:;::] ),([]sym: x[`sym] ,/: key x`v;v:value x`v)
  }@'x }
 
 .util.ctable:{
  a:.util.untree over .util.cinit .util.croot x;
- c:update sym:{1_` vs x}@'sym from delete from a where v~\:(::)
+ c:update sym:{1_ x}@'sym from delete from a where v~\:(::)
  }
 
 .util.stable:{

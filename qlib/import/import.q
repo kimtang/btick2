@@ -123,7 +123,7 @@ d)fnc btick2.import.require
  q) .import.require `import.repository.tmp     
 
 
-.import.require`os`util;
+.import.require`os`util`json;
 
 / (::)x:`btick2
 .import.summary:{
@@ -190,10 +190,10 @@ d)fnc btick2.import.getConfig
 .import.init:{
  default:`$.bt.print[":%btick2%/qlib/repository/template/config/default.json"] .self;
  conf:.import.getConfig[];
- if[not{x ~ key x}conf`path;conf[`path] 1: read1 default]; 
+ if[not{x ~ key x}conf`path;conf[`path] 1: read1 default];
  allConfigs:{ r:raze .import.readPath@'x`path;x,update priority:i+1+max x`priority from select from r where not path in x`path} over update priority:i from enlist conf;
  allConfigs:select from allConfigs where {x ~ key x} @'path; 
- allConfigs:update cfg:{.import.pconfig .j.k "c"$read1 x }@'path from allConfigs ;  
+ allConfigs:update cfg:{.json.k .j.k "c"$read1 x }@'path from allConfigs ;  
  allRepositories:{`name xcols update name:key x,path:path from value x} raze { dependsOn:x . `dependsOn`repository }@'allConfigs`cfg;
  allRepositories:select from allRepositories where not {()~k:key hsym x}@'`$path; 
  .import.allConfig:allConfigs;
