@@ -8,6 +8,17 @@ d)lib btick2.remote
 .import.require`util`hopen;
 
 .remote.con:1!flip`uid`host`port`user`passwd!"ssjs*"$\:()
+
+.bt.add[`.import.init;`.remote.init]{.remote.init[]}
+
+
+.remote.init:{
+ .remote.conf:0#0!.remote.con;
+ if[`remote in key .import.config;.remote.conf:key[conf] {[x;y]update uid:x from y}' value conf:.import.config`remote ];
+ .remote.add .remote.conf;
+ }
+
+
 .remote.summary:{[x]
  if[max x~/:(::;`);:0!.remote.con];
  0!select from .remote.con where uid = x
