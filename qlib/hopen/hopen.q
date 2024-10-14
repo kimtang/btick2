@@ -87,6 +87,7 @@ d)fnc hopen.hopen.remove.uid
  q) .bt.action[`.hopen.remove.uid] .bt.md[`uid] uidOfTheProcess 
 
 .bt.add[`.hopen.pc;`.hopen.remove.hdl]{[zw]
+ if[zw=0i;:()];
  update hdl:0ni from `.hopen.con where hdl = zw;
  }
 

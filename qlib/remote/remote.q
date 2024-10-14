@@ -31,7 +31,7 @@ d)fnc remote.remote.summary
 
 .remote.add:{[x]
   default:`host`user`passwd!(enlist`localhost;enlist`;({count[x]#enlist""};`i));
-  `.remote.con upsert cols[`.remote.con]#![x;();1b;] (key[default]except cols x)#default;
+  `.remote.con upsert cols[`.remote.con]#0!![x;();1b;] (key[default]except cols x)#default;
   .remote.con
  }
 
