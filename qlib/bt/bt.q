@@ -7,9 +7,11 @@ d)lib btick2.bt
 / timer functions
 tme:enlist`id`fnc`arg`res`scheduleAt`runAt!(0;{};{};{};0np;.z.P)
 ts:{
-  / dirty hack to avoid :noamend error
-  runId:exec id from`.bt.tme where scheduleAt<=.z.P ,null runAt;
-  update runAt:.z.P from`.bt.tme where id in runId;  
+  .kmp:x;
+  if[-11h=type x;runId:exec id from `.bt.tme where not null scheduleAt, null runAt,x=arg[;0];];
+  if[not -11h=type x;runId:exec id from`.bt.tme where scheduleAt<=.z.P ,null runAt;];  
+  / dirty hack to avoid :noamend error  
+  update runAt:.z.P from`.bt.tme where id in runId;
   .bt.tme:.bt.tme lj 1!select id,res:{[fnc;arg] @[{[fnc;arg] `result`error!(fnc . arg;`) }fnc;arg;{`result`error!(()!();`$x)}] }'[fnc;arg] from `.bt.tme where id in runId;
  }
 
@@ -181,4 +183,4 @@ errors:{select from .bt.history where not null error}
 
 \d .
 
-system "t 300";
+if[not `.bt.noTimer~key `.bt.noTimer;system "t 300";];

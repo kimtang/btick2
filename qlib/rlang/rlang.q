@@ -95,7 +95,7 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.Rts:{@[.rlang.rcmd;"try(system('dir', intern = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE))";()]};
 
-.rlang.Rget:{x:(),x; .rlang.Rset t:.rlang.con x:$[10h=abs type x;x;string x];.rlang.rget0 ssr[;"`";""] x }
+.rlang.Rget:{if[-11h=type x;x:string x];x:(),x; .rlang.Rset t:.rlang.con x:$[10h=abs type x;x;string x];.rlang.rget0 ssr[;"`";""] x }
 
 .rlang.Rframe0:{ [t]
     arg:t 0;

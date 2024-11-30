@@ -14,6 +14,9 @@ d) lib btick2.import
 
 .import.cpath0[`symbol]:{
  cnt:count x0:` vs x;
+ if[`.import.summary ~ key `.import.summary;allSum:exec lib!repo from key .import.summary[];];
+ if[not `.import.summary ~ key `.import.summary;allSum:{`btick2}]; 
+  
  if[1=cnt;
    t:first where {[x;y]x in key hsym`$y,"/qlib"}[x]@'.import.repository.con;
    x:`repository`module`file!(t;x;.bt.print["%0.q"]x)
@@ -22,7 +25,7 @@ d) lib btick2.import
   x:`repository`module`file!(x0 0;x0 1;.bt.print["%1.q"]x0)
   ];
  if[(2=cnt) and not x0[0] in key .import.repository.con;
-  x:`repository`module`file!(`btick2;x0 0;.bt.print["%1.q"]x0)
+  x:`repository`module`file!(allSum x0 0;x0 0;.bt.print["%1.q"]x0)
   ];
  if[(3<=cnt) and x0[0] in key .import.repository.con;
   x:`repository`module`file!(x0 0;x0 1;.bt.print["%0.q"] enlist "/"sv string 2_x0)
@@ -30,7 +33,7 @@ d) lib btick2.import
  if[(3<=cnt) and not x0[0] in key .import.repository.con;
   x:`repository`module`file!(`btick2;x0 0;.bt.print["%0.q"] enlist "/"sv string 1_x0)
   ];
- :.import.cpath0[`dict] x  
+ :.import.cpath0[`dict] x
  }
 
 .import.cpath0[`character]:{
@@ -122,7 +125,6 @@ d)fnc btick2.import.require
  q) .import.require `btick2.import.repository
  q) .import.require `import.repository.tmp     
 
-
 .import.require`os`util`json;
 
 / (::)x:`btick2
@@ -146,6 +148,8 @@ d)fnc btick2.import.summary
  return all available files & folders in the root directory with an ignore list
  q) .import.summary[] / show all available modules and lib
  q) .import.summary`btick2  / show all modules in btick2 repository
+
+
 
 
 if[()~key `.import.json;.import.json:`default];  / what is the default json file? Where to read it? 
@@ -199,7 +203,6 @@ d)fnc btick2.import.getConfig
  .import.allConfig:allConfigs;
  .import.repository.con:((1#`btick2)!enlist .self.btick2),exec name!path from allRepositories;
  .import.config:.util.deepMerge over exec cfg from `priority xdesc allConfigs;
- .bt.action[`.import.init_loop] ()!(); / notify other libs that config has been loaded. 
  }
 
 .import.status:{
@@ -209,12 +212,14 @@ d)fnc btick2.import.getConfig
  }
 
 
-.bt.add[`;`.import.init_loop]{}
+if[`.doc.summary ~ key `.doc.summary;.import.doc:.doc.summary];
 
+.bt.add[`;`.import.init_loop]{}
 .bt.addDelay[`.import.init]{`tipe`time!(`in;00:00:01)}
 .bt.add[`.import.init_loop;`.import.init]{}
 
-// .bt.scheduleIn[.import.init;`a`b!1 2;00:00:01]
-
 .import.init[]  / we will init 
+if[.self.mode=`user;.bt.action[`.import.init_loop] ()!()]; / delay init only if it is in user mode 
+
+
 

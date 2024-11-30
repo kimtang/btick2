@@ -33,8 +33,18 @@ d)fnc pykx.pykx.summary
 .pykx.getattr0:.pykx.eval["lambda module,element_name: getattr(module,element_name)"]
 .pykx.getattr:{  .pykx.getattr0[x;y]}
 
-.v.e:{t:"\n"vs x;.pykx.pyexec"\n"sv enlist[t 0],{1_x}@'1_t}
+.v.e:{t:"\n"vs x;.pykx.pyexec"\n"sv enlist[t 0],{1_x}@'1_t;.z.Z}
+.u.e:{.u.x:x;.pykx.qeval [x]}
 
+.pykx.rscript:{[pscript;pcmd]
+ if[0>t0:type pscript;pscript:enlist pscript];
+ pscript:"\n" sv{ ssr[;"ExcelEmpty";""] raze string x}@'pscript;
+ .pykx.pyexec pscript;
+ if[t1:0>type pcmd;pcmd:enlist pcmd];
+ r:.pykx.qeval@'{ ssr[;"ExcelEmpty";""] raze string x}@'pcmd;
+ if[t1;:first r];
+ r
+ }
 
 / { .pykx.print .pykx.eval["lambda x: type(x)"] x }
 

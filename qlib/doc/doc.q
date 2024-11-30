@@ -16,7 +16,8 @@
  ind:x like "?)*";
  example:"\n" sv x where ind;
  description:"\n" sv x where not ind;
- `.doc.conLib upsert (`repo`lib!` vs lib),`description`example!(description;example);
+ a:` vs lib;
+ `.doc.conLib upsert (`repo`lib!(a 0;` sv 1_a)),`description`example!(description;example);
  }
  
 .doc.e0[`fnc]:{

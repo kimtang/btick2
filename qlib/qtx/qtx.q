@@ -153,6 +153,7 @@ d)fnc qtx.qtx.after
 
 
 .qtx.main:{[filter;arg]
+ .qtx.module filter;  
  allData:.qtx.tests filter;
  .qtx.fmain0[arg]@'0!cols[.qtx.con] xgroup allData;
  .qtx.result filter

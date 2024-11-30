@@ -6,6 +6,7 @@
  q qtx.q
 \
 
+.self.mode:`proc;
 \l qlib.q
 
 .qtx.parseArg:

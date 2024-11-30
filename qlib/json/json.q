@@ -23,16 +23,23 @@ d)fnc json.json.summary
 
 .json.ap0:{[k;v] .json.ap[k;v;.json.nul] }
 
-.json.kj:(abs .qlang.atoms`ind)!" GXhije  SPMDZNUVTS"
+.json.atoms:update t:"r" from .qlang.atoms where ind=-20
+
+/ .json.kj:(abs .qlang.atoms`ind)!" GXhije  SPMDZNUVTS"
+
+.json.kj:(exec (-100h,abs ind)!("q",upper t) from .json.atoms),exec ind!t from .json.atoms
+.json.jk: {value[x]!key x} .json.kj
 
 .json.j:{[json]
  json:.util.ctable json;
- json:update p:{.json.kj abs type x}@'v from json;
- .util.cdict select sym:sym{[sym;p] if[null p;:sym];(-1_sym),.Q.dd[last sym;p]  }'p,v from json 
+ json:update p:{ ( ({v!v:value x} .json.kj),("Cfb"!"   ")) .json.kj type x}@'v from json;
+ .util.cdict select sym:sym{[sym;p] if[null p;:sym];(-1_sym),.Q.dd[last sym;p]  }'p,v from json
  }
 
 .json.k:{[json]
  json:.util.ctable json;
  json:update p:{({x!x} distinct `$/:value .json.kj) l:last x:` vs last x}@'sym from json;
- .util.cdict `sym`v#update sym:{(-1_x),` sv -1_` vs last x}@'sym, v:(raze  string p)$'v from json where not null p
+ json:update sym:{(-1_x),` sv -1_` vs last x}@'sym, v:(raze  string p)$'v from json where not null p,not p in `R`r`q;
+ json:update sym:{(-1_x),` sv -1_` vs last x}@'sym, v:{reval parse x}@'v from json where p=`q;
+ .util.cdict `sym`v#json
  } 

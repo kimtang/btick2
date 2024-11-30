@@ -95,5 +95,13 @@ d) fnc hopen.hopen.pc
  get notify when a connection has been closed. In this case hopen will try to reopen
  q) .bt.add[`.hopen.pc;`.my.fnc]{[zw] zw } / zw is the closed handle  
 
+.bt.addIff[`.hopen.handshake]{[result] 0<count select from result where uid in (exec uid from .hopen.con)}
+.bt.add[`;`.hopen.handshake]{[result]`.hopen.con upsert select uid,hdl from result where uid in (exec uid from .hopen.con);}
+
+d) fnc hopen.hopen.handshake
+ get notify when a connection has been closed. In this case hopen will try to reopen
+ q) .bt.add[`.hopen.handshake;`.my.fnc]{[zw] zw } / zw is the closed handle  
+
+
 / add protection to prevent it from double loop
 / .bt.action[`.hopen.init] ()!();
