@@ -41,6 +41,14 @@ d)fnc hopen.hopen.summary
  `.hopen.con upsert cols[.hopen.con]#(`user`passwd`hdl!``,0ni),allData;
  }
 
+/ .bt.addIff[`.hopen.addCon]{[allData] `con in key allData}
+/ .bt.add[`;`.hopen.addCon]{[allData]
+/  if[not min `uid`host`port in key allData;.bt.stdOut0[`error;`hopen] "Uid,host and port are missing";'`.hopen.param];
+/  if[null allData`uid;.bt.stdOut0[`error;`hopen] "uid is null";'`.hopen.param];  
+/  `.hopen.con upsert cols[.hopen.con]#(`user`passwd`hdl!``,0ni),allData;
+/  }
+
+
 
 .hopen.add:{[arg] .bt.action[`.hopen.add] (`user`passwd!(`username;"mypasswd")),arg }
 

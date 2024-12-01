@@ -5,11 +5,11 @@ d)lib btick2.qtx
  q).import.module`btick2.qtx
  q).import.module"%btick2%/qlib/qtx/qtx.q"
 
-.qtx.con: 1!enlist`uid`repo`lib`testSuite`description`after`before`argument!(`;`;`;`;"**";::;::;()!())
+.qtx.con: 1!enlist`uid`repo`lib`file`testSuite`description`after`before`argument!(`;`;`;`;`;"**";::;::;()!())
 .qtx.con1:1!enlist`tuid`uid`testCase`tdescription`tafter`tbefore`targument!(`;`;`;"**";::;::;()!())
 .qtx.con2:1!enlist`fuid`tuid`fdescription`testFnc`fncArg!(`;`;"**";::;()!())
 
-.qtx.con3:enlist`guid`fuid`testSuite`repo`lib`fnc`stime`dtime`etime`result`error`body`arg`pass`used`heap`peak`wmax`mmap`mphy`syms`symw!(0ng;`;`;`;`;{x};0np;0nn;0np;();`;{x};();0b),(8#0nj)
+.qtx.con3:enlist`guid`fuid`testSuite`repo`lib`file`fnc`stime`dtime`etime`result`error`body`arg`pass`used`heap`peak`wmax`mmap`mphy`syms`symw!(0ng;`;`;`;`;`;{x};0np;0nn;0np;();`;{x};();0b),(8#0nj)
 
 .qtx.summary0:{[x]
  repo: `$.bt.print[":%path%/qlib"] .import.repository.con((1#`path)!1#x);
@@ -18,7 +18,7 @@ d)lib btick2.qtx
  allFolder:raze {update lib:x[`sym] from select from .os.treen[1;x`fullPath] where sym=`test}@'allFolder;
  allFolder:raze {update lib:x`lib from select from .os.treen[1;x`fullPath] where sym like "*.q"}@'allFolder;
  if[()~allFolder;:()];
- select repo:x,lib,fullPath:`$1_/:string fullPath from allFolder
+ select repo:x,lib,file:{first ` vs x}@'sym,fullPath:`$1_/:string fullPath from allFolder
  }
 
 .qtx.summary:{[x]
@@ -90,6 +90,7 @@ d)fnc qtx.qtx.addTestCase
 
 
 .qtx.repo:{[repo;arg] arg,.bt.md[`repo]repo }
+.qtx.file:{[file;arg] arg,.bt.md[`file]file }
 
 d)fnc qtx.qtx.repo 
  Mark the repo of this test
@@ -133,6 +134,7 @@ d)fnc qtx.qtx.after
  :.qtx.should0[r;arg]
  }
 
+
 .qtx.shouldFail:{[description;failMessage;fnc;arg]
  r:`testFnc`fdescription`fncArg!(fnc;description;(`mode`failMessage)!(`shouldFail;failMessage));
  :.qtx.should0[r;arg]
@@ -141,7 +143,13 @@ d)fnc qtx.qtx.after
 .qtx.shouldTrue:{[description;fnc;arg]
  r:`testFnc`fdescription`fncArg!(fnc;description;`mode`!(`shouldTrue;()));
  :.qtx.should0[r;arg]
- } 
+ }
+
+.qtx.shouldData:{[description;dataPath;fnc;arg]
+ r:`testFnc`fdescription`fncArg!(fnc;description;`mode`dataPath!(`shouldData;dataPath));
+ :.qtx.should0[r;arg]
+ }
+
 
 .qtx.out:{[return;test]`return`test!(return;test)  }
 
@@ -161,10 +169,11 @@ d)fnc qtx.qtx.after
 
 
 .qtx.result:{[filter]
- if[max filter~/:(`;::;"";" ";"*");filter:()];  
- con3:(1_.qtx.con3) lj .qtx.con2 lj .qtx.con1 lj .qtx.con; 
- if[10h = type filter;filter:.util.parsec filter];  
- con3:?[con3;filter;0b;()!()];
+ if[max filter~/:(`;::;"";" ";"*");filter:()];
+ con3:(1_.qtx.con3) lj .qtx.con2 lj .qtx.con1 lj .qtx.con;
+ if[10h = type filter;filter:.util.parsec filter];
+ if[0h=type filter;con3:?[con3;filter;0b;()!()];];
+ if[-11h=type filter;:select guid:`$first@'"-"vs/: string guid,fuid,testSuite,repo,lib,fnc,dtime,pass,error from con3 where filter=`$first@'"-"vs/: string guid];
  `ntime xdesc select ntime:min `time$stime,xtime:`time$max etime,dtime:`second$sum dtime ,ntest:count i,npass:sum pass,ppass:100*sum[pass] % count i  by testSuite,guid:`$first@'"-"vs/: string guid from con3 where not null guid,fnc like "should*"
  }
 
@@ -176,12 +185,12 @@ d)fnc qtx.qtx.after
  rcon0:flip(cols[.qtx.con] except `uid) _ t0;
  arg:(lcon0`argument),arg;
  fuid:.qtx.toSha1 .Q.dd[t0`uid;`before];
- r:.qtx.execute[guid,`fuid`testSuite`repo`lib`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;`before);lcon0`before;arg];
+ r:.qtx.execute[guid,`fuid`testSuite`repo`lib`file`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;lcon0`file;`before);lcon0`before;arg];
  if[not null r`error;:()];
  if[99h=type r`result;arg:arg,r`result];
- arg0:(,) scan .qtx.fmain1[guid,`repo`lib`testSuite#lcon0;arg]@'0!cols[.qtx.con1] xgroup rcon0;
+ arg0:(,) scan .qtx.fmain1[guid,`repo`lib`file`testSuite#lcon0;arg]@'0!cols[.qtx.con1] xgroup rcon0;
  fuid:.qtx.toSha1 .Q.dd[t0`uid;`after]; 
- r:.qtx.execute[guid,`fuid`testSuite`repo`lib`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;`after);lcon0`after;arg];
+ r:.qtx.execute[guid,`fuid`testSuite`repo`lib`file`fnc!(fuid;lcon0`testSuite;lcon0`repo;lcon0`lib;lcon0`file;`after);lcon0`after;arg];
  guid`guid
  }
 
@@ -209,7 +218,7 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`should]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`should)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`should)),`repo`lib`file#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  rr:r`result;
@@ -221,37 +230,53 @@ d)fnc qtx.qtx.after
 
 .qtx.test0[`shouldFail]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldFail)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldFail)),`repo`lib`file#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[not null r`error;meta0:meta0,.bt.md[`pass]fncArg[`failMessage] ~ r`error];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;
- if[99h=type meta0`result;arg:arg,meta0`result];
+ if[99h=type meta0`result; if[not 98h=type key meta0`result;arg:arg,meta0`result];];
  arg
  }
 
 .qtx.test0[`shouldEq]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldEq)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldEq)),`repo`lib`file#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass]fncArg[`expectedResult] ~ r`result];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;
- if[99h=type meta0`result;arg:arg,meta0`result];
+ if[99h=type meta0`result; if[not 98h=type key meta0`result;arg:arg,meta0`result];];
  arg
  }
 
 .qtx.test0[`shouldTrue]:{[meta0;arg;t2]
  fncArg:t2`fncArg;
- meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldTrue)),`repo`lib#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldTrue)),`repo`lib`file#.qtx.con .qtx.con1[ t2`tuid]`uid;
  meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
  meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
  if[null r`error;meta0:meta0,.bt.md[`pass] r`result];
  `.qtx.con3 insert cols[.qtx.con3]#meta0;
- if[99h=type meta0`result;arg:arg,meta0`result];
+ if[99h=type meta0`result; if[not 98h=type key meta0`result;arg:arg,meta0`result];];
  arg
  }
 
+.qtx.test0[`shouldData]:{[meta0;arg;t2]
+ fncArg:t2`fncArg;
+ meta0:meta0,(`stime`fuid`fnc!(.z.P;t2`fuid;`shouldData)),`repo`lib`file#.qtx.con .qtx.con1[ t2`tuid]`uid;
+ meta0:meta0,r:@[{[f;arg]`result`error!(f . arg;`) }[fnc];;{:`result`error!(()!();`$x)}] arg0:((enlist[ `allData]!enlist[arg]),arg) .bt.getArg fnc:t2`testFnc;
+ meta0:meta0,.Q.w[],`etime`dtime`body`arg`pass! (.z.P;.z.P - meta0`stime;fnc;arg0;0b);
+ if[null r`error;
+  dataPath:.import.cpath fncArg`dataPath;
+  if[not":"=dataPath 0;dataPath:":",dataPath;];
+  dataPath:`$dataPath;
+  if[not dataPath ~ key dataPath;(dataPath;17;2;6) set r`result];  
+  meta0:meta0,.bt.md[`pass](get dataPath) ~ r`result;
+  ];
+ `.qtx.con3 insert cols[.qtx.con3]#meta0;
+ if[99h=type meta0`result; if[not 98h=type key meta0`result;arg:arg,meta0`result];];
+ arg
+ }
 
 .qtx.test:{[meta0;arg;t2]
  fncArg:t2`fncArg;

@@ -2,6 +2,7 @@
 .qtx.testSuite[`test.%repo%.%name%;"test %name%"]
   .qtx.repo[`%repo%]
   .qtx.lib[`%name%]
+  .qtx.file[`001]    
   .qtx.testCase[`arg.injection1;"argument injection"][
     .qtx.shouldEq["description";0;{[a]a}]
     .qtx.should["description";{.qtx.out[`c`d!3 4;1b]}]

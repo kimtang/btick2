@@ -86,10 +86,11 @@ outputTrace2:{[data] .bt.stdOut0[ $[ null data`error;`info;`error] ;`bt] .bt.pri
 outputTrace:outputTrace0
 
 eiff:{[sym;allData]
- h:hist sym;  
- r:@[{[fnc;arg] `iff`error!(fnc . arg;`) }iff`fnc;;{`iff`error!(1b;`$x)}] arg:allData (iff: .bt.sel . sym,`iff)`arg;
+ h:hist sym;
+ r:@[{[fnc;arg] `iff`error!(fnc . arg;`) }iff`fnc;;{`iff`error!(0b;`$x)}] arg:allData (iff: .bt.sel . sym,`iff)`arg;
+ if[not -1h = type r`iff;trace[h;`iff;(enlist[`arg]!enlist arg),`result`error!(r`iff;`wrong_type)];:`iff`error!(0b;r`error)]; 
  if[not (r`iff) and null r`error;trace[h;`iff;(enlist[`arg]!enlist arg),`result`error!r `iff`error];];
-  r
+ r
  }
 
 ecatch:{[sym;allData;error]
@@ -112,7 +113,7 @@ edelay:{[sym;allData]
  r
  } 
 
-action:{[sym;allData]
+action0:{[sym;allData]
  sym:$[10h=type sym;`$sym;sym];
  h:.bt.hist sym;  
  allData0:{x,(`$string[key x],\:"0")!value x} allData,enlist[`allData]!enlist allData;
@@ -125,8 +126,24 @@ action:{[sym;allData]
  allData 
  } 
 
-/ trigger0:`.bt.init;
-/ allData:obj;syms:`symbol$()
+
+action:action0
+
+actionThrow:{[sym;allData]
+ sym:$[10h=type sym;`$sym;sym];
+ h:.bt.hist sym;  
+ allData0:{x,(`$string[key x],\:"0")!value x} allData,enlist[`allData]!enlist allData;
+ f:.bt.eiff[sym]allData0;
+ if[not null f`error;'f`error];
+ if[not (f`iff) and null f`error;:()!()]; 
+ r:@[{[fnc;arg] `result`error!(fnc . arg;`) }[b`fnc];;.bt.ecatch[sym;allData0] ] arg:allData0(b:.bt.sel[sym]`behaviour)`arg;
+ if[not null r`error;'r`error]; 
+ allData:allData,$[99h=type r`result;r`result;()!()];
+ allData:allData,$[null r`error;.bt.trigger[sym;allData];()!()];
+ .bt.trace[h;`behaviour; (enlist[`arg]!enlist arg), r ];
+ allData 
+ } 
+
 
 trigger:{[trigger0;allData]
  allData0:allData,enlist[`allData]!enlist allData;
@@ -164,6 +181,7 @@ addCatch:{[sym;fnc] addRepository[sym;`catch;fnc]; }
 addDelay:{[sym;fnc] addRepository[sym;`delay;fnc]; }
 
 remove:{[sym] ![;enlist (=;`sym;1#sym);0b;0#`]@'`.bt.behaviours`.bt.repository;}
+rem:{[trigger0;sym0] delete from `.bt.behaviours where trigger=trigger0,sym=sym0;}
 
 
 always_true:{1b}

@@ -5,6 +5,7 @@
 .qtx.testSuite[`test.btick2.os;"test os"]
   .qtx.repo[`btick2]
   .qtx.lib[`os]
+  .qtx.file[`001]  
   .qtx.before[{
     r:.util.genTmpFolder[];
     r:r,.bt.md[`newFile]{x 1: "x"$"HelloWorld\nHelloWorld"}@' `$.bt.print[;r]@'(":%path%/a/b/c.q";":%path%/a/d/e.q";":%path%/f.q");

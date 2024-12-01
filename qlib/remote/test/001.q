@@ -2,6 +2,7 @@
 .qtx.testSuite[`test.btick2.remote;"test remote"]
   .qtx.repo[`btick2]
   .qtx.lib[`remote]
+  .qtx.file[`001]  
   .qtx.testCase[`arg.injection1;"argument injection"][
     .qtx.shouldEq["description";0;{[a]a}]
     .qtx.should["description";{.qtx.out[`c`d!3 4;1b]}]

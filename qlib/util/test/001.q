@@ -5,6 +5,7 @@
 .qtx.testSuite[`test.btick2.util;"test util"]
   .qtx.repo[`btick2]
   .qtx.lib[`util]
+  .qtx.file[`001]   
   .qtx.before[{}]
   .qtx.after[{}]  
   .qtx.testCase[`test.util.treeIgnore;"test util treeIgnore"][
