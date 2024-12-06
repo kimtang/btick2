@@ -50,13 +50,14 @@ d) fnc btick2.util.parsea
  }
 
 .util.ctable:{
- if[99h=type x; x:.util.cinit x;];
- .util.untree over x
+ a:.util.untree over .util.cinit .util.croot x;
+ c:update sym:{1_ x}@'sym from delete from a where v~\:(::) 
  }
 
+
 .util.ctablen:{[n;x]
- if[99h=type x; x:.util.cinit x;];
- .util.untree/[n;] x
+ a:.util.untree/[n;] .util.cinit .util.croot x;
+ c:update sym:{1_ x}@'sym from delete from a where v~\:(::) 
  }
 
 
