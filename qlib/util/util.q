@@ -39,16 +39,26 @@ d) fnc btick2.util.parsea
 
 .util.croot:{enlist[`]!enlist x}
 .util.cinit:{([] sym:key x; v:value x) }
-.util.untree:{raze{
+
+.util.untree:{
+ r:raze{
   if[not 99h = type x`v;:enlist x];
   if[ 98h = type key x`v;:enlist x];
   (@[x;`v;:;::] ),([]sym: x[`sym] ,/: key x`v;v:value x`v)
- }@'x }
+ }@'x;
+ delete from r where v~\:(::)
+ }
 
 .util.ctable:{
- a:.util.untree over .util.cinit .util.croot x;
- c:update sym:{1_ x}@'sym from delete from a where v~\:(::)
+ if[99h=type x; x:.util.cinit x;];
+ .util.untree over x
  }
+
+.util.ctablen:{[n;x]
+ if[99h=type x; x:.util.cinit x;];
+ .util.untree/[n;] x
+ }
+
 
 .util.stable:{
  a:.util.untree over .util.cinit .util.croot x;

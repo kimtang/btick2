@@ -249,7 +249,7 @@ d)fnc dbmaint.dbmaint.save
  q) arg:arg,.bt.md[`storage]`type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time    / partition
  q) .dbmaint.save[arg]data
  q) (::)arg:`dir`tblName`symFile`gz!`:db2`trade`sym,enlist 17 0 6
- q) arg:arg,.bt.md[`storage] storage:`type`mode`partitionCol`partAttrCol`sortCol!`splayed`auto`date`sym`time      / splayed
+ q) arg:arg,.bt.md[`storage] storage:`type`mode`partitionCol`partAttrCol`sortCol!`splay`auto`date`sym`time      / splayed
  q) .dbmaint.save[arg]data
  q) (::)arg:`dir`tblName`symFile`gz!`:db3`obk`sym,enlist 17 0 6
  q) arg:arg,.bt.md[`storage] storage:`type`mode`partAttrCol`sortCol!`flat`auto`sym`time                           / flat
@@ -289,15 +289,15 @@ d)fnc dbmaint.dbmaint.sortOnly
  {[arg;storage;ind;k0] (p,arg`gz) set @[get;p:.Q.dd[storage`path;k0];()] }[arg;storage;ind]@'k except storage`partAttrCol 
  }
 
-.dbmaint.sort.splayed:{[arg;storage;data0]
+.dbmaint.sort.splay:{[arg;storage;data0]
  if[not`partAttrCol in key storage;'`.dbmaint.sort.partition.missing_arg];	
  storage:(`partitionCol`sortCol!``),storage;
  if[not null storage`partitionCol;data1:distinct?[data0;();1b;(1#storage`partitionCol)!(1#storage`partitionCol)];];
  if[null storage`partitionCol;data1:`;]; 
- raze .dbmaint.sort.splayed0[arg;storage]@'data0
+ raze .dbmaint.sort.splay0[arg;storage]@'data0
  }
 
-.dbmaint.sort.splayed0:{[arg;storage;data2]
+.dbmaint.sort.splay0:{[arg;storage;data2]
  if[null storage`partitionCol;storage[`path]:.Q.dd[arg`dir] arg`tblName ;];
  if[not null storage`partitionCol;storage[`path]:.Q.dd[arg`dir] arg[`tblName],data2 storage`partitionCol ;]; 
  k:exec c from meta storage`path;
