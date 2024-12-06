@@ -39,7 +39,7 @@ d)fnc json.json.summary
 .json.k:{[json]
  json:.util.ctable json;
  json:update p:{({x!x} distinct `$/:value .json.kj) l:last x:` vs last x}@'sym from json;
- json:update sym:{(-1_x),` sv -1_` vs last x}@'sym, v:(raze  string p)$'v from json where not null p,not p in `R`r`q;
- json:update sym:{(-1_x),` sv -1_` vs last x}@'sym, v:{reval parse x}@'v from json where p=`q;
+ json:update sym:{(-1_x),` sv -1_` vs last x:(),x}@'sym, v:(raze  string p)$'v from json where not null p,not p in `R`r`q;
+ json:update sym:{(-1_x),` sv -1_` vs last x:(),x}@'sym, v:{reval parse x}@'v from json where p=`q;
  .util.cdict `sym`v#json
  } 
