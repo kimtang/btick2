@@ -7,7 +7,7 @@ d)lib btick2.dbmaint
 
 .dbmaint.summary:{} 
 
-d)fnc dbmaint.dbmaint.summary 
+d)fnc btick2.dbmaint.summary 
  Give a summary of this function
  q) dbmaint.summary[] 
 
@@ -26,13 +26,13 @@ d)fnc dbmaint.dbmaint.summary
 
 .dbmaint.ls:{[arg] .dbmaint.ls0[arg]0ni }
 
-d)fnc dbmaint.dbmaint.ls 
+d)fnc btick2.dbmaint.ls 
  Unix ls funtion
- q) dbmaint.ls["dontcare.txt"] 
- q) dbmaint.ls["dontcare/abc.txt"]
- q) dbmaint.ls[":dontcare/abc.txt"]
- q) dbmaint.ls[`:dontcare/abc.txt]
- q) dbmaint.ls[`dontcare`abc.txt]    
+ q) .dbmaint.ls["dontcare.txt"] 
+ q) .dbmaint.ls["dontcare/abc.txt"]
+ q) .dbmaint.ls[":dontcare/abc.txt"]
+ q) .dbmaint.ls[`:dontcare/abc.txt]
+ q) .dbmaint.ls[`dontcare`abc.txt]    
 
 
 .dbmaint.touch:{[arg]
@@ -42,13 +42,13 @@ d)fnc dbmaint.dbmaint.ls
  arg 0:enlist""
  }
 
-d)fnc dbmaint.dbmaint.touch 
+d)fnc btick2.dbmaint.touch 
  Unix touch funtion
- q) dbmaint.touch["dontcare.txt"] 
- q) dbmaint.touch["dontcare/abc.txt"]
- q) dbmaint.touch[":dontcare/abc.txt"]
- q) dbmaint.touch[`:dontcare/abc.txt]
- q) dbmaint.touch[`dontcare`abc.txt]    
+ q) .dbmaint.touch["dontcare.txt"] 
+ q) .dbmaint.touch["dontcare/abc.txt"]
+ q) .dbmaint.touch[":dontcare/abc.txt"]
+ q) .dbmaint.touch[`:dontcare/abc.txt]
+ q) .dbmaint.touch[`dontcare`abc.txt]    
 
 
 .dbmaint.mkdir:{[arg]
@@ -61,13 +61,13 @@ d)fnc dbmaint.dbmaint.touch
  }
 
 
-d)fnc dbmaint.dbmaint.mkdir 
+d)fnc btick2.dbmaint.mkdir 
  Unix mkdir funtion
- q) dbmaint.mkdir["dontcare"] 
- q) dbmaint.mkdir["dontcare/abc"]
- q) dbmaint.mkdir[":dontcare/abc"]
- q) dbmaint.mkdir[`:dontcare/abc]
- q) dbmaint.mkdir[`dontcare`abc]
+ q) .dbmaint.mkdir["dontcare"] 
+ q) .dbmaint.mkdir["dontcare/abc"]
+ q) .dbmaint.mkdir[":dontcare/abc"]
+ q) .dbmaint.mkdir[`:dontcare/abc]
+ q) .dbmaint.mkdir[`dontcare`abc]
 
 .dbmaint.rm:{[arg]
  if[10h=abs type arg;arg:`$arg];
@@ -83,13 +83,13 @@ d)fnc dbmaint.dbmaint.mkdir
  allFiles
  }
 
-d)fnc dbmaint.dbmaint.rm 
+d)fnc btick2.dbmaint.rm 
  Unix rm funtion
- q) dbmaint.rm["dontcare"] / entire folder or file
- q) dbmaint.rm["dontcare/abc"]
- q) dbmaint.rm[":dontcare/abc"]
- q) dbmaint.rm[`:dontcare/abc]
- q) dbmaint.rm[`dontcare`abc]
+ q) .dbmaint.rm["dontcare"] / entire folder or file
+ q) .dbmaint.rm["dontcare/abc"]
+ q) .dbmaint.rm[":dontcare/abc"]
+ q) .dbmaint.rm[`:dontcare/abc]
+ q) .dbmaint.rm[`dontcare`abc]
 
 
 .dbmaint.head0:{[arg;n] / n is number of line
@@ -101,23 +101,23 @@ d)fnc dbmaint.dbmaint.rm
  (x 2) cut "c"$x 0
  }
 
-d)fnc dbmaint.dbmaint.head0 
+d)fnc btick2.dbmaint.head0 
  Unix head0 funtion
- q) dbmaint.head0[10;"dontcare.txt"] 
- q) dbmaint.head0[10;"dontcare/abc.txt"]
- q) dbmaint.head0[10;":dontcare/abc.txt"]
- q) dbmaint.head0[10;`:dontcare/abc.txt]
- q) dbmaint.head0[10;`dontcare`abc.txt]
+ q) .dbmaint.head0[10;"dontcare.txt"] 
+ q) .dbmaint.head0[10;"dontcare/abc.txt"]
+ q) .dbmaint.head0[10;":dontcare/abc.txt"]
+ q) .dbmaint.head0[10;`:dontcare/abc.txt]
+ q) .dbmaint.head0[10;`dontcare`abc.txt]
 
 .dbmaint.head:{[arg] .dbmaint.head0[10;arg]}
 
-d)fnc dbmaint.dbmaint.head 
+d)fnc btick2.dbmaint.head 
  Unix head0 funtion
- q) dbmaint.head["dontcare.txt"] / entire folder or file
- q) dbmaint.head["dontcare/abc.txt"]
- q) dbmaint.head[":dontcare/abc.txt"]
- q) dbmaint.head[`:dontcare/abc.txt]
- q) dbmaint.head[`dontcare`abc.txt]  
+ q) .dbmaint.head["dontcare.txt"] / entire folder or file
+ q) .dbmaint.head["dontcare/abc.txt"]
+ q) .dbmaint.head[":dontcare/abc.txt"]
+ q) .dbmaint.head[`:dontcare/abc.txt]
+ q) .dbmaint.head[`dontcare`abc.txt]  
 
 .dbmaint.tail0:{[arg;n] / n is number of line
  if[10h=type arg;arg:`$arg];
@@ -129,29 +129,51 @@ d)fnc dbmaint.dbmaint.head
  / (x 2) cut "c"$x 0
  }
 
-d)fnc dbmaint.dbmaint.tail0 
+d)fnc btick2.dbmaint.tail0 
  Unix tail0 funtion
- q) dbmaint.tail0[10;"dontcare.txt"] 
- q) dbmaint.tail0[10;"dontcare/abc.txt"]
- q) dbmaint.tail0[10;":dontcare/abc.txt"]
- q) dbmaint.tail0[10;`:dontcare/abc.txt]
- q) dbmaint.tail0[10;`dontcare`abc.txt]
+ q) .dbmaint.tail0[10;"dontcare.txt"] 
+ q) .dbmaint.tail0[10;"dontcare/abc.txt"]
+ q) .dbmaint.tail0[10;":dontcare/abc.txt"]
+ q) .dbmaint.tail0[10;`:dontcare/abc.txt]
+ q) .dbmaint.tail0[10;`dontcare`abc.txt]
 
 .dbmaint.tail:{[arg] .dbmaint.tail0[10;arg]}
 
-d)fnc dbmaint.dbmaint.tail 
+d)fnc btick2.dbmaint.tail 
  Unix tail0 funtion
- q) dbmaint.tail["dontcare.txt"] / entire folder or file
- q) dbmaint.tail["dontcare/abc.txt"]
- q) dbmaint.tail[":dontcare/abc.txt"]
- q) dbmaint.tail[`:dontcare/abc.txt]
- q) dbmaint.tail[`dontcare`abc.txt]
+ q) .dbmaint.tail["dontcare.txt"] / entire folder or file
+ q) .dbmaint.tail["dontcare/abc.txt"]
+ q) .dbmaint.tail[":dontcare/abc.txt"]
+ q) .dbmaint.tail[`:dontcare/abc.txt]
+ q) .dbmaint.tail[`dontcare`abc.txt]
 
 
-.dbmaint.partition:{[arg;storage;data]
+.dbmaint.carg:{[arg]
+ if[10h=type arg;arg:`$arg];
+ if[11h=type arg;arg:`$"/"sv {(),x}@'string arg];
+ if[not ":"=first string arg;arg:hsym arg];
+ arg	
+ }
+
+.dbmaint.cp:{[from0;to0]
+ from0:.dbmaint.carg from0;
+ to0:.dbmaint.carg to0;
+ to0 1: read1 from0;
+ }
+
+d)fnc btick2.dbmaint.cp 
+ Unix tail0 funtion
+ q) .dbmaint.cp["dontcare.txt";"dontcare1.txt"] / entire folder or file
+ q) .dbmaint.cp["dontcare/abc.txt";"dontcare/abc1.txt"]
+ q) .dbmaint.cp[":dontcare/abc.txt";":dontcare/abc1.txt"]
+ q) .dbmaint.cp[`:dontcare/abc.txt;`:dontcare/abc1.txt]
+ q) .dbmaint.cp[`dontcare`abc.txt;`dontcare`abc1.txt]
+
+.dbmaint.partition:{[arg;storage;data] 
  storage:(`mode`partAttrCol`sortCol!```),storage;
  data:.Q.ens[arg`dir;data;arg`symFile];
  data1:0!(storage`partitionCol) xgroup data;
+ if[`partitionColDefault in key storage;.dbmaint.partition1[arg;storage]flip 0#data];
  raze .dbmaint.partition0[arg;storage]@'data1
  }
 
@@ -167,15 +189,28 @@ d)fnc dbmaint.dbmaint.tail
  .Q.dd[storage`path;`.d],{[arg;storage;ind;data2;k0] (p,arg`gz) set @[get;p:.Q.dd[storage`path;k0];()],data2 k0 }[arg;storage;ind;data2]@'k except storage`partAttrCol 
  }
 
-.dbmaint.splayed:{[arg;storage;data]
+
+.dbmaint.partition1:{[arg;storage;data2]
+ storage[`path]:.Q.dd[arg`dir;(storage`partitionColDefault),arg`tblName];
+ if[not ()~key storage[`path];:()];
+ k:exec c from data3:{([]c:key x;v:value x)}(storage`partitionCol)_data2;
+ data3:update path:.Q.dd'[storage[`path];c] from data3;
+ data3:data3 ,enlist `c`v`path!(`.d;k;.Q.dd[storage[`path];`.d]);
+ select path set'v from data3
+ } 
+
+.dbmaint.splay:{[arg;storage;data]
  storage:(`mode`partitionCol`partAttrCol`sortCol!````),storage;
  data:.Q.ens[arg`dir;data;arg`symFile];
- if[not null storage`partitionCol;data1:0!(storage`partitionCol) xgroup data;];
- if[null storage`partitionCol;data1:enlist flip data;]; 
- raze .dbmaint.splayed0[arg;storage]@'data1
+ if[not null storage`partitionCol;
+ 	data1:0!(storage`partitionCol) xgroup data;
+ 	if[`partitionColDefault in key storage;.dbmaint.splay1[arg;storage]flip 0#data];
+ 	];
+ if[null storage`partitionCol;data1:enlist flip data;];
+ raze .dbmaint.splay0[arg;storage]@'data1
  }
 
-.dbmaint.splayed0:{[arg;storage;data2]
+.dbmaint.splay0:{[arg;storage;data2]
  if[null storage`partitionCol;storage[`path]:.Q.dd[arg`dir] arg`tblName ;];
  if[not null storage`partitionCol;storage[`path]:.Q.dd[arg`dir] arg[`tblName],data2 storage`partitionCol ;]; 
  if[`replace=storage`mode;.dbmaint.rm storage`path];
@@ -188,10 +223,23 @@ d)fnc dbmaint.dbmaint.tail
  .Q.dd[storage`path;`.d],{[arg;storage;ind;data2;k0] (p,arg`gz) set @[get;p:.Q.dd[storage`path;k0];()],data2 k0 }[arg;storage;ind;data2]@'k except storage`partAttrCol 
  }
 
+.dbmaint.splay1:{[arg;storage;data2]
+ storage[`path]:.Q.dd[arg`dir;arg[`tblName],storage`partitionColDefault];
+ if[not ()~key storage[`path];:()];
+ k:exec c from data3:{([]c:key x;v:value x)}(storage`partitionCol)_data2;
+ data3:update path:.Q.dd'[storage[`path];c] from data3;
+ data3:data3 ,enlist `c`v`path!(`.d;k;.Q.dd[storage[`path];`.d]);
+ select path set'v from data3
+ } 
+
+
 .dbmaint.flat:{[arg;storage;data]
  storage:(`mode`partitionCol`partAttrCol`sortCol!````),storage;
  data:.Q.ens[arg`dir;data;arg`symFile];
- if[not null storage`partitionCol;data1:0!(storage`partitionCol) xgroup data;];
+ if[not null storage`partitionCol;
+ 	data1:0!(storage`partitionCol) xgroup data;
+ 	if[`partitionColDefault in key storage;.dbmaint.flat1[arg;storage]flip 0#data];
+ ];
  if[null storage`partitionCol;data1:enlist flip data;]; 
  raze .dbmaint.flat0[arg;storage]@'data1
  }
@@ -209,10 +257,20 @@ d)fnc dbmaint.dbmaint.tail
  (storage[`path],arg`gz) set data4
  }
 
+.dbmaint.flat1:{[arg;storage;data2]
+ storage[`path]:.Q.dd[arg`dir;arg[`tblName],storage`partitionColDefault];
+ if[not ()~key storage[`path];:()];
+ k:exec c from data3:{([]c:key x;v:value x)}(storage`partitionCol)_data2;
+ data3:update path:.Q.dd'[storage[`path];c] from data3;
+ data3:data3 ,enlist `c`v`path!(`.d;k;.Q.dd[storage[`path];`.d]);
+ select path set'v from data3
+ }  
+
 .dbmaint.par:{[arg;storage;data]
  storage:(`mode`partAttrCol`sortCol!```),storage;
  data:.Q.ens[arg`dir;data;arg`symFile];
  data1:0!(storage`partitionCol) xgroup data;
+ if[`partitionColDefault in key storage;.dbmaint.par1[arg;storage]flip 0#data]; 
  raze .dbmaint.par0[arg;storage]@'data1
  }
 
@@ -232,17 +290,27 @@ d)fnc dbmaint.dbmaint.tail
  r0
  }
 
+.dbmaint.par1:{[arg;storage;data2]
+ if[not":"=first string storage`dir; storage[`dir] : hsym storage`dir];	
+ storage[`path]:.Q.dd[storage`dir;(storage`partitionColDefault),arg`tblName];
+ if[not ()~key storage[`path];:()];
+ k:exec c from data3:{([]c:key x;v:value x)}(storage`partitionCol)_data2;
+ data3:update path:.Q.dd'[storage[`path];c] from data3;
+ data3:data3 ,enlist `c`v`path!(`.d;k;.Q.dd[storage[`path];`.d]);
+ select path set'v from data3
+ }  
+
 .dbmaint.save:{[arg;data]
  if[not 99h=type arg;:(`dir`tblName`symFile`gz!`:demo1`demoTbl`sym,enlist 17 2 6),.bt.md[`storage]`type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time];
  if[not all `dir`tblName`storage in key arg;'`.dbmaint.save.missing_arg ];
- if[not arg[`storage;`type] in  `partition`splayed`flat`par;'`.dbmaint.save.wrong_arg ];
+ if[not arg[`storage;`type] in  `partition`splay`flat`par;'`.dbmaint.save.wrong_arg ];
  arg:(`symFile`gz!(`sym;17 2 6)),arg;
  if[10h = abs type arg`dir;arg:@[arg;`dir;`$]];
  if[not ":"=first string arg`dir;arg:@[arg;`dir;{`$":",string x}]];
  .dbmaint[arg[`storage]`type][arg;storage:arg`storage;data]
  } 
 
-d)fnc dbmaint.dbmaint.save 
+d)fnc btick2.dbmaint.save 
  Unix tail0 funtion
  q) (::)data:trade:`date`sym`time xasc([]date:10?.z.D + til 3; time:10?.z.T;sym:10?`aaa`bbb`ccc;prx:10?100.0;qty:10?100)
  q) (::)arg:`dir`tblName`symFile`gz!`db1`trade`sym,enlist 17 0 6
@@ -255,21 +323,21 @@ d)fnc dbmaint.dbmaint.save
  q) arg:arg,.bt.md[`storage] storage:`type`mode`partAttrCol`sortCol!`flat`auto`sym`time                           / flat
  q) .dbmaint.save[arg]data
  q) (::)arg:`dir`tblName`symFile`gz!`:db1`trade`sym,enlist 17 0 6
- q) (::)arg:arg,.bt.md[`storage]storage:`type`mode`dir`partitionCol`partAttrCol`sortCol!`par`auto`:db2`date`sym`time /
+ q) (::)arg:arg,.bt.md[`storage]storage:`type`mode`dir`partitionCol`partAttrCol`sortCol!`par`auto`:db2`date`sym`time / par
  q) .dbmaint.save[arg]data
 
 
 .dbmaint.sortOnly:{[arg;data0]
  if[not 99h=type arg;:(`dir`tblName`symFile`gz!`:demo1`demoTbl`sym,enlist 17 2 6),.bt.md[`storage]`type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time];
  if[not all `dir`tblName`storage in key arg;'`.dbmaint.sortOnly.missing_arg ];
- if[not arg[`storage;`type] in  `partition`splayed`flat`par;'`.dbmaint.sortOnly.wrong_arg ];
+ if[not arg[`storage;`type] in  `partition`splay`flat`par;'`.dbmaint.sortOnly.wrong_arg ];
  arg:(`symFile`gz!(`sym;17 2 6)),arg;
  if[10h = abs type arg`dir;arg:@[arg;`dir;`$]];
  if[not ":"=first string arg`dir;arg:@[arg;`dir;{`$":",string x}]];	
  .dbmaint.sort[arg[`storage]`type][arg;storage:arg`storage;data0]
  }
 
-d)fnc dbmaint.dbmaint.sortOnly 
+d)fnc btick2.dbmaint.sortOnly 
  Unix tail0 funtion
  q) (::)arg:`dir`tblName`symFile`partitionCol`partAttrCol`sortCol`gz!(`:db2;`trade;`sym;`date;`sym;`time;17 2 6)
  q) .dbmaint.sortOnly[arg] key select by date from data

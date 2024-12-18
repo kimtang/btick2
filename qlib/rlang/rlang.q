@@ -87,11 +87,12 @@ d) fnc rlang.rlang.Rset0
 .rlang.conv[`string]:{ `$x }
 .rlang.frame_:()!()
 
-.rlang.frame_[1b]:{r:raze {$[type[x] in (0 10h);`$x; x]} each x 0;
-			r:$[10h=type r;`string;r];
-			sym:first key[.rlang.conv] inter r;
-			 .rlang.conv[sym] x}
-.rlang.frame_[0b]:{x}
+.rlang.frame_[0h]:{r:raze {$[type[x] in (0 10h);`$x; x]} each x 0;
+            r:$[10h=type r;`string;r];
+            sym:first key[.rlang.conv] inter r;
+             .rlang.conv[sym] x}
+.rlang.frame_[99h]:{(`$x[0]`levels) -1+x 1 }
+.rlang.frame_[0nh]:{x}
 
 .rlang.Rts:{@[.rlang.rcmd;"try(system('dir', intern = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE))";()]};
 
@@ -101,7 +102,7 @@ d) fnc rlang.rlang.Rset0
     arg:t 0;
     nme:`$arg`names;
     rns:arg`row.names;
-    mat:{ .rlang.frame_[0h=type x]  x } each t[1];
+    mat:{ .rlang.frame_[ (0 99 0nh!0 99 0nh) type x 0]  x } each t[1];
     rns:$[count[rns]=count first mat; @[(`$);rns;rns];til count first mat];
      /(nme;rns;mat)
      flip ((`$"row_names"),nme)!enlist[rns],mat 

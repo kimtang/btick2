@@ -32,20 +32,25 @@ d)fnc plant.plant.summary
 .plant.schema:{[arg0]
  global:.json.k (jobj:arg0`jobj)`global;
  env0:raze{[global;x] (1#x`k)!enlist .json.k .j.k .bt.print[ .j.j x`v] global x`k }[global;]@' {([]k:key x;v:value x)} `global _ jobj;
- allEnv:.util.ctable env0;
+ allEnv:.util.ctablen[4] env0;
  schemas:update sym:{ x[0],2_x }@'sym from select from allEnv where sym[;1]=`schema;
- schemas:`env`tname`col`cval!/:schemas[`sym]{x,enlist y}'schemas[`v];
- schemas:update cval:`${"," vs x}@'cval from schemas where col=`column;
- default:select env,tname,col:`ocolumn,cval:cval from schemas where col=`column;
- default:default,select env,tname,col:`rattr,cval:{count[x]#"*"}@'cval from schemas where col=`column;
- default:default,select env,tname,col:`hattr,cval:{count[x]#"*"}@'cval from schemas where col=`column;
- default:default,select env,tname,col:`upd,cval:count[i]#enlist (::) from schemas where col=`column; 
- default:default,select env,tname,col:`addTime,cval:0b from schemas where col=`column;
- default:default,ungroup select env,tname,col:count[i]#enlist `tick`rdb`hdb`replay,cval:count[i]#enlist `default from schemas where col=`column;   
- schemas:select from (default,schemas) where ({x=last x};i) fby ([]env;tname;col);
- schemas:.tidyq.dcast[schemas;"env,tname";"%col% ~~ cval"];
+ schemas:update v:count[i]#enlist[`type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time] from schemas where sym[;2]=`storage,v~'`partition;
+ schemas:update v:count[i]#enlist[`type`mode`partitionCol`partAttrCol`sortCol!`splay`auto`date`sym`time] from schemas where sym[;2]=`storage,v~'`splay;
+ schemas:update v:count[i]#enlist[`type`mode`partAttrCol`sortCol!`flat`auto`sym`time] from schemas where sym[;2]=`storage,v~'`flat; 
+ columns:select sym,cnt:{count ","vs  x}@'v,col:{`$","vs  x}@'v from schemas where sym[;2]=`column;
+ default:select sym:.[sym;(::;2);:;`rattr] ,v:"*"^(`sym`time!"gs")col from columns;
+ default:default,select sym:.[sym;(::;2);:;`hattr] ,v:"*"^(`sym`time!"ps")col from columns;
+ default:default,select sym:.[sym;(::;2);:;`tick] ,v:count[i]#enlist `default from columns;
+ default:default,select sym:.[sym;(::;2);:;`rdb] ,v:count[i]#enlist `default from columns;
+ default:default,select sym:.[sym;(::;2);:;`hdb] ,v:count[i]#enlist `default from columns;
+ default:default,select sym:.[sym;(::;2);:;`cdb] ,v:count[i]#enlist `default from columns;
+ default:default,select sym:.[sym;(::;2);:;`replay] ,v:count[i]#enlist `default from columns;
+ default:default,select sym:.[sym;(::;2);:;`upd] ,v:count[i]#(::) from columns;
+ default:default,select sym:.[sym;(::;2);:;`storage] ,v:count[i]#enlist `type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time from columns;
+ schemas:.tidyq.dcast[;"env,tname";"%col% ~~ cval"] select env:sym[;0],tname:sym[;1],col:sym[;2],cval:v from 0!select by sym from default,schemas;
  fnc:{[mode;env;x] @[x;;:;.Q.dd[env]mode] where `default=x:(),x};
- update tick:fnc'[`tick;env;tick],rdb:fnc'[`rdb;env;rdb],hdb:fnc'[`hdb;env;hdb],replay:fnc'[`replay;env;replay] from schemas
+ schemas:update tick:fnc'[`tick;env;tick],rdb:fnc'[`rdb;env;rdb],hdb:fnc'[`hdb;env;hdb],replay:fnc'[`replay;env;replay],cdb:fnc'[`cdb;env;cdb] from schemas;
+ schemas:update column:`${","vs x}@'column from schemas 
  }
 
 

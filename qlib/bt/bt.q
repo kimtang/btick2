@@ -33,7 +33,7 @@ putAction:{
 putArg:{
  h:exec from .bt.history where seq=x;
  b:.bt.repository h`action`mode;
- {x set' y } . (b;h)@\:`arg
+ {r:x set' y; r,if[not `allData in x;:r,`allData set x!y];r } . (b;h)@\:`arg
  }
 
 putResult:{
