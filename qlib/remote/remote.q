@@ -38,7 +38,7 @@ d)fnc remote.remote.summary
  
 d) fnc remote.remote.add
  Function to add a connection
- q) .remote.add `uid`host`port`user`passwd!(`kx_platform_hdb;`sgsupp01.firstderivatives.com; 23003;`;1#"")
+ q) .remote.add `uid`host`port`user`passwd!(`kx_platform_hdb;`localhost; 23003;`;1#"")
  
 
 .remote.query0:{[mode;proc;query]
