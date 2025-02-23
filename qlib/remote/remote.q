@@ -195,12 +195,18 @@ d) fnc remote.remote.sbl
  Function to write a config file for sbl. Path can be config in the qlib.json. "remote":{"path": "../cfg","user":"yourname","passwd":"yourpasswd"}
  q) .remote.sbl []
 
-.remote.cfile:{[x] {file:`$.bt.print[":proc/%uid%.q"] x;cont:enlist .bt.print["/ %uid%:%host%:%port%:%user%:%passwd%"] x;if[file~key file;:file ]; file 0: cont}@'x}
+.remote.cfile:{[x]
+ summary:.remote.summary x;
+ path:.bt.md[`path]  1_ ssr[;":./";":"] string {[x] if[max key[ x] like "*sublime-project";:x]; .Q.dd[x;`..] }/[4; `:.];
+ t:select path:`${[path;x].bt.print[":%path%/cfg/%uid%.q"] path,x}[path]@'summary,con:.bt.print["/ %uid%:%host%:%port%:%user%:%passwd%"]@'summary from summary;
+ select {[path;con] path 0: enlist con }'[path;con] from t;
+ exec path from t
+ }
 
 
 d) fnc remote.remote.cfile
  Function to create procs file
- q) .remote.cfile .remote.summary
+ q) .remote.cfile[]
 
  
 .remote.duplicate0:()!()
