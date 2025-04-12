@@ -199,7 +199,7 @@ d) fnc remote.remote.sbl
  summary:.remote.summary x;
  path:.bt.md[`path]  1_ ssr[;":./";":"] string {[x] if[max key[ x] like "*sublime-project";:x]; .Q.dd[x;`..] }/[4; `:.];
  t:select path:`${[path;x].bt.print[":%path%/cfg/%uid%.q"] path,x}[path]@'summary,con:.bt.print["/ %uid%:%host%:%port%:%user%:%passwd%"]@'summary from summary;
- select {[path;con] path 0: enlist con }'[path;con] from t;
+ select {[path;con] path 0: enlist con }'[path;con] from t where not {x~key x }@'path ;
  exec path from t
  }
 

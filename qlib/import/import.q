@@ -14,23 +14,22 @@ d) lib btick2.import
 
 .import.cpath0[`symbol]:{
  cnt:count x0:` vs x;
- if[`.import.summary ~ key `.import.summary;allSum:exec lib!repo from key .import.summary[];];
- if[not `.import.summary ~ key `.import.summary;allSum:{`btick2}]; 
-  
  if[1=cnt;
    t:first where {[x;y]x in key hsym`$y,"/qlib"}[x]@'.import.repository.con;
    x:`repository`module`file!(t;x;.bt.print["%0.q"]x)
    ];
- if[(2=cnt) and x0[0] in key .import.repository.con;
+ if[(2=cnt) and x0[0] in k:key .import.repository.con;
   x:`repository`module`file!(x0 0;x0 1;.bt.print["%1.q"]x0)
   ];
- if[(2=cnt) and not x0[0] in key .import.repository.con;
-  x:`repository`module`file!(allSum x0 0;x0 0;.bt.print["%1.q"]x0)
+
+ if[(2=cnt) and not x0[0] in k;
+  t:first where {[x;y]x in key hsym`$y,"/qlib"}[x0 0]@'.import.repository.con;
+  x:`repository`module`file!(t;x0 0;.bt.print["%1.q"]x0);
   ];
- if[(3<=cnt) and x0[0] in key .import.repository.con;
+ if[(3<=cnt) and x0[0] in k;
   x:`repository`module`file!(x0 0;x0 1;.bt.print["%0.q"] enlist "/"sv string 2_x0)
   ];
- if[(3<=cnt) and not x0[0] in key .import.repository.con;
+ if[(3<=cnt) and not x0[0] in k;
   x:`repository`module`file!(`btick2;x0 0;.bt.print["%0.q"] enlist "/"sv string 1_x0)
   ];
  :.import.cpath0[`dict] x

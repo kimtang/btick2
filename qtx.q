@@ -2,7 +2,7 @@
 / qtx.q:localhost:9081::
 
 / 
- q qtx.q -json default -repo repo -lib lib [info|debug|test|watch] testSuite[all]
+ q qtx.q -config default -repo repo -lib lib [info|debug|test|watch] testSuite[all]
  q qtx.q
 \
 
@@ -11,12 +11,14 @@
 
 .qtx.parseArg:
  .util.arg
- .util.optArg0[`json;`;`default]
+ .util.optArg0[`config;`;`default]
  .util.optArg0[`repo;`;`]
- .util.optArg0[`lib;`;`] 
+ .util.optArg0[`lib;`;`]
+ .util.optArg0[`file;`;`]  
  .util.posArg0[`mode;`;`]
- .util.posArg0[`testSuite;`;`]
- .util.optArg0[`fuid;`;`missing]
+ .util.posArg0[`uid;`;`]
+ .util.optArg0[`testCase_uid;`;`]
+ .util.optArg0[`testCase_test_uid;`;`]  
  .util.optArg0[`noexit;"B";0b]
  .util.optArg0[`port;"j";9081]
  @;
@@ -26,22 +28,27 @@
  if[not args`noexit;exit 0];	
  } .qtx.allArgs: .qtx.parseArg .z.x;
 
-.import.json:.qtx.allArgs`json;
+.import.json:.qtx.allArgs`config;.import.init[];.import.module`qtx;
 
-.import.init[];
-.import.module`qtx;
+allTests:.qtx.module0 .qtx.summary .qtx.filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
 
-allFiles:.qtx.summary .qtx.filter:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib#.qtx.allArgs)#.qtx.allArgs;
-allTests:.qtx.module .qtx.filter;
+.qtx.filter2:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file`uid`testCase_uid`testCase_test_uid#.qtx.allArgs)#.qtx.allArgs;
 
-result:`repo`lib xasc 0!select cnt:count i by repo,lib,testSuite from allTests;
-result:update cmd:`$.bt.print["q qtx.q -json %json% -repo %repo% -lib %lib% [info|debug|test|watch] %testSuite%[all]"]@'(.import,/:result) from result;
-result1:select fuid,testSuite,testFnc from allTests0:0!select from allTests where ((`all~.qtx.allArgs`testSuite) or testSuite=.qtx.allArgs`testSuite);
 
 if[ not .qtx.allArgs[`mode] in `info`debug`test`watch ;
  1 .Q.s select repo,lib,testSuite,cmd from result;
  .qtx.exit[]
  ];
+
+/
+
+result:`repo`lib xasc 0!select cnt:count i by repo,lib,testSuite:uid from allTests;
+result:update cmd:`$.bt.print["q qtx.q -json %json% -repo %repo% -lib %lib% [info|debug|test|watch] %testSuite%[all]"]@'(.import,/:result) from result;
+/ (::)result1:select testSuite:uid from allTests0:0!select from allTests where ((`all~.qtx.allArgs`testSuite) or uid=.qtx.allArgs`testSuite)
+
+/
+
+
 
 if[ max null .qtx.allArgs`mode`testSuite;
  1 .Q.s select repo,lib,testSuite,cmd from result;
@@ -49,20 +56,21 @@ if[ max null .qtx.allArgs`mode`testSuite;
  ];
 
 if[`info ~ .qtx.allArgs`mode;
-  -1 .Q.s 0!select fuid,testSuite,fdescription from allTests0;
+  -1 .Q.s 0!select fuid,testSuite,`$fdescription,testFnc from allTests0;
  .qtx.exit[];
  ];
 
 if[`debug ~ .qtx.allArgs`mode;
  if[not .qtx.allArgs[`fuid] in allTests0`fuid;
   -1"\033[0;33m missing fuid \033[0m";
-  -1 .Q.s select fuid,fdescription,testFnc from allTests0;
+  -1 .Q.s select fuid,testSuite,`$fdescription,testFnc from allTests0;
   .qtx.exit[];
   ];
- if[.qtx.allArgs[`fuid] in allTests0`fuid; 
+ if[.qtx.allArgs[`fuid] in allTests0`fuid;
+  filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
   fuid0:first select from allTests0 where fuid in .qtx.allArgs`fuid;
-  filter:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`testSuite`testCase#fuid0)#fuid0;
-  .qtx.main[filter]()!();
+  filter2:{key[x]{(in;x;enlist y)}'value x} (where not null `testSuite`testCase#fuid0)#fuid0;
+  .qtx.main[filter1;filter2]()!();
   system .bt.print["p %port%"] .qtx.allArgs;
   -1 .Q.s1 .qtx.debug first select from .qtx.con3 where fuid in fuid0`fuid
   ];
@@ -70,9 +78,9 @@ if[`debug ~ .qtx.allArgs`mode;
 
 
 if[`test ~ .qtx.allArgs`mode;
-  filter:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib#.qtx.allArgs)#.qtx.allArgs;
-  filter:filter,enlist ({(`all~y) or x=y};`testSuite;enlist .qtx.allArgs`testSuite);
-  -1 .Q.s2 .qtx.main[filter]()!();
+  filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
+  filter2:enlist ({(`all~y) or x=y};`testSuite;enlist .qtx.allArgs`testSuite);
+  -1 .Q.s2 .qtx.main[filter1;filter2]()!();
   .qtx.exit[];
  ];
 

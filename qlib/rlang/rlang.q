@@ -34,9 +34,8 @@ d) fnc rlang.rlang.setv
  .rlang.s:.z.o;
  .rlang.calc:1b;
  if[not `.rlang.ts in  exec arg[;0] from .bt.tme where null runAt,-11h = type@'arg[;0];.bt.action[`.rlang.ts] ()!();];
- "r" "library(ggplot2)";
  "r" "Sys.setenv(TZ='GMT')";
- "r" ssr[;"\\";"/"] .bt.print["source('%btick2%/qlib/rlang/ggplot2_formatter.r')"] .self;
+ .rlang.source"%btick2%/qlib/rlang/ggplot2_formatter.r";
  }
 
 d) fnc rlang.rlang.init
@@ -119,15 +118,13 @@ d) fnc rlang.rlang.Rframe
 / file:"rlang/ggplot2_formatter.r"
 / repo:`btick2
 
-.rlang.source:{[file;repo]
- if[not repo in key .import.repository.con;'`.rlang.repo.not.exists'];
- arg:`file`repo!(file;.import.repository.con repo);
- cmd:.bt.md[`path] ssr[;"\\";"/"] .bt.print["%repo%/qlib/%file%"] arg;
- "r" ssr[;"\\";"/"] .bt.print["source('%path%')"] cmd;    
+.rlang.source:{[file]
+ cmd:.bt.md[`path] ssr[;"\\";"/"] .bt.print[file] .import.repository.con;
+ "r" ssr[;"\\";"/"] .bt.print["source('%path%')"] cmd;
  }
 
 d) fnc rlang.rlang.source
  Function to source a file
- q) .rlang.source["rlang/ggplot2_formatter.r";`btsrc]
+ q) .rlang.source"%btick2%/qlib/rlang/ggplot2_formatter.r"
 
 .rlang.init[]

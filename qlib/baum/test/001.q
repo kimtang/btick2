@@ -1,22 +1,19 @@
 
 .import.require`baum;
 
-.qtx.testSuite[`test.btick2.baum;"test baum"]
-  .qtx.repo[`btick2]
-  .qtx.lib[`baum]
-  .qtx.file[`001]  
-  .qtx.testCase[`arg.injection1;"argument injection"][
-    .qtx.shouldEq["description";0;{[a]a}]
-    .qtx.should["description";{.qtx.out[`c`d!3 4;1b]}]
-    .qtx.shouldEq["description";4;{[d]d}]    
-    .qtx.shouldFail["description";`ifail;{'`ifail}]
+.qtx.testSuite[`baum;`repo`lib`file!`btick2`baum`001;"test baum"]
+  .qtx.testCase[`t1;"argument injection"][
+    .qtx.shouldEq[`0;"description";0;{[a]a}]
+    .qtx.should[`1;"description";{.qtx.out[`c`d!3 4;1b]}]
+    .qtx.shouldEq[`2;"description";4;{[d]d}]    
+    .qtx.shouldFail[`3;"description";`ifail;{'`ifail}]
     .qtx.nil
     ]
-  .qtx.addArg[`a`b`c!0 1 2]
-  .qtx.testCase[`test.baum.1;"test baum"][
+  .qtx.argument[`a`b`c!0 1 2]
+  .qtx.testCase[`t2;"test baum"][
     .qtx.before[{`a`b`c`d!3 4 5 6}]
-    .qtx.shouldEq["description";3;{[a]a}]
-    .qtx.shouldEq["description";6;{[d]d}]    
+    .qtx.shouldEq[`0;"description";3;{[a]a}]
+    .qtx.shouldEq[`1;"description";6;{[d]d}]    
     .qtx.nil
     ]    
   .qtx.nil;

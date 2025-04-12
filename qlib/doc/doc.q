@@ -8,7 +8,7 @@
 .doc.conFunc:3!flip`repo`lib`fnc`description`example`body!()
 
 .doc.e0:()!()
-.doc.e0[`txt]:{0N!x}
+.doc.e0[`txt]:{x}
 
 .doc.e0[`lib]:{
  lib:`$first 1_" "vs .doc.r x 0;
