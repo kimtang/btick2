@@ -30,7 +30,7 @@ d)fnc btick2.repository.showAllRepository
  }
 
 .repository.createRepository:{[name;path]
- newPath:.bt.print["%path%"] arg:`name`path!(name;path);
+ newPath:.bt.print["%path%"] arg:`name`path`name0!(name;path;"%",name,"%");
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/repository"] .self
  }
 
@@ -41,7 +41,7 @@ d)fnc btick2.repository.createRepository
 .repository.createLib:{[repo;libName]
  if[path:repo in key .import.repository.con;path:hsym`$.import.repository.con repo];
  if[()~key path;'`.repository.not.found ];
- newPath:.bt.print["%path%/qlib/%name%"] arg:`name`path`repo!(libName;path;repo);
+ newPath:.bt.print["%path%/qlib/%name%"] arg:`name`path`repo`repo0!(libName;path;"%",repo,"%");
  if[not()~key hsym`$newPath;'`.repository.lib.exists];
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/lib"] .self
  }

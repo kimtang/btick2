@@ -1,4 +1,4 @@
-.import.require`remote
+.import.require`remote;
 
 .bt.add[`.import.init;`.tp.init]{ .remote.add .import.config.tp[`main],`uid`user`passwd!(`tp.main;`ktang;"admin123")}
 

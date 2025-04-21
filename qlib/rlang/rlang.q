@@ -71,10 +71,12 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.con:{distinct `$ ssr[;"`";""] each res where {x like "`*"} res:{raze y vs/:x} over enlist[enlist x]," $(,~=<-)"}
 
-.r.e:{ 
+.r.e:{
  if[not .rlang.calc;:0N!"R turned off"];
  .rlang.Rset t:.rlang.con x;
- .r.r:.rlang.rget0 str:ssr[;"`";""] x;
+ r:.rlang.rget0 str:ssr[;"`";""] x;
+ .r.s:r;
+ .r.r:@[.rlang.get;.r.s;.r.s] ;
  .r.r
  }
 
@@ -92,6 +94,27 @@ d) fnc rlang.rlang.Rset0
              .rlang.conv[sym] x}
 .rlang.frame_[99h]:{(`$x[0]`levels) -1+x 1 }
 .rlang.frame_[0nh]:{x}
+
+
+.rlang.t:`data.frame`Date`yearweek`yearmonth
+.rlang.t0:()!()
+.rlang.t0[`Date]:{[x] `date$x[1]-10957 }
+.rlang.t0[`yearweek]:{[x] `date$x[1]-10957 }
+.rlang.t0[`yearmonth]:{[x] `date$x[1]-10957 }
+
+/ .rlang.t0[`levels]:{ syms: `$x . 0 0; :syms x[1] - 1 }
+.rlang.t0[`string]:{ `$x }
+
+.rlang.t0[`data.frame]:{[x]
+ c:`$x[0]`names;
+ flip c!.rlang.get @'x[1]
+ }
+
+.rlang.get:{[x] if[not (0h=type x) & 2=count x;:x];if[not 99h=type x 0;:x];
+ c:(),`$(x0:x 0)`class; c:first c where c in .rlang.t;
+ .rlang.t0[c] x
+ }
+
 
 .rlang.Rts:{@[.rlang.rcmd;"try(system('dir', intern = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE))";()]};
 

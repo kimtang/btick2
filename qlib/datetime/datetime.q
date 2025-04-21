@@ -9,7 +9,7 @@ d)lib btick2.datetime
 
 d)fnc btick2.datetime.summary 
  Give a summary of this function
- q) datetime.summary[] 
+ q) .datetime.summary[] 
 
 .datetime.week:{(`s#0 1 2 3 4 5 6!`sat`sun`mon`tue`wed`thu`fri) x mod 7 }
 
@@ -31,11 +31,11 @@ d) fnc btick2.datetime.getYearEnd
  q) 2022.12.01 2022.01.01 ~ .datetime.getYearEnd x:2022.02.01 2022.02.01
 
 
-.datetime.getSeason:{[x] (til[12]! 1 rotate raze 3#/:`winter`spring`summer`autum )x mod 12}
+.datetime.getSeason:{[x]if[14h=abs type x;x:`month$x]; (til[12]! 1 rotate raze 3#/:`winter`spring`summer`autum )x mod 12}
 
 d) fnc btick2.datetime.getSeason
  Function to get the start of the year
- q) 2022.12.01 2022.01.01 ~ .datetime.getSeason x:2022.02.01 2022.02.01
+ q) 2022.12.01 2022.01.01 ~ .datetime.getSeason 2022.02.01 2022.02.01
 
 
 .datetime.eomonth:{[x] -1+`date$1+`month$x }

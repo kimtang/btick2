@@ -7,7 +7,6 @@ d)lib btick2.bt
 / timer functions
 tme:enlist`id`fnc`arg`res`scheduleAt`runAt!(0;{};{};{};0np;.z.P)
 ts:{
-  .kmp:x;
   if[-11h=type x;runId:exec id from `.bt.tme where not null scheduleAt, null runAt,x=arg[;0];];
   if[not -11h=type x;runId:exec id from`.bt.tme where scheduleAt<=.z.P ,null runAt;];  
   / dirty hack to avoid :noamend error  

@@ -5,7 +5,7 @@ d)lib btick2.tp
  q).import.module`btick2.tp
  q).import.module"%btick2%/qlib/tp/tp.q"
 
-.import.require`hopen
+.import.require`hopen;
 
 .tp.summary:{} 
 
@@ -22,14 +22,14 @@ d)fnc tp.tp.summary
 .t.topic:`qexcel
 
 .tp.pub:{[topic0;data]
- hdls:exec hdl from .tp.con where topic=topic0,null ftime;
+ hdls:exec hdl from .tp.con where (topic=topic0) or null topic,null ftime;
  -25!enlist[hdls;] ("upd";topic0;data)
  }
 
 .t.e:{[x] .tp.pub[.t.topic;]  .t.r:0 x; .t.r}
 
 / 
-
+.tp.con
 t) ([]t:2 2 3;b: 4 5 10;c:1 2 3;d: 4 5 8)
 t) 1!([]a:1 2 4;b: 4 5 10;c:1 2 3;d: 4 5 8)
 t) 1!([]a:1 2 4;b: 4 5 10;c:1 2 3;d: 4 5 9)

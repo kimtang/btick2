@@ -55,8 +55,8 @@ d)fnc qtx.qtx.module
 
 .qtx.testSuiter:{[uid;metaData;desc0;tail]
  r:.qtx.testSuite[uid;metaData;desc0;tail];
- .qtx.execute r;
- .qtx.rsummary[]
+ .qtx.rsummary0 .qtx.execute[ r] lj 1!r
+ // .qtx.rsummary[]
  }
 
 .qtx.testSuite:{[uid;metaData;desc0;tail]
@@ -154,23 +154,24 @@ d)fnc qtx.qtx.module
   (`sha`auid`stime`etime`dtime`error`result`arg`body`pass!(sha;auid;stime;etime;etime - stime;r`error;r`result;arg;fnc;null r`error)),.Q.w[]
  }
 
-/ con0:first 0!`uid xgroup update sha from con
-
 .qtx.execute1:{[con0]
   con0:flip con0;m:con0 0;arg:raze m`testCase_argument`argument;r:();
-  if[not (::)~fnc:m`before;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`before];fnc;arg]; if[(not null s`error) & 99h=type s`result;arg:s[`result],arg;];];  
-  r:r,raze .qtx.execute2[;arg]@'0!`uid`testCase_uid xgroup update sha from con0;
-  if[not (::)~fnc:m`after;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`after];fnc;arg]; if[(not null s`error) & 99h=type s`result;arg:s[`result],arg;];]; 
+  if[not (::)~fnc:m`before;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`before];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg;];];
+  r:r,raze first @'t:.qtx.execute2[;arg]@'0!`uid`testCase_uid xgroup update sha from con0;
+  arg:arg,raze t[;1];
+  if[not (::)~fnc:m`after;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`after];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg;];]; 
   r 
  }
 
 
 .qtx.execute2:{[con1;arg]
   con1:flip con1;m:con1 0;r:();
-  if[not (::)~fnc:m`testCase_before;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_before];fnc;arg]; if[(not null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];  
-  r:r,first {[x;y] r:.qtx.should_[y;arg:x 1];if[(99h=type r`result) & r`pass;arg:r[`result],arg]; :(x[0],enlist r;arg)  } over (enlist[(();arg)]),con1;
-  if[not (::)~fnc:m`testCase_after;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_after];fnc;arg]; if[(not null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];
-  r
+  if[not (::)~fnc:m`testCase_before;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_before];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];  
+  r:r,first t:{[x;y] r:.qtx.should_[y;arg:x 1];if[(99h=type r`result) & r`pass;
+      arg:r[`result],arg]; :(x[0],enlist r;arg)  } over (enlist[(();arg)]),con1;
+  arg:arg,t 1;
+  if[not (::)~fnc:m`testCase_after;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_after];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];
+  :(r;arg)
  } 
 
 .qtx.should_:{[con2;arg]
@@ -211,6 +212,7 @@ d)fnc qtx.qtx.module
  stime:.z.P;test:con2`testCase_test_data;
  r:.[{[fnc;arg] `result`error!(.bt.execute[fnc]arg ;`) };(fnc:test`fnc;arg);{`result`error!(();`$x)}];
  etime:.z.P;
+ if[(null r`error) and not -1h=type r`result;r[`error]:`wrong_type];
  m:(`sha`auid`stime`etime`dtime`error`result`arg`body`pass!(con2`sha;con2`auid;stime;etime;etime - stime;r`error;r`result;arg .bt.getArg fnc;fnc;0b)),.Q.w[];  
  if[null r`error;m:@[m;`pass;:;] r`result];
  m
@@ -232,8 +234,10 @@ d)fnc qtx.qtx.module
  }
 
 
-.qtx.rsummary0:{[con] `stime xdesc select cnt:count i,pass:sum pass,ratio:(sum pass)%count i,stime:min stime,dtime:sum dtime by sha,uid:auid^uid from con}
+.qtx.rsummary0:{[con] `stime xdesc select cnt:count i,pass:sum pass,pass_ratio:(sum pass)%count i,stime:min stime,dtime:sum dtime by sha,uid:auid^uid from con}
 
 .qtx.rsummary:{.qtx.rsummary0 .qtx.res lj .qtx.con}
 
 /
+
+.qtx.rsummary[]

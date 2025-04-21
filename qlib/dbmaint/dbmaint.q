@@ -9,7 +9,7 @@ d)lib btick2.dbmaint
 
 d)fnc btick2.dbmaint.summary 
  Give a summary of this function
- q) dbmaint.summary[] 
+ q) .dbmaint.summary[] 
 
 
 .dbmaint.ls0:{[arg;n]
@@ -39,7 +39,7 @@ d)fnc btick2.dbmaint.ls
  if[10h=abs type arg;arg:`$arg];
  if[11h=type arg;arg:`$"/"sv {(),x}@'string arg];
  if[not ":"=first string arg;arg:hsym arg];
- arg 0:enlist""
+ arg 0: ()
  }
 
 d)fnc btick2.dbmaint.touch 

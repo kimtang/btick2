@@ -215,7 +215,7 @@ d) fnc btick2.util.genTmpFolder
  q) .util.genTmpFolder .bt.md[`uid] "asdwerfd" / you can also provide your own uid
 
 
-.util.windowSize:{ lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
+.util.windowSize:{ reverse lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
 
 d) fnc btick2.util.windowSize
  Function to get windows size

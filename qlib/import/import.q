@@ -140,7 +140,7 @@ d)fnc btick2.import.require
    b:{x[;0]!x}value group sums neg[b] + 1+ a:"d)"~/:2#/:src;
    {get "\n" sv x}@'src b where a;    
   }@'exec fullPath from allFiles where fullPath like "*.q";
-  :select from .doc.conLib where repo =x 
+  :`repo`lib xasc select from .doc.conLib where repo =x 
  }
 
 d)fnc btick2.import.summary 
