@@ -1,0 +1,32 @@
+e	nme
+a!b	ExclamationMark
+a#b	Number
+a$b	Dollar
+a%b	Procenttecken
+a&b	Ampersand
+a+'b	SingleQuote
+a*b	Multiply
+a+b	Plus
+a,b	Comma
+a-b	Hyphen
+a . b	Dot
+a+/b	Slash
+a:b	Colon
+a<b	LessThan
+a=b	Equals
+a>b	GreaterThan
+a?b	QuestionMark
+a@b	At
+a^b	Caret
+a _ b	Underscore
+a|b	VerticalBar
+a~b	Tilde
+a+/:b	EachRight
+a+\:b	EachLeft
+a+':b	EachPrior
+a::b	GenericNull
+enlist a	Enlist
+log a	Log
+sin a	Sin
+exp a	Exp
+xexp a	Xexp
