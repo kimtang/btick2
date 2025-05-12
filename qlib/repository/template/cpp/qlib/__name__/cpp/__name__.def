@@ -1,0 +1,12 @@
+EXPORTS
+	%name%_api_xn ; 1
+	%name%_api_xt ; 1
+	%name%_api_xp ; 1
+	%name%_api_dot ; 2
+	%name%_api_boolean_a ; 1
+	%name%_api_boolean_r ; 1
+	%name%_api_boolean_v ; 1
+	%name%_api_list_r ; 1
+	%name%_api_list_v ; 1
+	%name%_api_dict_k ; 1
+	%name%_api_dict_v ; 1

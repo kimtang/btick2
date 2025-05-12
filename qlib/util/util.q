@@ -220,3 +220,25 @@ d) fnc btick2.util.genTmpFolder
 d) fnc btick2.util.windowSize
  Function to get windows size
  q) .util.windowSize[] \ set random seed
+
+
+.util.pcmd:{[x] a1:`;a2:`;x:first r:"||" vs x;
+ if[2=count r;
+  s:"~~" vs r 1;
+  a1:`$s 0;
+  if[2=count s;a2:`$s 1];
+ ];
+ s:"~~" vs x;
+ if[2=count s; a2:`$s 1];
+ `cmd`a1`a2!(s 0;a1;a2)   
+ }
+
+d) fnc btick2.util.pcmd
+ Function to parse command in embedded language
+ q) .util.pcmd "str " 
+ q) .util.pcmd "str || a1 " 
+ q) .util.pcmd "str || a1 ~~  a2" 
+ q) .util.pcmd "str || ~~  a2" 
+
+
+

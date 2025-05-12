@@ -71,12 +71,55 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.con:{distinct `$ ssr[;"`";""] each res where {x like "`*"} res:{raze y vs/:x} over enlist[enlist x]," $(,~=<-)"}
 
+(::).r.cmd0:()!()
+
+.r.cmd0[`]:{[a]
+ .rlang.Rset t:.rlang.con cmd:a`cmd; 
+ r:.rlang.rget0 str:ssr[;"`";""] cmd;
+ r
+ }
+
+.r.cmd0[`print]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
+.r.cmd0[`view]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["View(%cmd%)"]a}
+.r.cmd0[`plot]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
+.r.cmd0[`ggsave]:{[a]
+ if[()~key `:pics;`:pics/dontcare.txt 0: ();hdel `:pics/dontcare.txt];
+ a2:(1#`filename)!enlist path:`$.bt.print["pics/%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key`:pics;
+ k:`filename`width`height`units`pointsize`bg!("\"%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
+ if[not null a`a2;tmp:value string a`a2;if[99h=type tmp;if[`filename in key tmp;a2:tmp];];];
+ k0:key[a2] inter key k;
+ cmd:.bt.print["png(%0)"]enlist ","sv k0{string[x],"=",y }'k k0;
+ .rlang.rcmd .bt.print[cmd]a2;
+ .rlang.Rset t:.rlang.con cmd:.bt.print["plot(%cmd%)"]a; 
+ r:.rlang.rget0 str:ssr[;"`";""] cmd;
+ .rlang.rcmd "dev.off()";
+ arg:.bt.md[`arg].bt.print[.bt.print["{%0}"] enlist ", "sv k0{string[x],"=",y }'k k0:k0 except `filename]a2;
+ if[0=count k0;:.bt.print["  /  ![](%filename%){width=480, height=480}"]a2];
+ :.bt.print["  /  ![](%filename%)%arg%"]a2,arg
+ }
+.r.cmd0[`pic]:{[a]
+ if[()~key `:pics;`:pics/dontcare.txt 0: ();hdel `:pics/dontcare.txt];
+ a2:(1#`filename)!enlist path:`$.bt.print["pics/%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key`:pics;
+ k:`filename`width`height`units`pointsize`bg!("\"%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
+ if[not null a`a2;tmp:value string a`a2;if[99h=type tmp;if[`filename in key tmp;a2:tmp];];];
+ k0:key[a2] inter key k;
+ cmd:.bt.print["png(%0)"]enlist ", "sv k0{string[x],"=",y }'k k0;
+ .rlang.rcmd .bt.print[cmd]a2;
+ .rlang.Rset t:.rlang.con cmd:a`cmd; 
+ r:.rlang.rget0 str:ssr[;"`";""] cmd;
+ .rlang.rcmd "dev.off()";
+ arg:.bt.md[`arg].bt.print[.bt.print["{%0}"] enlist ", "sv k0{string[x],"=",y }'k k0:k0 except `filename]a2;
+ if[0=count k0;:.bt.print["  /  ![](%filename%){width=480, height=480}"]a2];
+ :.bt.print["  /  ![](%filename%)%arg%"]a2,arg
+ }
+
+
 .r.e:{
  if[not .rlang.calc;:0N!"R turned off"];
- .rlang.Rset t:.rlang.con x;
- r:.rlang.rget0 str:ssr[;"`";""] x;
+ a:.util.pcmd x;
+ r:.r.cmd0[a`a1]a;
  .r.s:r;
- .r.r:@[.rlang.get;.r.s;.r.s] ;
+ .r.r:@[.rlang.rget;.r.s;.r.s] ;
  .r.r
  }
 
@@ -107,10 +150,10 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.t0[`data.frame]:{[x]
  c:`$x[0]`names;
- flip c!.rlang.get @'x[1]
+ flip c!.rlang.rget @'x[1]
  }
 
-.rlang.get:{[x] if[not (0h=type x) & 2=count x;:x];if[not 99h=type x 0;:x];
+.rlang.rget:{[x] if[not (0h=type x) & 2=count x;:@[`$;x;{[x;y]x}[x]]];if[not 99h=type x 0;:x];
  c:(),`$(x0:x 0)`class; c:first c where c in .rlang.t;
  .rlang.t0[c] x
  }
@@ -118,7 +161,7 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.Rts:{@[.rlang.rcmd;"try(system('dir', intern = FALSE, ignore.stdout = TRUE, ignore.stderr = TRUE))";()]};
 
-.rlang.Rget:{if[-11h=type x;x:string x];x:(),x; .rlang.Rset t:.rlang.con x:$[10h=abs type x;x;string x];.rlang.rget0 ssr[;"`";""] x }
+.rlang.get:{if[-11h=type x;x:string x];x:(),x; .rlang.Rset t:.rlang.con x:$[10h=abs type x;x;string x];.rlang.rget .rlang.rget0 ssr[;"`";""] x }
 
 .rlang.Rframe0:{ [t]
     arg:t 0;

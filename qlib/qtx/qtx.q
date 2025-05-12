@@ -238,6 +238,12 @@ d)fnc qtx.qtx.module
 
 .qtx.rsummary:{.qtx.rsummary0 .qtx.res lj .qtx.con}
 
+.qtx.putArg:{[auid0]
+ t0:first t:`stime xdesc select from .qtx.res where auid=auid0;
+ if[0=count t;:()];
+ .bt.getArg[t0`body] set' t0`arg
+ }
+
 /
 
 .qtx.rsummary[]

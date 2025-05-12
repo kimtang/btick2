@@ -30,7 +30,7 @@ d)fnc btick2.repository.showAllRepository
  }
 
 .repository.createRepository:{[name;path]
- newPath:.bt.print["%path%"] arg:`name`path`name0!(name;path;"%",name,"%");
+ newPath:.bt.print["%path%"] arg:`name`path`name0!(name;path;"%",string[name],"%");
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/repository"] .self
  }
 
@@ -38,10 +38,22 @@ d)fnc btick2.repository.createRepository
  create Repository from template
  q) .repository.createRepository[`mylib;`$":/pathtoFolder"] / show all available modules
 
+
+.repository.createCpp:{[name;path]
+ if[-11h=type path;path:string path];
+ if[":"=first path;path:1_path];
+ newPath:.bt.print["%path%"] arg:`name`path`name0`os0`type0!(name;path;"%",string[name],"%";"%os%";"%type%");
+ .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/cpp"] .self
+ }
+
+d)fnc btick2.repository.createCpp 
+ create Repository from template
+ q) .repository.createCpp[`mylib;`$":/pathtoFolder"] / show all available modules
+
 .repository.createLib:{[repo;libName]
  if[path:repo in key .import.repository.con;path:hsym`$.import.repository.con repo];
  if[()~key path;'`.repository.not.found ];
- newPath:.bt.print["%path%/qlib/%name%"] arg:`name`path`repo`repo0!(libName;path;"%",repo,"%");
+ newPath:.bt.print["%path%/qlib/%name%"] arg:`name`path`repo`repo0!(libName;path;repo;"%",string[repo],"%");
  if[not()~key hsym`$newPath;'`.repository.lib.exists];
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/lib"] .self
  }

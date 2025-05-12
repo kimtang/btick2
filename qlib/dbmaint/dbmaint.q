@@ -312,18 +312,18 @@ d)fnc btick2.dbmaint.cp
 
 d)fnc btick2.dbmaint.save 
  Unix tail0 funtion
- q) (::)data:trade:`date`sym`time xasc([]date:10?.z.D + til 3; time:10?.z.T;sym:10?`aaa`bbb`ccc;prx:10?100.0;qty:10?100)
- q) (::)arg:`dir`tblName`symFile`gz!`db1`trade`sym,enlist 17 0 6
+ q) data:trade:`date`sym`time xasc([]date:10?.z.D + til 3; time:10?.z.T;sym:10?`aaa`bbb`ccc;prx:10?100.0;qty:10?100)
+ q) arg:`dir`tblName`symFile`gz!`db1`trade`sym,enlist 17 0 6
  q) arg:arg,.bt.md[`storage]`type`mode`partitionCol`partAttrCol`sortCol!`partition`auto`date`sym`time    / partition
  q) .dbmaint.save[arg]data
- q) (::)arg:`dir`tblName`symFile`gz!`:db2`trade`sym,enlist 17 0 6
+ q) arg:`dir`tblName`symFile`gz!`:db2`trade`sym,enlist 17 0 6
  q) arg:arg,.bt.md[`storage] storage:`type`mode`partitionCol`partAttrCol`sortCol!`splay`auto`date`sym`time      / splayed
  q) .dbmaint.save[arg]data
- q) (::)arg:`dir`tblName`symFile`gz!`:db3`obk`sym,enlist 17 0 6
+ q) arg:`dir`tblName`symFile`gz!`:db3`obk`sym,enlist 17 0 6
  q) arg:arg,.bt.md[`storage] storage:`type`mode`partAttrCol`sortCol!`flat`auto`sym`time                           / flat
  q) .dbmaint.save[arg]data
- q) (::)arg:`dir`tblName`symFile`gz!`:db1`trade`sym,enlist 17 0 6
- q) (::)arg:arg,.bt.md[`storage]storage:`type`mode`dir`partitionCol`partAttrCol`sortCol!`par`auto`:db2`date`sym`time / par
+ q) arg:`dir`tblName`symFile`gz!`:db1`trade`sym,enlist 17 0 6
+ q) arg:arg,.bt.md[`storage]storage:`type`mode`dir`partitionCol`partAttrCol`sortCol!`par`auto`:db2`date`sym`time / par
  q) .dbmaint.save[arg]data
 
 
