@@ -8,7 +8,7 @@ d)lib btick2.proto
 .proto.summary:{} 
 .import.module "%btick2%/qlib/proto/unparse.q";
 
-.proto.operator0:1!update tipe:type@'e,fnc:e from update e:(first first parse@)@'e from flip`e`nme!flip 2 cut ("a!b";`ExclamationMark;"a#b";`Number;"a$b";`Dollar;"a%b";`Procenttecken;"a&b";`Ampersand;"a+'b";`SingleQuote;"a*b";`Multiply;"a+b";`Plus;"a,b";`Comma;"a-b";`Hyphen;"a . b";`Dot;"a+/b";`Slash;"a:b";`Colon;"a<b";`LessThan;"a=b";`Equals;"a>b";`GreaterThan;"a?b";`QuestionMark;"a@b";`At;"a^b";`Caret;"a _ b";`Underscore;"a|b";`VerticalBar;"a~b";`Tilde;"a+/:b";`EachRight;"a+\\:b";`EachLeft;"a+':b";`EachPrior;"a::b";`GenericNull;"enlist a";`Enlist;"flip a";`Flip)
+.proto.operator0:1!update tipe:type@'e,fnc:e from update e:{first first .[parse;enlist x;x]}@'e from ("*s";"\t ") 0: `$.import.cpath ":%btick2%/qlib/proto/proto.csv"
 
 .proto.operator0,:`e`nme`tipe`fnc!(`Return;`Return;-11h;::);
 
@@ -20,7 +20,10 @@ d)lib btick2.proto
 .proto.tree:{{select ind:ind[;0],p:p[;0],e:{$[1=count x;first x;x]}@'e from`g xgroup update g:@[ind;where p=max p;:;max p]from x}/[x] . 0,`e}
 
 .proto.addg:{[u] update g:@[ind;where p=max p;:;max p]from u}
-.proto.adata:{[u;data] 1_update e:data e from (enlist`ind`p`e`g!(-1;-1;::;-1)),.proto.addg u where not prev(:)~'e,g = max g,{$[x;y;z]}'[-11h=type@'e;e;`]in\:key data }
+.proto.adata:{[u;data]
+ tmp:(enlist`ind`p`e`g!(-1;-1;::;-1)),.proto.addg u;
+ 1_update e:data e from tmp where -11h=type@'e,e in\:key data
+ }
 .proto.adefine:{[k;f;op] ((enlist k)!enlist f),op}
 
 .proto.atom:{[u;a]a:{x["j"$type y;`fnc] y} .proto.atom0 lj ([tipe:key a]fnc:value a);
@@ -31,8 +34,11 @@ d)lib btick2.proto
 
 .proto.operator:{[u;o]
  o:{if[not y in (0!.proto.operator0)`e;:y ] ;x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
- update e:o@'e from u where g = max g,99h<type@'e
+ update e:o@'e from u where 99h<type@'e
  }
+
+
+
 
 .proto.udata:{[o;data;e;r]o:(`nme xkey .proto.operator0 lj([nme:key o]fnc:value o)) ;if[not o[`Colon;`fnc]~e 0;:data];data[e 1]:r;data}
 
@@ -57,7 +63,7 @@ d)lib btick2.proto
  exn:.proto.untree@'$[";"~first exn ;1 _;enlist[(+;0;1);]] exn:parse exn;
  exn:{update e:first each e from x where ((0h=type@'e) and (1={@[count;x;0]}@'e) and (11h=abs {type first x}@'e)) or (11h=type@'e) and 1=count@'e } @'exn;
  l:enlist[data] , -1_exn;
- data:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x;y)] `data}[a;o]/[l];
+ data:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x;y)] `data}[a;()!()]/[l];
  res:.proto.s[a;o]/[`u`data!(last exn;data )] [`u;0;`e];
  o:{x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
  o[`Return] res
@@ -74,6 +80,8 @@ d)lib btick2.proto
 
 .proto.proto:{[a;o;f]d:.proto.getb[f],`a`o!(a;o);.proto.proto0[count d`arg][d]  }
 .proto.prote:{[a;o;exn]d:`arg`exn`a`o!(1#`x;exn;a;o);.proto.proto0[count d`arg][d]  }
+
+.proto.nil:()!()
 
 d) fnc proto.proto.proto
  Add logging
