@@ -34,7 +34,7 @@ d)lib btick2.proto
 
 .proto.operator:{[u;o]
  o:{if[not y in (0!.proto.operator0)`e;:y ] ;x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
- u:update e0:e from u;
+ // u:update e0:e from u;
  update e:o@'e from u where 99h<type@'e
  }
 
