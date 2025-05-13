@@ -61,10 +61,12 @@ d)lib btick2.proto
 .proto.getb:{exn:-1 _ 1 _ last f:get x;exn:$["["~exn 0;(1+first where "]"=exn) _ exn;exn]; `arg`exn!(f 1;exn)}
 
 .proto.proto_:{[a;o;exn;data]
- exn:.proto.untree@'$[";"~first exn ;1 _;enlist[(+;0;1);]] exn:parse exn;
+ exn:parse exn;
+ exn:$[";"~exn 0;1_exn;enlist exn];
+ exn:.proto.untree@'exn;
  exn:{update e:first each e from x where ((0h=type@'e) and (1={@[count;x;0]}@'e) and (11h=abs {type first x}@'e)) or (11h=type@'e) and 1=count@'e } @'exn;
  l:enlist[data] , -1_exn;
- data:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x;y)] `data}[a;()!()]/[l];
+ data:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x;y)] `data}[a;o]/[l];
  res:.proto.s[a;o]/[`u`data!(last exn;data )] [`u;0;`e];
  o:{x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
  o[`Return] res
