@@ -27,7 +27,7 @@ d)lib btick2.proto
 .proto.adefine:{[k;f;op] ((enlist k)!enlist f),op}
 
 .proto.atom:{[u;a]a:{x["j"$type y;`fnc] y} .proto.atom0 lj ([tipe:key a]fnc:value a);
- update e:a@'e from u where g = max g,100h>type@'e
+ update e:a@'e from u where 100h>type@'e
  }
 
 .proto.odefine:{[k;f;op] ((enlist k)!enlist f),op}
@@ -48,8 +48,8 @@ d)lib btick2.proto
 .proto.eval0:{[e]if[1=count e;:first e];.proto.eval1 e}
 
 .proto.s:{[a;o;x]data:x`data;u:x`u;
- u0:.proto.adata[u]data;
- u1:.proto.atom[u0;a];
+ u0:.proto.atom[u;a];
+ u1:.proto.adata[u0]data;
  u2:.proto.operator[u1;o];
  e:(`g xgroup u2)[p0:max u2`p;`e];
  r:.proto.eval0 e;
