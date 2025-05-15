@@ -65,9 +65,9 @@ d)lib btick2.proto
  exn:$[";"~exn 0;1_exn;enlist exn];
  exn:.proto.untree@'exn;
  exn:{update e:first each e from x where ((0h=type@'e) and (1={@[count;x;0]}@'e) and (11h=abs {type first x}@'e)) or (11h=type@'e) and 1=count@'e } @'exn;
- l:enlist[data] , -1_exn;
- data:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x;y)] `data}[a;o]/[l];
- res:.proto.s[a;o]/[`u`data!(last exn;data )] [`u;0;`e];
+ l:enlist[(enlist`data)!enlist data] , exn;
+ r0:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x`data;y)] }[a;o]/[l];
+ res:r0[`u;0;`e];
  o:{x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
  o[`Return] res
  }

@@ -29,4 +29,4 @@ enlist a	Enlist
 log a	Log
 sin a	Sin
 exp a	Exp
-xexp a	Xexp
+a xexp b	Xexp
