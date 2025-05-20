@@ -222,7 +222,7 @@ d)fnc qtx.qtx.module
  stime:.z.P;test:con2`testCase_test_data;
  r:.[{[fnc;arg] `result`error!(.bt.execute[fnc]arg ;`) };(fnc:test`fnc;arg);{`result`error!(();`$x)}];
  etime:.z.P;
- m:(`sha`auid`stime`etime`error`dtime`result`arg`body`pass!(con2`sha;con2`auid;stime;etime;etime - stime;r`error;r`result;arg;fnc;0b)),.Q.w[];  
+ m:(`sha`auid`stime`etime`error`dtime`result`arg`body`pass!(con2`sha;con2`auid;stime;etime;r`error;etime - stime;r`result;arg;fnc;0b)),.Q.w[];
  if[null r`error;
   dataPath:.import.cpath test`dataPath;
   if[not":"=dataPath 0;dataPath:":",dataPath;];

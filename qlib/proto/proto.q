@@ -38,16 +38,15 @@ d)lib btick2.proto
  update e:o@'e from u where 99h<type@'e
  }
 
-
-
-
 .proto.udata:{[o;data;e;r]o:(`nme xkey .proto.operator0 lj([nme:key o]fnc:value o)) ;if[not o[`Colon;`fnc]~e 0;:data];data[e 1]:r;data}
 
 .proto.eval1:{[x] 0 x }
 
 .proto.eval0:{[e]if[1=count e;:first e];.proto.eval1 e}
 
-.proto.s:{[a;o;x]data:x`data;u:x`u;
+.proto.s:{[a;o;x]
+ data:x`data;u:x`u;proj:x`proj;
+ u:.proto.adata[u;proj];
  u0:.proto.atom[u;a];
  u1:.proto.adata[u0]data;
  u2:.proto.operator[u1;o];
@@ -56,30 +55,45 @@ d)lib btick2.proto
  data:.proto.udata[o;data;e;r];
  u:update ind:ind[;0],p:p[;0],e:e[;0] from `g xgroup u2;
  u:delete g from update e:enlist r from u where g = p0;
- `u`data!(u;data)}
+ `u`data`proj!(u;data;proj)}
 
-.proto.getb:{exn:-1 _ 1 _ last f:get x;exn:$["["~exn 0;(1+first where "]"=exn) _ exn;exn]; `arg`exn!(f 1;exn)}
+.proto.getb0:{[f]
+ exn:-1 _ 1 _ last f;
+ exn:$["["~exn 0;(1+first where "]"=exn) _ exn;exn];
+ `arg`exn`proj!(f 1;exn;()!())
+ }
 
-.proto.proto_:{[a;o;exn;data]
+.proto.getb:{
+ f0:get x;
+ if[4h=type first f0;:.proto.getb0 f0];
+ r:.proto.getb0 get f0 0;
+ proj:r[`arg]!count[r`arg]#(1_f0),count[r`arg]#(::);
+ proj:(where {not x~(::)}@'proj)#proj;
+ r:@[r;`proj;:;proj];
+ r:@[r;`arg;{x except y};]key proj;
+ r
+ }
+
+.proto.proto_:{[a;o;exn;data;proj]
  exn:parse exn;
  exn:$[";"~exn 0;1_exn;enlist exn];
  exn:.proto.untree@'exn;
  exn:{update e:first each e from x where ((0h=type@'e) and (1={@[count;x;0]}@'e) and (11h=abs {type first x}@'e)) or (11h=type@'e) and 1=count@'e } @'exn;
- l:enlist[(enlist`data)!enlist data] , exn;
- r0:{[a;o;x;y] .proto.s[a;o]/[`data`u!(x`data;y)] }[a;o]/[l];
+ l:enlist[`data`proj!(data;proj)] , exn;
+ r0:{[a;o;x;y] .proto.s[a;o]/[`proj`data`u!(x`proj;x`data;y)] }[a;o]/[l];
  res:r0[`u;0;`e];
  o:{x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
  o[`Return] res
  }
 
 .proto.proto0:()!()
-.proto.proto0[1]:{[d;x0]data:((::),d[`arg])!(::;x0);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[2]:{[d;x0;x1]data:((::),d[`arg])!(::;x0;x1);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[3]:{[d;x0;x1;x2]data:((::),d[`arg])!(::;x0;x1;x2);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[4]:{[d;x0;x1;x2;x3]data:((::),d[`arg])!(::;x0;x1;x2;x3);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[5]:{[d;x0;x1;x2;x3;x4]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[6]:{[d;x0;x1;x2;x3;x4;x5]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5);.proto.proto_[d`a;d`o;d`exn;data]}
-.proto.proto0[7]:{[d;x0;x1;x2;x3;x4;x5;x6]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5;x6);.proto.proto_[d`a;d`o;d`exn;data]}
+.proto.proto0[1]:{[d;x0]data:((::),d[`arg])!(::;x0);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[2]:{[d;x0;x1]data:((::),d[`arg])!(::;x0;x1);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[3]:{[d;x0;x1;x2]data:((::),d[`arg])!(::;x0;x1;x2);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[4]:{[d;x0;x1;x2;x3]data:((::),d[`arg])!(::;x0;x1;x2;x3);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[5]:{[d;x0;x1;x2;x3;x4]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[6]:{[d;x0;x1;x2;x3;x4;x5]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[7]:{[d;x0;x1;x2;x3;x4;x5;x6]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5;x6);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
 
 .proto.proto:{[a;o;f]d:.proto.getb[f],`a`o!(a;o);.proto.proto0[count d`arg][d]  }
 .proto.prote:{[a;o;exn]d:`arg`exn`a`o!(1#`x;exn;a;o);.proto.proto0[count d`arg][d]  }
