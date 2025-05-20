@@ -28,5 +28,6 @@ a::b	GenericNull
 enlist a	Enlist
 log a	Log
 sin a	Sin
+cos a	Cos
 exp a	Exp
 a xexp b	Xexp
