@@ -20,17 +20,17 @@
       .proto.odefine[`Xexp;{[x;y] enlist[x[0] xexp y[0];] x[1] *y[0]* x[0] xexp -1+y[0] }]
       .proto.nil;  
       a:{[x;y] y x } over enlist[ .proto.nil], .proto.adefine[;{(x;0f)}]@' `float`long`int`real;
-      `a`o`g!enlist[a;o;]{[x1;x2] ((x1*x2) + log x1) - sin x2  }
+      `a`o`g!enlist[a;o;]{[x1;x2] ((x1*x2) + log x1) - sin x2}
       }]
     .qtx.shouldData[`0;"test .proto.getb";"%btick2%/qlib/proto/testData/proto2/0";{[g]
       .proto.getb g
       }]
 
-    .qtx.shouldData[`1;"test .proto.getb";"%btick2%/qlib/proto/testData/proto2/1";{
+    .qtx.shouldData[`1;"test .proto.getb";"%btick2%/qlib/proto/testData/proto2/1";{[g]
       .proto.getb g[1]
       }]
 
-    .qtx.shouldData[`2;"test .proto.getb";"%btick2%/qlib/proto/testData/proto2/2";{
+    .qtx.shouldData[`2;"test .proto.getb";"%btick2%/qlib/proto/testData/proto2/2";{[g]
       .proto.getb g[;2]
       }]
 
@@ -48,6 +48,7 @@
       df:.proto.proto[a;o;g[;2]];
       df[(1;1)]
       }]
+    .qtx.shouldTrue[`5;"test .proto.proto";{1b}]
 
     .qtx.after[{}]
     .qtx.nil

@@ -7,7 +7,14 @@ args:.Q.def[`name`port!("9_allTest.q";9018);].Q.opt .z.x
 \l qlib.q
 
 .import.require`qtx.watchTest`remote;
-.watchTest.start`proto;
+.watchTest.start`proto`adf;
+
+/ "b" .bt.print["start cmd %btick2%/src/qlib/qtx/allTest/alltest.xlsx"] .import.repository.con
+
+
+
+/
+
 
 (::)o:.proto.odefine[`Plus;{[x;y](x[0]+y[0];x[1]+y[1])}]
   .proto.odefine[`Hyphen;{[x;y](x[0]-y[0];x[1]-y[1])}]
