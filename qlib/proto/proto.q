@@ -15,7 +15,7 @@ d)lib btick2.proto
 .proto.atom0:1!update fnc:(::) from{`num xasc x,update num:abs num,tipe:`${(upper x[0]),1_x}@'string tipe from x} {select from x where not null tipe} update tipe:{ @[{ key x$() };x;`] }each "h"$abs num from ([]num:neg til 20)
 
 
-.proto.untree:{{update ind:i,p:(ind!i) p from raze {if[1=count x`e;:enlist x];if[100h>type first x`e;:enlist x]; update p:(p[0],1 _ ind) from ungroup enlist x} @'x}/[([]ind:til count x;p:0;e:x)]}
+.proto.untree:{{update ind:i,p:(ind!i) p from raze {if[1=count x`e;:enlist x];if[(not -11h=t) and 100h>t:type first x`e;:enlist x]; update p:(p[0],1 _ ind) from ungroup enlist x} @'x}/[([]ind:til count x;p:0;e:x)]}
 
 .proto.tree:{{select ind:ind[;0],p:p[;0],e:{$[1=count x;first x;x]}@'e from`g xgroup update g:@[ind;where p=max p;:;max p]from x}/[x] . 0,`e}
 
@@ -33,9 +33,10 @@ d)lib btick2.proto
 .proto.odefine:{[k;f;op] ((enlist k)!enlist f),op}
 
 .proto.operator:{[u;o]
- o:{if[not y in (0!.proto.operator0)`e;:y ] ;x[y;`fnc]} .proto.operator0 lj ([nme:key o]fnc:value o);
- // u:update e0:e from u;
- update e:o@'e from u where 99h<type@'e
+ tmp:.proto.operator0 lj t:([nme:key o]fnc:value o);
+ tmp:tmp,1!select e:nme,nme,tipe:-11h,fnc from t where not nme in exec nme from .proto.operator0; 
+ o:{if[not y in (0!x)`e;:y ] ;x[y;`fnc]} tmp;
+ update e:o@'e from u where (99h<type@'e) or -11h=type@'e 
  }
 
 .proto.udata:{[o;data;e;r]o:(`nme xkey .proto.operator0 lj([nme:key o]fnc:value o)) ;if[not o[`Colon;`fnc]~e 0;:data];data[e 1]:r;data}
@@ -74,11 +75,15 @@ d)lib btick2.proto
  r
  }
 
-.proto.proto_:{[a;o;exn;data;proj]
+.proto.exn:{[exn]
  exn:parse exn;
  exn:$[";"~exn 0;1_exn;enlist exn];
  exn:.proto.untree@'exn;
  exn:{update e:first each e from x where ((0h=type@'e) and (1={@[count;x;0]}@'e) and (11h=abs {type first x}@'e)) or (11h=type@'e) and 1=count@'e } @'exn;
+ exn	
+ };
+
+.proto.proto_:{[a;o;exn;data;proj]
  l:enlist[`data`proj!(data;proj)] , exn;
  r0:{[a;o;x;y] .proto.s[a;o]/[`proj`data`u!(x`proj;x`data;y)] }[a;o]/[l];
  res:r0[`u;0;`e];
@@ -87,13 +92,13 @@ d)lib btick2.proto
  }
 
 .proto.proto0:()!()
-.proto.proto0[1]:{[d;x0]data:((::),d[`arg])!(::;x0);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[2]:{[d;x0;x1]data:((::),d[`arg])!(::;x0;x1);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[3]:{[d;x0;x1;x2]data:((::),d[`arg])!(::;x0;x1;x2);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[4]:{[d;x0;x1;x2;x3]data:((::),d[`arg])!(::;x0;x1;x2;x3);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[5]:{[d;x0;x1;x2;x3;x4]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[6]:{[d;x0;x1;x2;x3;x4;x5]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
-.proto.proto0[7]:{[d;x0;x1;x2;x3;x4;x5;x6]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5;x6);.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[1]:{[d;x0]data:((::),d[`arg])!(::;x0);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[2]:{[d;x0;x1]data:((::),d[`arg])!(::;x0;x1);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[3]:{[d;x0;x1;x2]data:((::),d[`arg])!(::;x0;x1;x2);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[4]:{[d;x0;x1;x2;x3]data:((::),d[`arg])!(::;x0;x1;x2;x3);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[5]:{[d;x0;x1;x2;x3;x4]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[6]:{[d;x0;x1;x2;x3;x4;x5]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
+.proto.proto0[7]:{[d;x0;x1;x2;x3;x4;x5;x6]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5;x6);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
 
 .proto.proto:{[a;o;f]d:.proto.getb[f],`a`o!(a;o);.proto.proto0[count d`arg][d]  }
 .proto.prote:{[a;o;exn]d:`arg`exn`a`o!(1#`x;exn;a;o);.proto.proto0[count d`arg][d]  }
