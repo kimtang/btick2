@@ -315,7 +315,7 @@ d) fnc remote.remote.fdeepDuplicate
  q) .remote.fdeepDuplicate[`fixed.proc] `.bt.action
 
 
-.remote.trace.con :flip `bseq`eseq`name`zw`st`et`dt`error`arg`result`body!()
+.remote.trace.con:1#flip `bseq`eseq`name`zw`st`et`dt`error`arg`result`body!"jjsippns***"$\:()
 .remote.trace.con1:1!flip `name`body`nbody!()
 .remote.trace.seq:0
 
