@@ -30,4 +30,5 @@ log a	Log
 sin a	Sin
 cos a	Cos
 exp a	Exp
+sqrt a	Sqrt
 a xexp b	Xexp
