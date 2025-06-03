@@ -104,9 +104,11 @@ d)lib btick2.proto
 / input:.kmp 0;exn1:.kmp 1
 
 .proto.eval_ast:{[input;exn1]
+ / .kmp:(input;exn1);
  if[`return in key input;:input];
- exn2:update e:{1#x}@'e from exn1 where -11h = type@'e,not e in (.proto.qkey,key input`arg);
+ exn2:update e:{1#x}@'e from exn1 where -11h = type@'e,not e in (.proto.qkey,raze key @'input`arg`proj);
  exn3:update e:input[`arg] e from exn2 where -11h = type@'e,e in key input`arg;
+ exn3:update e:input[`proj] e from exn3 where -11h = type@'e,e in key input`proj; 
  exn4:update e:input[`index] ind from exn3 where ind in key input`index;
  exn5:.proto.atom[exn4;input`a];
  exn6:update nme: (exec e!nme from .proto.operator0)e from exn5;
@@ -151,15 +153,16 @@ d)lib btick2.proto
 .proto.proto0[6]:{[d;x0;x1;x2;x3;x4;x5]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
 .proto.proto0[7]:{[d;x0;x1;x2;x3;x4;x5;x6]data:((::),d[`arg])!(::;x0;x1;x2;x3;x4;x5;x6);d:@[d;`exn;:;.proto.exn d`exn];.proto.proto_[d`a;d`o;d`exn;data;d`proj]}
 
+.proto.targ:{[x] if[not 0=type x;:x]; enlist,.z.s@'x}
 
 .proto.proto1:()!()
-.proto.proto1[1]:{[input;x0] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'enlist x0;.proto.proto0_[input]}
-.proto.proto1[2]:{[input;x0;x1] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1);.proto.proto0_[input]}
-.proto.proto1[3]:{[input;x0;x1;x2] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1;x2);.proto.proto0_[input]}
-.proto.proto1[4]:{[input;x0;x1;x2;x3] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1;x2;x3);.proto.proto0_[input]}
-.proto.proto1[5]:{[input;x0;x1;x2;x3;x4] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1;x2;x3;x4);.proto.proto0_[input]}
-.proto.proto1[6]:{[input;x0;x1;x2;x3;x4;x5] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1;x2;x3;x4;x5);.proto.proto0_[input]}
-.proto.proto1[7]:{[input;x0;x1;x2;x3;x4;x5;x6] input:@[input;`arg;:;] input[`arg]! {if[0=type x;:enlist,x];x}@'(x0;x1;x2;x3;x4;x5;x6);.proto.proto0_[input]}
+.proto.proto1[1]:{[input;x0] input:@[input;`arg;:;] input[`arg]! .proto.targ@' enlist x0;.proto.proto0_[input]}
+.proto.proto1[2]:{[input;x0;x1] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1);.proto.proto0_[input]}
+.proto.proto1[3]:{[input;x0;x1;x2] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2);.proto.proto0_[input]}
+.proto.proto1[4]:{[input;x0;x1;x2;x3] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3);.proto.proto0_[input]}
+.proto.proto1[5]:{[input;x0;x1;x2;x3;x4] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4);.proto.proto0_[input]}
+.proto.proto1[6]:{[input;x0;x1;x2;x3;x4;x5] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4;x5);.proto.proto0_[input]}
+.proto.proto1[7]:{[input;x0;x1;x2;x3;x4;x5;x6] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4;x5;x6);.proto.proto0_[input]}
 
 
 .proto.proto:{[a;o;f]d:.proto.getb[f],`a`o!(a;o);.proto.proto0[count d`arg][d]  }
