@@ -94,8 +94,8 @@ d)lib btick2.proto
 
 .proto.get_path:{[x;y]x0:select from x[0] where ind in y;x:@[x;0;:;select from x[0] where not ind in 1_y];x:@[x;1;:;x[1],enlist x0];x}
 
-.proto.colon1:{[e;s;v] e[s;v]; (1#`colon)!enlist (1#s)!enlist v }
-.proto.colon0:{[s;v] (1#`colon)!enlist(1#s)!enlist v }
+.proto.colon1:{[e;s;v] e[s;v]; (1#`colon)!enlist (1#s)!enlist .proto.targ v }
+.proto.colon0:{[s;v] (1#`colon)!enlist(1#s)!enlist .proto.targ v }
 
 .proto.return1:{[e;v]e v; (1#`return)!enlist v }
 .proto.return0:{[v](1#`return)!enlist v }
@@ -108,7 +108,7 @@ d)lib btick2.proto
  if[`return in key input;:input];
  exn2:update e:{1#x}@'e from exn1 where -11h = type@'e,not e in (.proto.qkey,raze key @'input`arg`proj);
  exn3:update e:input[`arg] e from exn2 where -11h = type@'e,e in key input`arg;
- exn3:update e:input[`proj] e from exn3 where -11h = type@'e,e in key input`proj; 
+ exn3:update e:input[`proj] e from exn3 where -11h = type@'e,e in key input`proj;
  exn4:update e:input[`index] ind from exn3 where ind in key input`index;
  exn5:.proto.atom[exn4;input`a];
  exn6:update nme: (exec e!nme from .proto.operator0)e from exn5;
@@ -137,7 +137,8 @@ d)lib btick2.proto
 
 
 .proto.eval_exn:{[input;exn0]
- ind0:desc exec ind from exn0 where e~'(:);
+ input:input,`index`val!(()!();());
+ ind0:desc exec ind from exn0 where not ind=0,e~'(:);
  ind0:{[exn0;x] asc distinct raze{[exn0;ind00] where exn0[`p] in ind00 }[exn0] scan x}[exn0]@'ind0;
  allPath:{x[1],enlist x 0} .proto.get_path over enlist[(exn0;())],ind0;
  .proto.eval_ast over enlist[input], allPath
@@ -156,13 +157,13 @@ d)lib btick2.proto
 .proto.targ:{[x] if[not 0=type x;:x]; enlist,.z.s@'x}
 
 .proto.proto1:()!()
-.proto.proto1[1]:{[input;x0] input:@[input;`arg;:;] input[`arg]! .proto.targ@' enlist x0;.proto.proto0_[input]}
-.proto.proto1[2]:{[input;x0;x1] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1);.proto.proto0_[input]}
-.proto.proto1[3]:{[input;x0;x1;x2] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2);.proto.proto0_[input]}
-.proto.proto1[4]:{[input;x0;x1;x2;x3] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3);.proto.proto0_[input]}
-.proto.proto1[5]:{[input;x0;x1;x2;x3;x4] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4);.proto.proto0_[input]}
-.proto.proto1[6]:{[input;x0;x1;x2;x3;x4;x5] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4;x5);.proto.proto0_[input]}
-.proto.proto1[7]:{[input;x0;x1;x2;x3;x4;x5;x6] input:@[input;`arg;:;] input[`arg]! .proto.targ@' (x0;x1;x2;x3;x4;x5;x6);.proto.proto0_[input]}
+.proto.proto1[1]:{[input;x0] input:@[input;`arg;:;] input[`arg]!.proto.targ@' enlist x0;.proto.proto0_[input]}
+.proto.proto1[2]:{[input;x0;x1] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1);.proto.proto0_[input]}
+.proto.proto1[3]:{[input;x0;x1;x2] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1;x2);.proto.proto0_[input]}
+.proto.proto1[4]:{[input;x0;x1;x2;x3] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1;x2;x3);.proto.proto0_[input]}
+.proto.proto1[5]:{[input;x0;x1;x2;x3;x4] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1;x2;x3;x4);.proto.proto0_[input]}
+.proto.proto1[6]:{[input;x0;x1;x2;x3;x4;x5] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1;x2;x3;x4;x5);.proto.proto0_[input]}
+.proto.proto1[7]:{[input;x0;x1;x2;x3;x4;x5;x6] input:@[input;`arg;:;] input[`arg]!.proto.targ@' (x0;x1;x2;x3;x4;x5;x6);.proto.proto0_[input]}
 
 
 .proto.proto:{[a;o;f]d:.proto.getb[f],`a`o!(a;o);.proto.proto0[count d`arg][d]  }
