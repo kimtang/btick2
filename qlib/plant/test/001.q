@@ -1,17 +1,11 @@
-
-.qtx.testSuite[`test.btick2.plant;`repo`lib`file!`btick2`plant`001;"test plant"]
-  .qtx.testCase[`arg.injection1;"argument injection"][
-    .qtx.shouldEq["description";0;{[a]a}]
-    .qtx.should["description";{.qtx.out[`c`d!3 4;1b]}]
-    .qtx.shouldEq["description";4;{[d]d}]    
-    .qtx.shouldFail["description";`ifail;{'`ifail}]
+.qtx.testSuiter[`plant1;`repo`lib`file!`btick2`plant`001;"test plant"]
+  .qtx.before[{.bt.md[`loadResult] .import.module`plant}]
+  .qtx.testCase[`plant1;"test plant"][
+    .qtx.shouldTrue[`0;"file loaded successfully";{[loadResult]
+      null loadResult`error
+      }]
     .qtx.nil
     ]
-  .qtx.argument[`a`b`c!0 1 2]
-  .qtx.testCase[`test.plant.1;"test plant"][
-    .qtx.before[{`a`b`c`d!3 4 5 6}]
-    .qtx.shouldEq["description";3;{[a]a}]
-    .qtx.shouldEq["description";6;{[d]d}]    
-    .qtx.nil
-    ]    
-  .qtx.nil;
+  .qtx.argument[`mon`tue`wed`thu`fri`sat`sun!2025.04.21 + til 7]
+  .qtx.nil
+  ;

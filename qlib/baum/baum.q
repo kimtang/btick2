@@ -149,6 +149,8 @@ sort:{[formula;t]
 
 \d .
 
+.baum.nil:()
+
 .baum.parseA:{ {((,) scan key x)#\:x} first@'.baum.parsea x}
 .baum.parseT:{ raze {((,) scan key x)#\:x}@'x}
 

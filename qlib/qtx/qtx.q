@@ -167,8 +167,7 @@ d)fnc qtx.qtx.module
 .qtx.execute2:{[con1;arg]
   con1:flip con1;m:con1 0;r:();
   if[not (::)~fnc:m`testCase_before;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_before];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];  
-  r:r,first t:{[x;y] r:.qtx.should_[y;arg:x 1];if[(99h=type r`result) & r`pass;
-      arg:r[`result],arg]; :(x[0],enlist r;arg)  } over (enlist[(();arg)]),con1;
+  r:r,first t:{[x;y] r:.qtx.should_[y;arg:x 1];if[(99h=type r`result) & r`pass; if[not 98h=type key r`result;arg:r[`result],arg];]; :(x[0],enlist r;arg)  } over (enlist[(();arg)]),con1;
   arg:arg,t 1;
   if[not (::)~fnc:m`testCase_after;r,:enlist s:.qtx.e[m`sha;.Q.dd[m`uid;`testCase_after];fnc;arg]; if[(null s`error) & 99h=type s`result;arg:s[`result],arg; ]; ];
   :(r;arg)
@@ -237,6 +236,8 @@ d)fnc qtx.qtx.module
 .qtx.rsummary0:{[con] `stime xdesc select cnt:count i,pass:sum pass,pass_ratio:(sum pass)%count i,stime:min stime,dtime:sum dtime by sha,uid:auid^uid from con}
 
 .qtx.rsummary:{.qtx.rsummary0 .qtx.res lj .qtx.con}
+
+.qtx.shortReport:{select cnt:sum cnt,pass:sum pass,ration:sum[pass]%sum cnt,dtime:sum dtime from .qtx.rsummary[]}
 
 .qtx.putArg:{[auid0]
  t0:first t:`stime xdesc select from .qtx.res where auid=auid0;

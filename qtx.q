@@ -2,9 +2,11 @@
 / qtx.q:localhost:9081::
 
 / 
- q qtx.q -config default -repo repo -lib lib [info|debug|test|watch] testSuite[all]
+ q qtx.q -config default -repo repo -lib lib -file file [info|debug|test|watch] testSuite[all]
  q qtx.q
 \
+
+system "c 1000 1000"
 
 .self.mode:`proc;
 \l qlib.q
@@ -32,13 +34,9 @@
 
 allTests:.qtx.module0 .qtx.summary .qtx.filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
 
-.qtx.filter2:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file`uid`testCase_uid`testCase_test_uid#.qtx.allArgs)#.qtx.allArgs;
+1 .Q.s .qtx.rsummary[];
 
-
-if[ not .qtx.allArgs[`mode] in `info`debug`test`watch ;
- 1 .Q.s select repo,lib,testSuite,cmd from result;
- .qtx.exit[]
- ];
+exit 0
 
 /
 
