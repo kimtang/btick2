@@ -9,6 +9,12 @@ if[() ~ key `.self.mode;.self.mode:`user];
 .self.getHome0["l"]:{getenv[`HOME],"/.config/btick2" }
 .self.getHome:{ if[not ""~btick2Home:getenv`btick2Home;:btick2Home]; .self.getHome0[.self.os][] }
 
+
+.self.getUserTmp0:()!()
+.self.getUserTmp0["w"]:{getenv[`USERPROFILE],"\\AppData\\Local\\Temp" }
+.self.getUserTmp0["l"]:{"/tmp" }
+.self.getUserTmp:{ .self.getUserTmp0[.self.os][] }
+
 .self.getCwd0:()!()
 .self.getCwd0["w"]:{system"cd" }
 .self.getCwd0["l"]:{system["pwd"]0 }
@@ -17,3 +23,4 @@ if[() ~ key `.self.mode;.self.mode:`user];
 
 .self.home:.self.getHome[]
 .self.cwd:.self.getCwd[]
+.self.userTmp:.self.getUserTmp[]

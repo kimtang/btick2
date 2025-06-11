@@ -204,7 +204,7 @@ d) fnc btick2.util.guid0
  if[max arg~/:(`;::);arg:()!()]; / show which file has been loaded
  if[not 99h=type arg;arg:()!()]; / show which file has been loaded 
  arg:(.bt.md[`uid]8?.Q.an),arg;
- arg:arg,.bt.md[`tmpPath]first(.bt.print["%home%\\AppData\\Local\\Temp"] .self;"/tmp")where"wl"=.self.os;
+ arg:arg,.bt.md[`tmpPath].self.userTmp;
  arg:arg,.bt.md[`path] .bt.print["%tmpPath%/%uid%"]arg;
  arg
  }

@@ -144,7 +144,7 @@ d)fnc qtx.qtx.module
 
 .qtx.execute0:{[con]
   sha:.qtx.toSha1 .z.P;
-  r:raze .qtx.execute1@'0!`uid xgroup update sha from con;
+  r:raze {`sha`auid`stime`etime`dtime`error`result`arg`body`pass`used`heap`peak`wmax`mmap`mphy`syms`symw#/:.qtx.execute1 x}@'0!`uid xgroup update sha from con;
   `sha`auid`pass xcols r
  }
 
@@ -242,7 +242,8 @@ d)fnc qtx.qtx.module
 .qtx.putArg:{[auid0]
  t0:first t:`stime xdesc select from .qtx.res where auid=auid0;
  if[0=count t;:()];
- .bt.getArg[t0`body] set' t0`arg
+ arg:.bt.getArg[t0`body];
+ .bt.getArg[t0`body] set' t0[`arg]arg
  }
 
 /
