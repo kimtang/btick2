@@ -1,5 +1,5 @@
 
-d)lib btick2.reQ 
+d)lib %btick2%/qlib/reQ/reQ.q
  HTTP requests library in kdb+/q; modified from https://github.com/jonathonmcmurray/reQ
  q).import.module`reQ 
  q).import.module`btick2.reQ
@@ -7,7 +7,7 @@ d)lib btick2.reQ
 
 .reQ.summary:{} 
 
-d)fnc reQ.reQ.summary 
+d).reQ.summary 
  Give a summary of this function
  q) reQ.summary[] 
 

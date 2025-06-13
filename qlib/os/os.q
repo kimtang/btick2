@@ -1,5 +1,5 @@
 
-d)lib btick2.os 
+d)lib %btick2%/qlib/os/os.q 
  Library for working with the os
  q).import.module`os 
  q).import.module`btick2.os
@@ -16,7 +16,7 @@ d)lib btick2.os
  }
 
 
-d)fnc btick2.os.treeIgnore 
+d).os.treeIgnore 
  return all available files & folders in the root directory with an ignore list
  q) .os.treeIgnore[1#`abc] `:. / show all files and folder in the current directory and ignore abc folder
  q) .os.treeIgnore[1#`abc] `:anyFolder
@@ -34,7 +34,7 @@ d)fnc btick2.os.treeIgnore
 
 .os.tree:.os.treeIgnore[1#`]
 
-d)fnc btick2.os.tree
+d).os.tree
  return all available files & folders in the root directory
  q) .os.tree `:. / show all files and folder in the current directory
  q) .os.tree `:anyFolder
@@ -51,7 +51,7 @@ d)fnc btick2.os.tree
 
 .os.treen:.os.treeIgnoren[1#`]
 
-d)fnc btick2.os.treen
+d).os.treen
  return all available files & folders up to level n
  q) .os.treen[2]`:. / show all files and folder in the current directory
  q) .os.treen[2]`:anyFolder
@@ -62,7 +62,7 @@ d)fnc btick2.os.treen
  hdel@'reverse allFiles`fullPath
  }
 
-d)fnc btick2.os.hdel
+d).os.hdel
  delete the folder together with its contents
  q) .os.hdel`:anyFolder
  q) .os.hdel`anyFolder

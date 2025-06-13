@@ -1,5 +1,5 @@
 
-d)lib btick2.qlang 
+d)lib %btick2%/qlib/qlang/qlang.q 
  Library for working with the lib qlang
  q).import.module`qlang 
  q).import.module`btick2.qlang
@@ -7,7 +7,7 @@ d)lib btick2.qlang
 
 .qlang.summary:{} 
 
-d)fnc qlang.qlang.summary 
+d).qlang.summary 
  Give a summary of this function
  q) qlang.summary[] 
 

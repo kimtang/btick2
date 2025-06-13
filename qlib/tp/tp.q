@@ -1,5 +1,5 @@
 
-d)lib btick2.tp 
+d)lib %btick2%/qlib/tp/tp.q
  Library for working with the lib tp
  q).import.module`tp 
  q).import.module`btick2.tp
@@ -9,7 +9,7 @@ d)lib btick2.tp
 
 .tp.summary:{} 
 
-d)fnc tp.tp.summary 
+d).tp.summary 
  Give a summary of this function
  q) .tp.summary[] 
 

@@ -1,5 +1,5 @@
 
-d)lib btick2.qtx 
+d)lib %btick2%/qlib/qtx/qtx.q
  Library for testing. It supports parameter injection.
  q).import.module`qtx 
  q).import.module`btick2.qtx
@@ -28,7 +28,7 @@ d)lib btick2.qtx
  ?[allFolder;x;0b;()!()]
  }
 
-d)fnc qtx.qtx.summary 
+d).qtx.summary 
  Give a summary of this function
  q) .qtx.summary "repo=`btick2,lib=`os" 
  q) .qtx.summary[] 
@@ -37,7 +37,7 @@ d)fnc qtx.qtx.summary
 .qtx.module:{[filter] .qtx.module0 .qtx.summary filter }
 
 
-d)fnc qtx.qtx.module 
+d).qtx.module 
  Load the given tests. We will ignore loading errors
  q) .qtx.module "repo=`btick2,lib=`os" 
 

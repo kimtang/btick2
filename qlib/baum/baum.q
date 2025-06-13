@@ -1,15 +1,15 @@
 
-d)lib btick2.baum 
+d)lib %btick2%/qlib/baum/baum.q
  Library for working with the lib baum
  q).import.module`baum 
  q).import.module`btick2.baum
- q).import.module"btick2/qlib/baum/baum.q"
+ q).import.module"%btick2%/qlib/baum/baum.q"
 
 .baum.summary:{} 
 
-d)fnc baum.baum.summary 
+d).baum.summary 
  Give a summary of this function
- q) baum.summary[] 
+ q) .baum.summary[] 
 
 
 \d .baum
@@ -165,7 +165,7 @@ sort:{[formula;t]
 
 .baum.open:{[formula;l] if[formula~"";:l]; l,enlist formula}
 
-d) fnc baum.baum.open
+d).baum.open
  Function to create nodes in treetable
  q)c:count first m:1000#'flip cross/[(`a`b`c`d`e`;`f`g`h`i`j`k`l`m`;`n`o`p`q)]
  q)T:([]A:m 0;B:m 1;C:m 2;D:c?.z.D + til 3;E:c?til 6;v:c?1000;w:c#`x`y`z`w)
@@ -183,7 +183,7 @@ d) fnc baum.baum.open
  1!.baum.construct[t;G;P;A]
  }
 
-d) fnc baum.baum.tbaum
+d).baum.tbaum
  Function to create treetable
  q)c:count first m:1000#'flip cross/[(`a`b`c`d`e`;`f`g`h`i`j`k`l`m`;`n`o`p`q)]
  q)T:([]A:m 0;B:m 1;C:m 2;D:c?.z.D + til 3;E:c?til 6;v:c?1000;w:c#`x`y`z`w)
@@ -197,7 +197,7 @@ d) fnc baum.baum.tbaum
  .baum.tsort[t;key d;value d]
  }
 
-d) fnc baum.baum.sort
+d).baum.sort
  Function to sort treetable
  q)c:count first m:1000#'flip cross/[(`a`b`c`d`e`;`f`g`h`i`j`k`l`m`;`n`o`p`q)]
  q)T:([]A:m 0;B:m 1;C:m 2;D:c?.z.D + til 3;E:c?til 6;v:c?1000;w:c#`x`y`z`w)

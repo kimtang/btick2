@@ -1,5 +1,5 @@
 
-d)lib btick2.tidyq 
+d)lib %btick2%/qlib/tidyq/tidyq.q 
  Library for working with the lib tidyq
  q).import.module`tidyq 
  q).import.module`btick2.tidyq
@@ -7,7 +7,7 @@ d)lib btick2.tidyq
 
 .tidyq.summary:{} 
 
-d)fnc tidyq.tidyq.summary 
+d).tidyq.summary 
  Give a summary of this function
  q) tidyq.summary[] 
 
@@ -26,7 +26,7 @@ d)fnc tidyq.tidyq.summary
  (key?[t;();k!k;()]) lj (uj) over .tidyq.dcast0[t;k;]@'p
  }
 
-d) fnc tidyq.tidyq.dcast
+d).tidyq.dcast
  This is a function to pivot a table
  q) book:.tidyq.dcast[q;"date,sym,time";"price_%side%_%level% ~~ price  - avg price || size_%side%_%level% ~~ size "]
  q) qpd:5*2*4*"i"$16:00-09:30
@@ -66,7 +66,7 @@ d) fnc tidyq.tidyq.dcast
  1_0!?[;();{x!x} k,p0`acls;()] raze @[lst;0;{y,x};nlst]
  }
 
-d) fnc tidyq.tidyq.melt
+d).tidyq.melt
  This is a function to pivot a table
  q) .tidyq.melt[book;"date,sym,time";"price:price + avg price,side,level ~~ price_%side%_%level% || size,side,level ~~ size_%side%_%level% "]
  q) qpd:5*2*4*"i"$16:00-09:30

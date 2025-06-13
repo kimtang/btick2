@@ -1,5 +1,5 @@
 
-d)lib btick2.hopen 
+d)lib %btick2%/qlib/hopen/hopen.q 
  Library for working with the lib hopen
  q).import.module`hopen 
  q).import.module`btick2.hopen
@@ -7,7 +7,7 @@ d)lib btick2.hopen
 
 .hopen.summary:{.poc.con} 
 
-d)fnc hopen.hopen.summary 
+d).hopen.summary 
  Give a summary of this function
  q) hopen.summary[] 
 
@@ -52,7 +52,7 @@ d)fnc hopen.hopen.summary
 
 .hopen.add:{[arg] .bt.action[`.hopen.add] (`user`passwd!(`username;"mypasswd")),arg }
 
-d)fnc hopen.hopen.add
+d).hopen.add
  Add a connection 
  q) .hopen.add `uid`host`port!(`myuid;`localhost;8890)
  q) .hopen.add `uid`host`port`user`passwd!(`myuid;`localhost;8890;`username;"mypasswd")
@@ -79,7 +79,7 @@ d)fnc hopen.hopen.add
 .bt.addIff[`.hopen.success]{[result] not 0=count result }
 .bt.add[`.hopen.loop`.hopen.po.internal;`.hopen.success]{} / signal other library
 
-d)fnc hopen.hopen.success
+d).hopen.success
  Get notify when a connection was succesful 
  q) .bt.add[`.hopen.success;`.my.fnc]{[result] result } / result has the structure as from .hopen.con 
 
@@ -90,7 +90,7 @@ d)fnc hopen.hopen.success
  .bt.md[`remove] remove
  }
 
-d)fnc hopen.hopen.remove.uid
+d).hopen.remove.uid
  Remove a connection using the id
  q) .bt.action[`.hopen.remove.uid] .bt.md[`uid] uidOfTheProcess 
 

@@ -1,13 +1,13 @@
 
-d)lib btick2.pykx 
+d)lib %btick2%/qlib/pykx/pykx.q
  Library for working with the lib pykx
  q).import.module`pykx 
  q).import.module`btick2.pykx
- q).import.module"*btick2*/qlib/pykx/pykx.q"
+ q).import.module"%btick2%/qlib/pykx/pykx.q"
 
 .pykx.summary:{} 
 
-d)fnc pykx.pykx.summary 
+d).pykx.summary 
  Give a summary of this function
  q) pykx.summary[] 
 

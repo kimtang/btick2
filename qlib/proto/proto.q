@@ -1,12 +1,12 @@
 
-d)lib btick2.proto 
+d)lib %btick2%/qlib/proto/proto.q 
  Library for working with the lib proto
  q).import.module`proto 
  q).import.module`btick2.proto
  q).import.module"%btick2%/qlib/proto/proto.q"
 
 .proto.summary:{} 
-.import.module "%btick2%/qlib/proto/unparse.q";
+.import.require "%btick2%/qlib/proto/unparse.q";
 
 .proto.operator0:1!update tipe:type@'e,fnc:e from update e:{first first .[parse;enlist x;x]}@'e from ("*s";"\t ") 0: `$.import.cpath ":%btick2%/qlib/proto/proto.csv"
 
@@ -178,7 +178,7 @@ d)lib btick2.proto
 
 .proto.nil:()!()
 
-d) fnc proto.proto.proto
+d).proto.proto
  Add logging
  q){@[`.;key x;:;value x]} .proto
  q)"big numbers"

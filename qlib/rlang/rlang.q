@@ -1,5 +1,5 @@
 
-d)lib btick2.rlang 
+d)lib %btick2%/qlib/rlang/rlang.q 
  Library for working with the lib rlang
  q).import.module`rlang 
  q).import.module`btick2.rlang
@@ -7,7 +7,7 @@ d)lib btick2.rlang
 
 .rlang.summary:{ raze { ([]env:x;val:";"vs  getenv x) } @'`PATH`R_HOME}
 
-d) fnc rlang.rlang.summary
+d).rlang.summary
  Function to give a sumnmary of the rlang module
  q) .rlang.summary[]
  q) .rlang.summary`
@@ -17,7 +17,7 @@ d) fnc rlang.rlang.summary
  .rlang.summary`
  }
 
-d) fnc rlang.rlang.setv
+d).rlang.setv
  Function to setup path to PATH and R_HOME
  q) variable:.rlang.summary[];variable:update val:count[i]#enlist["C:\\Program Files\\R\\R-4.1.3\\bin\\i386"] from variable where val like"*R-4.1.3\\bin\\x64*"  ;.rlang.setv variable;
 
@@ -38,7 +38,7 @@ d) fnc rlang.rlang.setv
  .rlang.source"%btick2%/qlib/rlang/ggplot2_formatter.r";
  }
 
-d) fnc rlang.rlang.init
+d).rlang.init
  Function to init r
  q) .rlang.init[]
  r) plot(c(1,2,3,4))
@@ -56,7 +56,7 @@ d) fnc rlang.rlang.init
 
 .rlang.Rset: {x:$[10h=abs type x;`$x;x];:{ .rlang.Rset_[-11h=type x] x}each x }
 
-d) fnc rlang.rlang.Rset
+d).rlang.Rset
  Function to set the variable
  q)tmp:([]a:1 2 3 4; b: 5 6 7 8); .rlang.Rset `tmp 
  r) View(tmp)
@@ -64,7 +64,7 @@ d) fnc rlang.rlang.Rset
 .rlang.Rset0: {[x;y] .rlang.rset0[x;y] }
 
 
-d) fnc rlang.rlang.Rset0
+d).rlang.Rset0
  Function to set the variable
  q).rlang.Rset0 [`tmp ] ([]a:1 2 3 4; b: 5 6 7 8)
  r) View(tmp)
@@ -176,7 +176,7 @@ d) fnc rlang.rlang.Rset0
 
 .rlang.Rframe:{  .rlang.Rframe0 .rlang.Rget x }
 
-d) fnc rlang.rlang.Rframe
+d).rlang.Rframe
  Function to set the variable
  q).rlang.Rframe `mpg
 
@@ -189,7 +189,7 @@ d) fnc rlang.rlang.Rframe
  "r" ssr[;"\\";"/"] .bt.print["source('%path%')"] cmd;
  }
 
-d) fnc rlang.rlang.source
+d).rlang.source
  Function to source a file
  q) .rlang.source"%btick2%/qlib/rlang/ggplot2_formatter.r"
 

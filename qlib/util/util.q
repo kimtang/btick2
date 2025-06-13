@@ -1,30 +1,30 @@
 
-d) lib btick2.util 
+d) lib %btick2%/qlib/util/util.q 
  util provides a set of functions that help you to manipulate tables. 
  q).import.module`util
 
 .util.summary:{ .bt.showTrace }
 
-d) fnc btick2.util.summary
+d).util.summary
  show configured std.out
  q) .util.summary[]
 
 .util.setOutputTrace:{ if[not 11h = abs type x;:.bt.showTrace ]; .bt.showTrace:x; .bt.showTrace}
 
-d) fnc btick2.util.setOutputTrace
+d).util.setOutputTrace
  show configured std.out
  q) .util.setOutputTrace `rlang
 
 
 .util.parsec:{ if[max("";" ")~\:x;:()];if[not 10h=type x;:x]; raze parse["select from t where ", x]2}
 
-d) fnc btick2.util.parsec
+d).util.parsec
  return the where column from a select statement
  q) .util.parsec "not null a, b=`h"
 
 .util.parseb:{ if[not 10h=type x;:x];if[max (1b;"")~\:x;:1b]; parse["select by ",x," from t"]3}
 
-d) fnc btick2.util.parseb
+d).util.parseb
  return the by column from a select statement
  q) .util.parseb "not null a, tmp:b=`h"
 
@@ -33,7 +33,7 @@ d) fnc btick2.util.parseb
 .util.parseda:{ if[not 10h=type x;:x];if[""~x;:()!()]; first parse["delete ",x," from t"]4}
 
 
-d) fnc btick2.util.parsea
+d).util.parsea
  return the select column from a select statement
  q) .util.parsea "not null a, tmp:b=`h"
 
@@ -89,7 +89,7 @@ d) fnc btick2.util.parsea
  .util.cdict delete mode from 0!select by sym from (update mode:`default from .util.ctable default),update mode:`arg from .util.ctable arg
  }
 
-d) fnc btick2.util.deepMerge
+d).util.deepMerge
  Function to merge two different dictionaries
  q) default:`a`b`c!(1;2;`a`b`c! (6 ; `a`b`c!5 6 7 ;8))
  q) arg:`b`c!(2;`a`b`c! (6 ; `b`c!6 7 ;18))
@@ -118,7 +118,7 @@ d) fnc btick2.util.deepMerge
  oseed
  }
 
-d) fnc btick2.util.radnomSeed
+d).util.radnomSeed
  Function to set random seed
  q) .util.radnomSeed[] \ set random seed if it is not already set
  q) .util.radnomSeed[`reset] \reset the random seed
@@ -146,7 +146,7 @@ d) fnc btick2.util.radnomSeed
  exec name!default from t
  }
 
-d) fnc btick2.util.arg
+d).util.arg
  Function to parse argument
  q) allArgs:
        .util.arg
@@ -173,7 +173,7 @@ d) fnc btick2.util.arg
 
 .util.setSeed:{[x] system .bt.print["S %0"] x;system"S"}
 
-d) fnc btick2.util.setSeed
+d).util.setSeed
  Function to show the path of the json file
  q) .util.setSeed 1132664680
 
@@ -183,19 +183,19 @@ d) fnc btick2.util.setSeed
  .util.setSeed sum "J"$9 cut reverse string .z.i + "j"$.z.P
  }
 
-d) fnc btick2.util.setRandomSeed
+d).util.setRandomSeed
  Function to set the random seed. It will ignore if a seed exists.
  q) .util.setRandomSeed[]
 
 .util.guid:{[x]x?0ng }
 
-d) fnc btick2.util.guid
+d).util.guid
  Function to get guid
  q) .util.guid 3
 
 .util.guid0:{ first .util.guid 1 }
 
-d) fnc btick2.util.guid0
+d).util.guid0
  Function to get one guid as atom
  q) .util.guid0 []
 
@@ -209,7 +209,7 @@ d) fnc btick2.util.guid0
  arg
  }
 
-d) fnc btick2.util.genTmpFolder
+d).util.genTmpFolder
  Generate a path for tmp folder. This will not generate the actual folder 
  q) .util.genTmpFolder []
  q) .util.genTmpFolder .bt.md[`uid] "asdwerfd" / you can also provide your own uid
@@ -217,7 +217,7 @@ d) fnc btick2.util.genTmpFolder
 
 .util.windowSize:{ reverse lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
 
-d) fnc btick2.util.windowSize
+d).util.windowSize
  Function to get windows size
  q) .util.windowSize[] \ set random seed
 
@@ -233,7 +233,7 @@ d) fnc btick2.util.windowSize
  `cmd`a1`a2!(s 0;a1;a2)   
  }
 
-d) fnc btick2.util.pcmd
+d).util.pcmd
  Function to parse command in embedded language
  q) .util.pcmd "str " 
  q) .util.pcmd "str || a1 " 

@@ -1,5 +1,5 @@
 
-d)lib btick2.watchTest
+d)lib %btick2%/qlib/qtx/watchTest.q
  Library for testing. It supports parameter injection.
  q).import.module`watchTest 
  q).import.module`qtx.watchTest

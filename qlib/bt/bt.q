@@ -1,5 +1,5 @@
 
-d)lib btick2.bt
+d)lib %btick2%/qlib/bt/bt.q
  Bt library is short for behaviour tag library. This is the core library to implement behaviours in btick2
 
 \d .bt

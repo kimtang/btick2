@@ -1,36 +1,72 @@
 
 .d.rspace:{[x] if[" "= first x;:.d.rspace 1_x];x }
 
-.d.e:{.doc.e0[`$ first " "vs .d.rspace a 0]a:"\n"vs x}
+.d.getPath:{
+ g:get get x;
+ if[4h=type g 0;:`$first -3#g];
+ g0:get g 0;
+ `$first -3#g0
+ }
+
+.d.es:{[doc]
+ k:`$first " "vs .d.rspace first "\n" vs doc;
+ if[k in key .doc.e0;:.doc.e0[k][`]doc];
+ fullPath:@[.d.getPath;k;{`}];
+ :.doc.e0[`fnc][fullPath;doc]
+ }
+
+.d.e:{[doc]  @[.d.es;doc;{'`$x}] }
+
+.d.es1:{[fullPath;doc]
+ k:`$first " "vs .d.rspace first "\n" vs doc;
+ if[k in key .doc.e0;:.doc.e0[k][fullPath;doc]];
+ :.doc.e0[`fnc][fullPath;doc]
+ }
+
+
+.d.e1:{[fullPath;doc]
+ .[.d.es1;(fullPath;doc);{'`$x}]
+ }
+
+/ .d.e:{.doc.e0[`$ first " "vs .d.rspace a 0]a:"\n"vs x}
 .doc.r:{[x] {if[not " " = x 0;:x];1_x } over x }
 
-.doc.conLib:2!flip`repo`lib`description`example!()
-.doc.conFunc:3!flip`repo`lib`fnc`description`example`body!()
+.doc.conLib:3!flip`repo`lib`file`description`example!()
+.doc.conFunc:4!flip`repo`lib`file`fnc`description`example`body!()
 
 .doc.e0:()!()
-.doc.e0[`txt]:{x}
+.doc.e0[`txt]:{[fullPath;doc]}
 
-.doc.e0[`lib]:{
- lib:`$first 1_" "vs .doc.r x 0;
+.doc.e0[`lib]:{[fullPath;doc]
+ path:string `${x 1} " "vs .d.rspace first x:"\n" vs doc;
+ repo:`$ssr[;"%";""] first spath:"/" vs path;
+ lib:`$first 2_spath;
+ file:`$"/"sv 3_spath;
  x:.doc.r@/: 1_x;
  ind:x like "?)*";
  example:"\n" sv x where ind;
  description:"\n" sv x where not ind;
- a:` vs lib;
- `.doc.conLib upsert (`repo`lib!(a 0;` sv 1_a)),`description`example!(description;example);
+ `.doc.conLib upsert `repo`lib`file`description`example!(repo;lib;file;description;example);
  }
  
-.doc.e0[`fnc]:{
- tag:`$first 1_" "vs .doc.r x 0;
+
+.doc.e0[`fnc]:{[fullPath;doc]
+ if[-11h=type fullPath;fullPath:string fullPath];
+ if[":"~fullPath 0;fullPath:1_fullPath];
+ con:$[`con in key `.import.repository;get `.import.repository.con; (1#`btick2)!enlist .self.btick2 ];
+ repo:first where con~\: -1_ first r:"qlib" vs fullPath;
+ lib:`$first s:"/" vs ssr[;"\\";"/"] 1_r[1];
+ file:`$"/"sv 1_s;
+ x:"\n" vs doc;
+ fnc:`$x 0;
  x:.doc.r@/: 1_x;
  ind:x like "?)*";
  example:"\n" sv x where ind;
  description:"\n" sv x where not ind;
- fnc:` sv `,1_tmp:` vs tag;
- `.doc.conFunc upsert `repo`lib`fnc`description`example`body!(tmp 0;tmp 1;fnc;description;example;@[get;fnc;{:()}]);
+ `.doc.conFunc upsert `repo`lib`file`fnc`description`example`body!(repo;lib;file;fnc;description;example;@[{get x};fnc;{:()}]);
  }
  
-d) lib btick2.doc
+d)lib %btick2%/qlib/doc/doc.q
  Library to document modules in btick2
  This is usually loaded at the beginning
  q) 
@@ -47,7 +83,7 @@ d) lib btick2.doc
  .doc.conFunc
  }
 
-d)fnc btick2.doc.summary
+d).doc.summary
  load files from module
  q) .doc.summary[] / show all available modules 
  q) .doc.summary `lib / show all available modules 
@@ -66,7 +102,7 @@ d)fnc btick2.doc.summary
  r`example
  }
 
-d)fnc btick2.doc.example
+d).doc.example
  load files from module
  q) .doc.example[] / show all available modules 
  q) .doc.example `lib / show all available modules 

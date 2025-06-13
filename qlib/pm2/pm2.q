@@ -1,5 +1,5 @@
 
-d)lib btick2.pm2 
+d)lib %btick2%/qlib/pm2/pm2.q
  Library for working with the lib pm2
  q).import.module`pm2 
  q).import.module`btick2.pm2
@@ -7,7 +7,7 @@ d)lib btick2.pm2
 
 .pm2.summary:{} 
 
-d)fnc pm2.pm2.summary 
+d).pm2.summary 
  Give a summary of this function
  q) .pm2.summary[] 
 
@@ -20,7 +20,7 @@ d)fnc pm2.pm2.summary
  (arg`jfile) 1: .j.j jobj
  }
 
-d)fnc pm2.pm2.addSchemaToFile 
+d).pm2.addSchemaToFile 
  Give a addSchemaToFile of this function
  q) .pm2.addSchemaToFile[.self.arg;`admin;`orderbook;select column:`time`sym`bqty`bprx`aprx`aqty,tipe:"psieei" from ([])] 
 

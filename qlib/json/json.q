@@ -1,7 +1,7 @@
 
 .import.require`qlang;
 
-d)lib btick2.json 
+d)lib %btick2%/qlib/json/json.q
  Library for working with the lib json
  q).import.module`json 
  q).import.module`btick2.json
@@ -9,7 +9,7 @@ d)lib btick2.json
 
 .json.summary:{} 
 
-d)fnc json.json.summary 
+d).json.summary 
  Give a summary of this function
  q) json.summary[] 
 

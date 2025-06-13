@@ -1,5 +1,5 @@
 
-d)lib %name%.%name% 
+d)lib %name0%/qlib/%name%/%name%.q 
  Library for working with qkdb internal api
  q).import.module`%name% 
  q).import.module`%name%.%name%
@@ -7,7 +7,7 @@ d)lib %name%.%name%
 
 .%name%.summary:{} 
 
-d)fnc %name%.%name%.summary 
+d).%name%.summary 
  Give a summary of this function
  q) .%name%.summary[] 
 

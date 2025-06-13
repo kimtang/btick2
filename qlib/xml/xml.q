@@ -1,5 +1,5 @@
 
-d)lib btick2.xml 
+d)lib %btick2%/qlib/xml/xml.q
  Library for working with the lib xml
  q).import.module`xml 
  q).import.module`btick2.xml
@@ -7,7 +7,7 @@ d)lib btick2.xml
 
 .xml.summary:{} 
 
-d)fnc xml.xml.summary 
+d).xml.summary 
  Give a summary of this function
  q) xml.summary[] 
 

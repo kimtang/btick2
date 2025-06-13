@@ -1,5 +1,5 @@
 
-d)lib btick2.remote 
+d)lib %btick2%/qlib/remote/remote.q 
  Library for working with the lib remote
  q).import.module`remote 
  q).import.module`btick2.remote
@@ -25,7 +25,7 @@ d)lib btick2.remote
  }
 
 
-d)fnc remote.remote.summary 
+d).remote.summary 
  Give a summary of this function
  q) remote.summary[] 
 
@@ -36,7 +36,7 @@ d)fnc remote.remote.summary
  }
 
  
-d) fnc remote.remote.add
+d).remote.add
  Function to add a connection
  q) .remote.add `uid`host`port`user`passwd!(`kx_platform_hdb;`localhost; 23003;`;1#"")
  
@@ -67,14 +67,14 @@ d) fnc remote.remote.add
 
 .remote.query:{[proc;query] .remote.query0[(::);proc;query] }
  
-d) fnc remote.remote.query
+d).remote.query
  Function to give a query of available connection
  q) .remote.query[`kx_platform_hdb] "1+3"
  f) 1+3
 
 .remote.async:{[proc;query] .remote.query0[neg;proc;query] }
  
-d) fnc remote.remote.async
+d).remote.async
  Function to give a async of available connection
  q) .remote.async[`kx_platform_hdb] "1+3"
  f) 1+3
@@ -87,7 +87,7 @@ d) fnc remote.remote.async
  }
 
  
-d) fnc remote.remote.qthrow
+d).remote.qthrow
  Function to give a query of available connection
  q) .f.proc:`kx_platform_hdb
  q) .remote.qthrow[`kx_platform_hdb] "1+3"
@@ -101,7 +101,7 @@ d) fnc remote.remote.qthrow
   r`result
  }
 
-d) fnc remote.remote.q
+d).remote.q
  Function to give a query of available connection
  q) .f.proc:`kx_platform_hdb
  q) .remote.q "1+3"
@@ -114,7 +114,7 @@ d) fnc remote.remote.q
   r`result
  }
 
-d) fnc remote.remote.a
+d).remote.a
  Function to give a query of available connection
  q) .f.proc:`kx_platform_hdb
  q) .remote.a "1+3"
@@ -191,7 +191,7 @@ d) fnc remote.remote.a
  }
 
 
-d) fnc remote.remote.sbl
+d).remote.sbl
  Function to write a config file for sbl. Path can be config in the qlib.json. "remote":{"path": "../cfg","user":"yourname","passwd":"yourpasswd"}
  q) .remote.sbl []
 
@@ -204,7 +204,7 @@ d) fnc remote.remote.sbl
  }
 
 
-d) fnc remote.remote.cfile
+d).remote.cfile
  Function to create procs file
  q) .remote.cfile[]
 
@@ -234,7 +234,7 @@ d) fnc remote.remote.cfile
  }
  
 
-d) fnc remote.remote.duplicate
+d).remote.duplicate
  Function to duplicate the fnc
  q) .remote.duplicate[]  / show this doc
  q) .remote.duplicate `.bt.action
@@ -252,7 +252,7 @@ d) fnc remote.remote.duplicate
  (x set result),.remote.duplicate@'l
  }
 
-d) fnc remote.remote.deepDuplicate
+d).remote.deepDuplicate
  Function to deepDuplicate the fnc
  q) .remote.deepDuplicate[]  / show this doc
  q) .remote.q "`thisFunc1 set {[a;b] a + thisFunc2 b }"
@@ -289,7 +289,7 @@ d) fnc remote.remote.deepDuplicate
  }
  
 
-d) fnc remote.remote.fduplicate
+d).remote.fduplicate
  Function to duplicate the fnc
  q) .remote.fduplicate[]  / show this doc
  q) .remote.fduplicate[`fixed.proc] `.bt.action
@@ -309,7 +309,7 @@ d) fnc remote.remote.fduplicate
  }
 
 
-d) fnc remote.remote.fdeepDuplicate
+d).remote.fdeepDuplicate
  Function to duplicate the fnc
  q) .remote.fdeepDuplicate[]  / show this doc
  q) .remote.fdeepDuplicate[`fixed.proc] `.bt.action

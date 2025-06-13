@@ -1,4 +1,4 @@
-d) lib btick2.import
+d)lib %btick2%/qlib/import/import.q
  Library to import modules into kdb+
  q) .import.summary[] / Autmatically loaded on startup
 
@@ -45,12 +45,12 @@ d) lib btick2.import
  :.import.cpath0[t] x
  }
 
-d)fnc btick2.import.cpath 
+d).import.cpath 
  return all available files & folders in the root directory with an ignore list
  q) .import.cpath`self  / Generate the path to btick2/qlib/self/self.q
  q) .import.cpath"%btick2%/qlib/self/self.q"  / load self module in btick2 repository
  q) .import.cpath`os  / load os modules in btick2 repository
- q) .import.cpath`import.repository  / load from btick2 repository
+ q) .import.cpath`repository  / load from btick2 repository
  q) .import.cpath`repository`module`file!(`btick2;`os;"os.q")
  q) .import.cpath"%btick2%/qlib/import/repository.q"  / load from btick2 repository
  q) .import.cpath `btick2.import
@@ -82,7 +82,7 @@ d)fnc btick2.import.cpath
  :.import.module2@'x
  }
 
-d)fnc btick2.import.module 
+d).import.module 
  load files from module
  q) .import.module[] / show all available modules
  q) .import.module`self  / load self module in btick2 repository
@@ -109,7 +109,7 @@ d)fnc btick2.import.module
  :.import.require2@'x
  }
 
-d)fnc btick2.import.require 
+d).import.require 
  load files with no reload
  q) .import.require[] / show all available requires
  q) .import.require`self  / load self require in btick2 repository
@@ -130,7 +130,7 @@ d)fnc btick2.import.require
 .import.summary:{
  if[max x~/:(`;::);x:key .import.repository.con];
  if[11h=type x;:raze .import.summary@'x];
- if[not x in key .import.repository.con;:0#.doc.conLib]; 
+ if[not x in key .import.repository.con;:0#.doc.conLib];
  repo: `$.bt.print[":%path%/qlib"] .import.repository.con((1#`path)!1#x);
  allFolder:.os.treen[3]repo;
  dignore:`,raze{`$ssr[string x;".dignore";]@/: read0 x}@'exec  fullPath from allFolder where fullPath like "*.dignore";
@@ -138,12 +138,12 @@ d)fnc btick2.import.require
  {[fullPath]
    b:enlist[" "]~/:1#/:src:read0 fullPath;
    b:{x[;0]!x}value group sums neg[b] + 1+ a:"d)"~/:2#/:src;
-   {get "\n" sv x}@'src b where a;    
+   .d.e1[fullPath]@'{  "\n" sv @[x;0;{ssr[x;"d)";""]} ]}@'src b where a;
   }@'exec fullPath from allFiles where fullPath like "*.q";
-  :`repo`lib xasc select from .doc.conLib where repo =x 
+  :`repo`lib xasc select from .doc.conLib where repo =x
  }
 
-d)fnc btick2.import.summary 
+d).import.summary 
  return all available files & folders in the root directory with an ignore list
  q) .import.summary[] / show all available modules and lib
  q) .import.summary`btick2  / show all modules in btick2 repository
@@ -158,7 +158,7 @@ if[()~key `.import.json;.import.json:`default];  / what is the default json file
  `name`path!enlist[.import.json;]`$.bt.print[":%home%/%cfg%.json"] ((1#`cfg)!1#x),.self
  }
 
-d)fnc btick2.import.getConfig 
+d).import.getConfig 
  load the config file and update the repository
  q) .import.getConfig[]  / this will load from the .import.json
  q) .import.getConfig .import.json / you can also specify a file or a repository name

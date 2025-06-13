@@ -1,5 +1,5 @@
 
-d)lib btick2.kfk 
+d)lib %btick2%/qlib/kfk/kfk.q
  Library for working with the lib kfk
  q).import.module`kfk 
  q).import.module`btick2.kfk
@@ -7,7 +7,7 @@ d)lib btick2.kfk
 
 .kfk.summary:{} 
 
-d)fnc kfk.kfk.summary 
+d).kfk.summary 
  Give a summary of this function
  q) kfk.summary[] 
 
@@ -351,13 +351,13 @@ throttlecbreg:{[cid;cb]if[not null cb;throttleclient[`$string cid]:cb];}
   .kfk.config x
  }
 
-d) fnc kfk.kfk.summary
+d).kfk.summary
  Give a summary of available connection in kafka 
  q) .kfk.summary[]
  q) .kfk.summary `consumer
  q) .kfk.summary `producer 
 
-d) fnc kfk.kfk.summary
+d).kfk.summary
  Give a summary of available connection in kafka 
  q) producer:.kfk.Producer .kfk.summary`publisher
  q) .kfk.Metadata[producer]`topics
@@ -366,7 +366,7 @@ d) fnc kfk.kfk.summary
  q) .kfk.Pub[tradesTopic;.kfk.PARTITION_UA;.j.j (.z.P;`abc;100f;302f);string .z.p]
  q) .kfk.Pub[trades1Topic;.kfk.PARTITION_UA;.j.j (.z.P;`abc;100f;103f);string .z.p] 
 
-d) fnc kfk.kfk.summary
+d).kfk.summary
  Give a summary of available connection in kafka 
  q) .kfk.Consumer .kfk.summary`consumer
  q) .fluent.data:();

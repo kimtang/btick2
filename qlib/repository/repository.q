@@ -1,12 +1,13 @@
-d) lib btick2.repository
+d) lib %btick2%/qlib/repository/repository.q 
  Library to glue different repositories together
  q) .import.module`repository 
+ q).import.module"btick2/qlib/repository/repository.q"
 
 .import.require`os;
 
 .repository.summary:{ .import.allConfig } / we whill show all loaded config file
 
-d)fnc btick2.repository.summary 
+d).repository.summary 
  give a summary of available repositories.
  q) .repository.summary[] / show all available modules
 
@@ -16,7 +17,7 @@ d)fnc btick2.repository.summary
  raze exec {[name0;cfg] update from0:name0,name:first key[cfg] from value cfg }'[name;cfg] from r 
  }
 
-d)fnc btick2.repository.showAllRepository 
+d).repository.showAllRepository 
  show all available repository
  q) .repository.showAllRepository[] / show all available modules
 
@@ -34,7 +35,7 @@ d)fnc btick2.repository.showAllRepository
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/repository"] .self
  }
 
-d)fnc btick2.repository.createRepository 
+d).repository.createRepository 
  create Repository from template
  q) .repository.createRepository[`mylib;`$":/pathtoFolder"] / show all available modules
 
@@ -46,7 +47,7 @@ d)fnc btick2.repository.createRepository
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/cpp"] .self
  }
 
-d)fnc btick2.repository.createCpp 
+d).repository.createCpp 
  create Repository from template
  q) .repository.createCpp[`mylib;`$":/pathtoFolder"] / show all available modules
 
@@ -58,7 +59,7 @@ d)fnc btick2.repository.createCpp
  .repository.copyTemplate[;newPath;arg] .bt.print[":%btick2%/qlib/repository/template/lib"] .self
  }
 
-d)fnc btick2.repository.createLib 
+d).repository.createLib 
  create library in an existing repository. This repository needs to be registered via the config file
  q) .repository.createLib[`:pathToRepository;`nameLib] / show all available modules 
  q) .repository.createLib[`mylib;`nameLib] / show all available modules
@@ -66,7 +67,7 @@ d)fnc btick2.repository.createLib
 
 .repository.createDefaultConfig:{ .j.k"c"$read1 `$.bt.print[":%btick2%/qlib/repository/template/config/default.json"] .self}
 
-d)fnc btick2.repository.createDefaultConfig 
+d).repository.createDefaultConfig 
  create a default config
  q) .repository.createDefaultConfig[]  / show all available modules
 
@@ -85,7 +86,7 @@ d)fnc btick2.repository.createDefaultConfig
  :arg[`path]1:"x"$.j.j .util.deepMerge[ .j.k"c"$read1 arg[`path];]config
  }
 
-d)fnc btick2.repository.saveConfig 
+d).repository.saveConfig 
  save a config file
  q) .repository.saveConfig[`repoName;.repository.createDefaultConfig[];] .bt.md[`mode]`replace   / replace existing config file
  q) .repository.saveConfig[`repoName;.repository.createDefaultConfig[];] .bt.md[`mode]`new       / only write down if it is non-existent

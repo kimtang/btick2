@@ -1,5 +1,5 @@
 
-d)lib btick2.xll 
+d)lib %btick2%/qlib/xll/xll.q
  Library for working with the lib xll
  q).import.module`xll 
  q).import.module`btick2.xll
@@ -7,7 +7,7 @@ d)lib btick2.xll
 
 .xll.summary:{} 
 
-d)fnc xll.xll.summary 
+d).xll.summary 
  Give a summary of this function
  q) xll.summary[] 
 

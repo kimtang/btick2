@@ -1,7 +1,7 @@
 
 .import.require`tidyq;
 
-d)lib btick2.plant 
+d)lib %btick2%/qlib/plant/plant.q 
  Library for working with the lib plant
  q).import.module`plant 
  q).import.module`btick2.plant
@@ -9,7 +9,7 @@ d)lib btick2.plant
 
 .plant.summary:{} 
 
-d)fnc plant.plant.summary 
+d).plant.summary 
  Give a summary of this function
  q) plant.summary[] 
 

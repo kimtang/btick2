@@ -1,5 +1,5 @@
 
-d)lib btick2.dbmaint 
+d)lib %btick2%/qlib/dbmaint/dbmaint.q 
  Library for working with the lib dbmaint
  q).import.module`dbmaint 
  q).import.module`btick2.dbmaint
@@ -7,7 +7,7 @@ d)lib btick2.dbmaint
 
 .dbmaint.summary:{} 
 
-d)fnc btick2.dbmaint.summary 
+d).dbmaint.summary 
  Give a summary of this function
  q) .dbmaint.summary[] 
 
@@ -26,7 +26,7 @@ d)fnc btick2.dbmaint.summary
 
 .dbmaint.ls:{[arg] .dbmaint.ls0[arg]0ni }
 
-d)fnc btick2.dbmaint.ls 
+d).dbmaint.ls 
  Unix ls funtion
  q) .dbmaint.ls["dontcare.txt"] 
  q) .dbmaint.ls["dontcare/abc.txt"]
@@ -42,7 +42,7 @@ d)fnc btick2.dbmaint.ls
  arg 0: ()
  }
 
-d)fnc btick2.dbmaint.touch 
+d).dbmaint.touch 
  Unix touch funtion
  q) .dbmaint.touch["dontcare.txt"] 
  q) .dbmaint.touch["dontcare/abc.txt"]
@@ -61,7 +61,7 @@ d)fnc btick2.dbmaint.touch
  }
 
 
-d)fnc btick2.dbmaint.mkdir 
+d).dbmaint.mkdir 
  Unix mkdir funtion
  q) .dbmaint.mkdir["dontcare"] 
  q) .dbmaint.mkdir["dontcare/abc"]
@@ -83,7 +83,7 @@ d)fnc btick2.dbmaint.mkdir
  allFiles
  }
 
-d)fnc btick2.dbmaint.rm 
+d).dbmaint.rm 
  Unix rm funtion
  q) .dbmaint.rm["dontcare"] / entire folder or file
  q) .dbmaint.rm["dontcare/abc"]
@@ -101,7 +101,7 @@ d)fnc btick2.dbmaint.rm
  (x 2) cut "c"$x 0
  }
 
-d)fnc btick2.dbmaint.head0 
+d).dbmaint.head0 
  Unix head0 funtion
  q) .dbmaint.head0[10;"dontcare.txt"] 
  q) .dbmaint.head0[10;"dontcare/abc.txt"]
@@ -111,7 +111,7 @@ d)fnc btick2.dbmaint.head0
 
 .dbmaint.head:{[arg] .dbmaint.head0[10;arg]}
 
-d)fnc btick2.dbmaint.head 
+d).dbmaint.head 
  Unix head0 funtion
  q) .dbmaint.head["dontcare.txt"] / entire folder or file
  q) .dbmaint.head["dontcare/abc.txt"]
@@ -129,7 +129,7 @@ d)fnc btick2.dbmaint.head
  / (x 2) cut "c"$x 0
  }
 
-d)fnc btick2.dbmaint.tail0 
+d).dbmaint.tail0 
  Unix tail0 funtion
  q) .dbmaint.tail0[10;"dontcare.txt"] 
  q) .dbmaint.tail0[10;"dontcare/abc.txt"]
@@ -139,7 +139,7 @@ d)fnc btick2.dbmaint.tail0
 
 .dbmaint.tail:{[arg] .dbmaint.tail0[10;arg]}
 
-d)fnc btick2.dbmaint.tail 
+d).dbmaint.tail 
  Unix tail0 funtion
  q) .dbmaint.tail["dontcare.txt"] / entire folder or file
  q) .dbmaint.tail["dontcare/abc.txt"]
@@ -161,7 +161,7 @@ d)fnc btick2.dbmaint.tail
  to0 1: read1 from0;
  }
 
-d)fnc btick2.dbmaint.cp 
+d).dbmaint.cp 
  Unix tail0 funtion
  q) .dbmaint.cp["dontcare.txt";"dontcare1.txt"] / entire folder or file
  q) .dbmaint.cp["dontcare/abc.txt";"dontcare/abc1.txt"]
@@ -310,7 +310,7 @@ d)fnc btick2.dbmaint.cp
  .dbmaint[arg[`storage]`type][arg;storage:arg`storage;data]
  } 
 
-d)fnc btick2.dbmaint.save 
+d).dbmaint.save 
  Unix tail0 funtion
  q) data:trade:`date`sym`time xasc([]date:10?.z.D + til 3; time:10?.z.T;sym:10?`aaa`bbb`ccc;prx:10?100.0;qty:10?100)
  q) arg:`dir`tblName`symFile`gz!`db1`trade`sym,enlist 17 0 6
@@ -337,7 +337,7 @@ d)fnc btick2.dbmaint.save
  .dbmaint.sort[arg[`storage]`type][arg;storage:arg`storage;data0]
  }
 
-d)fnc btick2.dbmaint.sortOnly 
+d).dbmaint.sortOnly 
  Unix tail0 funtion
  q) (::)arg:`dir`tblName`symFile`partitionCol`partAttrCol`sortCol`gz!(`:db2;`trade;`sym;`date;`sym;`time;17 2 6)
  q) .dbmaint.sortOnly[arg] key select by date from data
