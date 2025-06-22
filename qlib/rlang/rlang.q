@@ -71,7 +71,13 @@ d).rlang.Rset0
 
 .rlang.con:{distinct `$ ssr[;"`";""] each res where {x like "`*"} res:{raze y vs/:x} over enlist[enlist x]," $(,~=<-)"}
 
-(::).r.cmd0:()!()
+.r.default.wd:"pics"
+.r.default.width:480
+.r.default.height:480
+.r.default.pointsize:10
+
+
+.r.cmd0:()!()
 
 .r.cmd0[`]:{[a]
  .rlang.Rset t:.rlang.con cmd:a`cmd; 
@@ -79,14 +85,17 @@ d).rlang.Rset0
  r
  }
 
-.r.cmd0[`print]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
+.r.cmd0[`print]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["print(%cmd%)"]a}
 .r.cmd0[`view]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["View(%cmd%)"]a}
 .r.cmd0[`plot]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
+
 .r.cmd0[`ggsave]:{[a]
- if[()~key `:pics;`:pics/dontcare.txt 0: ();hdel `:pics/dontcare.txt];
- a2:(1#`filename)!enlist path:`$.bt.print["pics/%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key`:pics;
- k:`filename`width`height`units`pointsize`bg!("\"%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
+ .r.default.picPath:hsym`$.r.default.wd;
+ if[()~key .r.default.picPath; .Q.dd[.r.default.picPath;`dontcare.txt] 0: ();hdel .Q.dd[.r.default.picPath;`dontcare.txt]];
+ a2:(1#`filename)!enlist path:`$.bt.print["%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key .r.default.picPath;
+ k:`filename`width`height`units`pointsize`bg!("\"%wd%/%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
  if[not null a`a2;tmp:value string a`a2;if[99h=type tmp;if[`filename in key tmp;a2:tmp];];];
+ a2:.r.default,a2;
  k0:key[a2] inter key k;
  cmd:.bt.print["png(%0)"]enlist ","sv k0{string[x],"=",y }'k k0;
  .rlang.rcmd .bt.print[cmd]a2;
@@ -94,23 +103,26 @@ d).rlang.Rset0
  r:.rlang.rget0 str:ssr[;"`";""] cmd;
  .rlang.rcmd "dev.off()";
  arg:.bt.md[`arg].bt.print[.bt.print["{%0}"] enlist ", "sv k0{string[x],"=",y }'k k0:k0 except `filename]a2;
- if[0=count k0;:.bt.print["  /  ![](%filename%){width=480, height=480}"]a2];
- :.bt.print["  /  ![](%filename%)%arg%"]a2,arg
+ if[0=count k0;:.bt.print["  /  ![](%wd%/%filename%){width=480, height=480}"]a2];
+ :.bt.print["  /  ![](%wd%/%filename%)%arg%"]a2,arg
  }
+
 .r.cmd0[`pic]:{[a]
- if[()~key `:pics;`:pics/dontcare.txt 0: ();hdel `:pics/dontcare.txt];
- a2:(1#`filename)!enlist path:`$.bt.print["pics/%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key`:pics;
- k:`filename`width`height`units`pointsize`bg!("\"%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
+ .r.default.picPath:hsym`$.r.default.wd;
+ if[()~key .r.default.picPath; .Q.dd[.r.default.picPath;`dontcare.txt] 0: ();hdel .Q.dd[.r.default.picPath;`dontcare.txt]];
+ a2:(1#`filename)!enlist path:`$.bt.print["%0.png"]  f:-1+min 100,f where not null f:{"J"$ -4_string x }@'f:key .r.default.picPath;
+ k:`filename`width`height`units`pointsize`bg!("\"%wd%/%filename%\"";"%width%";"%height%";"\"%units%\"";"%pointsize%";"\"%bg%\"");
  if[not null a`a2;tmp:value string a`a2;if[99h=type tmp;if[`filename in key tmp;a2:tmp];];];
+ a2:.r.default,a2;
  k0:key[a2] inter key k;
- cmd:.bt.print["png(%0)"]enlist ", "sv k0{string[x],"=",y }'k k0;
+ cmd:.bt.print["png(%0)"]enlist ","sv k0{string[x],"=",y }'k k0;
  .rlang.rcmd .bt.print[cmd]a2;
- .rlang.Rset t:.rlang.con cmd:a`cmd; 
+ .rlang.Rset t:.rlang.con cmd:a; 
  r:.rlang.rget0 str:ssr[;"`";""] cmd;
  .rlang.rcmd "dev.off()";
  arg:.bt.md[`arg].bt.print[.bt.print["{%0}"] enlist ", "sv k0{string[x],"=",y }'k k0:k0 except `filename]a2;
- if[0=count k0;:.bt.print["  /  ![](%filename%){width=480, height=480}"]a2];
- :.bt.print["  /  ![](%filename%)%arg%"]a2,arg
+ if[0=count k0;:.bt.print["  /  ![](%wd%/%filename%){width=480, height=480}"]a2];
+ :.bt.print["  /  ![](%wd%/%filename%)%arg%"]a2,arg
  }
 
 
@@ -139,11 +151,12 @@ d).rlang.Rset0
 .rlang.frame_[0nh]:{x}
 
 
-.rlang.t:`data.frame`Date`yearweek`yearmonth
 .rlang.t0:()!()
 .rlang.t0[`Date]:{[x] `date$x[1]-10957 }
 .rlang.t0[`yearweek]:{[x] `date$x[1]-10957 }
 .rlang.t0[`yearmonth]:{[x] `date$x[1]-10957 }
+
+.rlang.t0[`noquote]:{[x] x 1 }
 
 / .rlang.t0[`levels]:{ syms: `$x . 0 0; :syms x[1] - 1 }
 .rlang.t0[`string]:{ `$x }
@@ -152,6 +165,8 @@ d).rlang.Rset0
  c:`$x[0]`names;
  flip c!.rlang.rget @'x[1]
  }
+
+.rlang.t:key .rlang.t0 / `data.frame`Date`yearweek`yearmonth
 
 .rlang.rget:{[x] if[not (0h=type x) & 2=count x;:@[`$;x;{[x;y]x}[x]]];if[not 99h=type x 0;:x];
  c:(),`$(x0:x 0)`class; c:first c where c in .rlang.t;
@@ -194,3 +209,17 @@ d).rlang.source
  q) .rlang.source"%btick2%/qlib/rlang/ggplot2_formatter.r"
 
 .rlang.init[]
+
+
+/
+
+
+(::)a:.util.pcmd"c(1,2,3) || ggsave ~~ `width`height`pointsize`filename!480 480 10,`01_latency.png"
+
+b)ls ../../pics
+
+
+
+
+.r.cmd0[`ggsave] a
+

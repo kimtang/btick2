@@ -22,10 +22,18 @@ d)lib %btick2%/qlib/qtx/watchTest.q
 
 .watchTest.ind:1
 
-.bt.add[`;`.watchTest.watch.start]{}
+.bt.add[`;`.watchTest.watch.start]{
+ .watchTest.con.heartbeat:(" *";"* ") .watchTest.ind mod 2;
+ .watchTest.con.status:`init;
+ .watchTest.con.message:`;
+ .watchTest.con.rsummary:2!flip`sha`uid`cnt`pass`pass_ratio`stime`dtime!();
+ .watchTest.con.details:();
+ }
 
 .bt.addDelay[`.watchTest.watch.loop]{`time`tipe!(`second$2;`in)}
-.bt.add[`.watchTest.watch.start`.watchTest.watch.loop;`.watchTest.watch.loop]{}
+.bt.add[`.watchTest.watch.start`.watchTest.watch.loop;`.watchTest.watch.loop]{
+ @[system;;{}] .bt.print["c %0 %1"] .conem.windowSize[];
+ }
 
 .bt.addIff[`.watchTest.watch.checkCon]{0<count .watchTest.watchCon }
 .bt.add[`.watchTest.watch.loop;`.watchTest.watch.checkCon]{
@@ -34,11 +42,35 @@ d)lib %btick2%/qlib/qtx/watchTest.q
  .watchTest.ind:.watchTest.ind + 1;
  }
 
+.watchTest.msg:{[s;m] m,(max 0,s[1] - count m)#" " }
+
+.watchTest.screen:{[con]
+ s:.conem.windowSize[];
+ b:.conem.blankScreen[];
+ lst:2#b;
+ lst:lst,enlist .watchTest.msg[s] .bt.print["%heartbeat% %status%"] con;
+ lst:lst,enlist .watchTest.msg[s] .bt.print["message: %message%"] con;
+ lst:lst,.Q.s2 con`rsummary;
+ lst:lst,.conem.blankScreen[];
+ s[0]#lst	
+ }
 
 .bt.addIff[`.watchTest.watch.noChange]{not any exec changed from .watchTest.watchCon }
 .bt.add[`.watchTest.watch.checkCon;`.watchTest.watch.noChange]{
- .tp.pub[`.watchTest.heartbeat;] (" *";"* ") .watchTest.ind mod 2;
- .tp.pub[`.watchTest.status;] (`wait;`); 
+ .watchTest.con.heartbeat: (" *";"* ") .watchTest.ind mod 2;
+ .watchTest.con.status:`wait;
+ .watchTest.con.message:`;
+ }
+
+
+.bt.add[`.watchTest.watch.noChange;`.watchTest.watch.noChange.pub]{
+ .tp.pub[`.watchTest.heartbeat;] .watchTest.con.heartbeat;
+ .tp.pub[`.watchTest.status;] .watchTest.con`status`message; 
+ }
+
+
+.bt.add[`.watchTest.watch.noChange;`.watchTest.watch.noChange.screen]{
+ -1 .watchTest.screen .watchTest.con;
  }
 
 
@@ -49,20 +81,47 @@ d)lib %btick2%/qlib/qtx/watchTest.q
  .bt.md[`result] r
  }
 
+
 .bt.addIff[`.watchTest.watch.test.error]{[result] any not null result`error }
 .bt.add[`.watchTest.watch.test;`.watchTest.watch.test.error]{[result]
- .tp.pub[`.watchTest.heartbeat;] (" *";"* ") .watchTest.ind mod 2;	
- .tp.pub[`.watchTest.status;] enlist[`error;] `$.bt.print["Error: %file%"] ``status`file!enlist[`;`error;]first exec sPath from result where not null error;
+ .watchTest.con.heartbeat:(" *";"* ") .watchTest.ind mod 2;	
+ .watchTest.con.status:`error;
+ .watchTest.con.message:.bt.print["Error: %file%"] ``status`file!enlist[`;`error;]first exec sPath from result where not null error;	
  }
+
+
+.bt.add[`.watchTest.watch.test.error;`.watchTest.watch.test.error.pub]{
+ .tp.pub[`.watchTest.heartbeat;] .watchTest.con.heartbeat;	
+ .tp.pub[`.watchTest.status;] .watchTest.con`status`message;
+ }
+
+.bt.add[`.watchTest.watch.test.error;`.watchTest.watch.test.error.screen]{
+ -1 .watchTest.screen .watchTest.con;
+ }
+
 
 .bt.addIff[`.watchTest.watch.test.no_error]{[result] all null result`error }
 .bt.add[`.watchTest.watch.test;`.watchTest.watch.test.no_error]{[result]
  r:.qtx.execute .qtx.con;
- .tp.pub[`.watchTest.heartbeat;] (" *";"* ") .watchTest.ind mod 2;	
- .tp.pub[`.watchTest.status;] enlist[`change;] `$.bt.print["Change: %file%"] ``status`file!enlist[`;`change;]first exec sPath from result where changed,not null error; 
- .tp.pub[`.watchTest.rsummary;] .qtx.rsummary0 r lj .qtx.con;
- .tp.pub[`.watchTest.details;]r;
+ .watchTest.con.heartbeat: (" *";"* ") .watchTest.ind mod 2;
+ .watchTest.con.status:`change;
+ .watchTest.con.message: `$.bt.print["Change: %file%"] ``status`file!enlist[`;`change;]first exec sPath from result where changed,not null error; 
+ .watchTest.con.rsummary: .qtx.rsummary0 r lj .qtx.con;
+ .watchTest.con.details:r; 
  }
+
+
+.bt.add[`.watchTest.watch.test.no_error;`.watchTest.watch.test.no_error.pub]{[result;r]
+ .tp.pub[`.watchTest.heartbeat;] .watchTest.con.heartbeat;	
+ .tp.pub[`.watchTest.status;] .watchTest.con`status`message; 
+ .tp.pub[`.watchTest.rsummary;] .watchTest.con`rsummary;
+ .tp.pub[`.watchTest.details;] .watchTest.con`details;
+ }
+
+.bt.add[`.watchTest.watch.test.no_error;`.watchTest.watch.test.no_error.screen]{
+  -1 .watchTest.screen .watchTest.con;
+ }
+
 
 .watchTest.start:{[modules] modules:(),modules;
  fileToWatch:raze .watchTest.cFile @'modules; / global space or not? Can live in the global space

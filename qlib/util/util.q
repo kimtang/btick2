@@ -215,13 +215,6 @@ d).util.genTmpFolder
  q) .util.genTmpFolder .bt.md[`uid] "asdwerfd" / you can also provide your own uid
 
 
-.util.windowSize:{ reverse lst where not null lst:"J"$ " " vs system["powershell -command \"&{(get-host).ui.rawui.WindowSize;}\""] 3}
-
-d).util.windowSize
- Function to get windows size
- q) .util.windowSize[] \ set random seed
-
-
 .util.pcmd:{[x] a1:`;a2:`;x:first r:"||" vs x;
  if[2=count r;
   s:"~~" vs r 1;

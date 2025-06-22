@@ -3,7 +3,12 @@
 
 / 
  q qtx.q -config default -repo repo -lib lib -file file [info|debug|test|watch] testSuite[all]
- q qtx.q
+ q qtx.q / this shows command to 
+ q qtx.q -config default -repo btick2 -lib lib[all] -file file[all] [info|debug|test|watch] auid[all] / this shows command to  
+ q qtx.q -lib baum info baum1.baum1.1[all]
+ q qtx.q -lib baum debug baum1.baum1.1[all]
+ q qtx.q -lib baum test baum1.baum1.1[all]
+ q qtx.q -lib baum watch baum1.baum1.1[all]  
 \
 
 system "c 1000 1000"
@@ -13,79 +18,70 @@ system "c 1000 1000"
 
 .qtx.parseArg:
  .util.arg
- .util.optArg0[`config;`;`default]
- .util.optArg0[`repo;`;`]
- .util.optArg0[`lib;`;`]
- .util.optArg0[`file;`;`]  
- .util.posArg0[`mode;`;`]
- .util.posArg0[`uid;`;`]
- .util.optArg0[`testCase_uid;`;`]
- .util.optArg0[`testCase_test_uid;`;`]  
- .util.optArg0[`noexit;"B";0b]
- .util.optArg0[`port;"j";9081]
+ .util.optArg0[`config;`;`default] / this points to the configuration file
+ .util.optArg0[`repo;`;`all] / each repo has lib
+ .util.optArg0[`lib;`;`all] / each lib has a test folder
+ .util.optArg0[`file;`;`all] / test folder has a test file
+ .util.posArg0[`cmd;`;`]
+ .util.posArg0[`auid;`;`all]
+ .util.optArg0[`exit;"B";1b]
+ .util.optArg0[`port;"j";0nj]
  @;
 
-.qtx.exit:{[args;x]
- system .bt.print["p %port%"] args;
- if[not args`noexit;exit 0];	
- } .qtx.allArgs: .qtx.parseArg .z.x;
+/ .qtx.arg:@[;`repo`lib`file`auid;{`$"," vs string x}] .qtx.parseArg ("-lib";"baum";"test");
+/ .qtx.arg:@[;`repo`lib`file`auid;{`$"," vs string x}] .qtx.parseArg ("-lib";"baum";"debug";"baum1.baum1.1");
+/ .qtx.arg:@[;`repo`lib`file`auid;{`$"," vs string x}] .qtx.parseArg ("-lib";"baum";"watch";"all");
+/ .qtx.arg:@[;`repo`lib`file`auid;{`$"," vs string x}] .qtx.parseArg ("test";"all");
 
-.import.json:.qtx.allArgs`config;.import.init[];.import.module`qtx;
+.qtx.arg:@[;`repo`lib`file`auid;{`$"," vs string x}] .qtx.parseArg .z.x;
 
-allTests:.qtx.module0 .qtx.summary .qtx.filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
+.import.json:.qtx.arg`config;.import.init[];.import.require`qtx`qtx.watchTest`conem;
 
-1 .Q.s .qtx.rsummary[];
-
-exit 0
-
-/
-
-result:`repo`lib xasc 0!select cnt:count i by repo,lib,testSuite:uid from allTests;
-result:update cmd:`$.bt.print["q qtx.q -json %json% -repo %repo% -lib %lib% [info|debug|test|watch] %testSuite%[all]"]@'(.import,/:result) from result;
-/ (::)result1:select testSuite:uid from allTests0:0!select from allTests where ((`all~.qtx.allArgs`testSuite) or uid=.qtx.allArgs`testSuite)
-
-/
-
-
-
-if[ max null .qtx.allArgs`mode`testSuite;
- 1 .Q.s select repo,lib,testSuite,cmd from result;
- .qtx.exit[]
- ];
-
-if[`info ~ .qtx.allArgs`mode;
-  -1 .Q.s 0!select fuid,testSuite,`$fdescription,testFnc from allTests0;
- .qtx.exit[];
- ];
-
-if[`debug ~ .qtx.allArgs`mode;
- if[not .qtx.allArgs[`fuid] in allTests0`fuid;
-  -1"\033[0;33m missing fuid \033[0m";
-  -1 .Q.s select fuid,testSuite,`$fdescription,testFnc from allTests0;
-  .qtx.exit[];
+.qtx.exit:{[arg]
+ if[arg[`cmd] in `debug`watch;
+  @[system;;{-1 "Not able to set port due to error: ",x }] .bt.print["p %1"]8012^arg`port;
+  :();
   ];
- if[.qtx.allArgs[`fuid] in allTests0`fuid;
-  filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
-  fuid0:first select from allTests0 where fuid in .qtx.allArgs`fuid;
-  filter2:{key[x]{(in;x;enlist y)}'value x} (where not null `testSuite`testCase#fuid0)#fuid0;
-  .qtx.main[filter1;filter2]()!();
-  system .bt.print["p %port%"] .qtx.allArgs;
-  -1 .Q.s1 .qtx.debug first select from .qtx.con3 where fuid in fuid0`fuid
-  ];
- ];
+ if[arg`exit;exit 0];
+ if[not null arg`port;system .bt.print["p %port%"]arg]; 
+ }
 
 
-if[`test ~ .qtx.allArgs`mode;
-  filter1:{key[x]{(in;x;enlist y)}'value x} (where not null `repo`lib`file#.qtx.allArgs)#.qtx.allArgs;
-  filter2:enlist ({(`all~y) or x=y};`testSuite;enlist .qtx.allArgs`testSuite);
-  -1 .Q.s2 .qtx.main[filter1;filter2]()!();
-  .qtx.exit[];
- ];
+.qtx.cmd0:()!()
 
+.qtx.cmd0[`]:{[arg]
+ -1 "No command provided. Please use the command as shown below";
+ -1 "q qtx.q -config default -repo repo[all] -lib lib[all] -file file[all] [info|debug|test|watch] auid[all] -exit 1"; 
+ }
 
-/
+.qtx.cmd0[`info]:{[arg]
+ s:.qtx.summary[];
+ .qtx.module0 select from s where max (`all;repo) in arg[`repo],max (`all;lib) in arg[`lib],max (`all;file) in arg[`file];
+ -1 .Q.s2 select auid,repo,lib,file,info:testCase_test_desc0 from .qtx.con where max (`all;auid) in arg[`auid];  
+ } 
 
-/ info : show summary
-/ debug : run test and start debug
-/ test : run test
-/ watch : watch a file and rerun test
+.qtx.cmd0[`test]:{[arg0]
+ s:.qtx.summary[];
+ .qtx.module0 select from s where max (`all;repo) in arg0[`repo],max (`all;lib) in arg0[`lib],max (`all;file) in arg0[`file];  
+ r:.qtx.execute .qtx.con;
+ -1 .Q.s2 0!.qtx.rsummary0 select from ( r lj .qtx.con) where max (`all;auid) in arg0`auid;
+ }
+
+.qtx.cmd0[`debug]:{[arg0]
+ s:.qtx.summary[];
+ .qtx.module0 select from s where max (`all;repo) in arg0[`repo],max (`all;lib) in arg0[`lib],max (`all;file) in arg0[`file];  
+ r:.qtx.execute .qtx.con;
+ t:first select from r where auid in arg0`auid; / arg`auid 
+ .qtx.putArg t`auid;
+ -1 .Q.s2 t`body
+ }
+
+.qtx.cmd0[`watch]:{[arg0]
+ s:.qtx.summary[];
+ allFiles:select from s where max (`all;repo) in arg0[`repo],max (`all;lib) in arg0[`lib],max (`all;file) in arg0[`file];
+ .watchTest.start exec .Q.dd'[repo;lib] from allFiles; 
+ }
+
+.qtx.cmd:{[arg] .qtx.cmd0[arg`cmd]arg}
+.qtx.cmd .qtx.arg;
+.qtx.exit .qtx.arg;
