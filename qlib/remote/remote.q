@@ -93,13 +93,14 @@ d).remote.qthrow
  q) .remote.qthrow[`kx_platform_hdb] "1+3"
  f) 1+3
 
-
-.remote.q:{
-  r:.remote.query[;x]@'.f.proc;
-  if[0<type .f.proc;:r ];
+.remote.qs:{[proc;x]
+  r:.remote.query[;x]@'proc;
+  if[0<type proc;:r ];
   if[not null r`error;'r`error];
   r`result
  }
+
+.remote.q:{ .remote.qs[.f.proc] x }
 
 d).remote.q
  Function to give a query of available connection
@@ -124,7 +125,54 @@ d).remote.a
 .f.a:{ .f.r:.remote.a x;.f.r }
 / .f.e:{ .f.q x }
 
-.f.e:{ x:"||" vs x;if[1=count x;:.f.q x 0];r:.f.q .bt.print[x 0]get x 1; if[2=count x;:r]; (parse x 2) set r;r  }
+/ .f.e:{ x:"||" vs x;if[1=count x;:.f.q x 0];r:.f.q .bt.print[x 0]get x 1; if[2=count x;:r]; (parse x 2) set r;r  }
+
+.f.cmd0:()!()
+
+.f.cmd0[`str]:{[a]
+  // a2:get string a`a2;
+  a2:(`proc`assign!``),a`a2;
+  if[null a2`proc;a2[`proc]:.f.proc];
+  r:.remote.qs[a2`proc;] a`cmd;
+  if[not null assign:a2[`assign]; assign set r; ];
+  :r
+ } 
+
+.f.cmd0[`fun]:{[a]
+  // a2:get string a`a2;
+  a2:(`proc`assign!``),a`a2;
+  if[null a2`proc;a2[`proc]:.f.proc];  
+  r:.remote.qs[a2`proc] get a`cmd;
+  if[not null assign:a2[`assign]; assign set r; ];
+  :r
+ }
+
+.f.p:{[x]
+ a:.util.pcmd x;
+ if[null a`a1; :`cmd`a1`a2!(a`cmd;`str;`proc`assign!(`;a`a2))];
+ if[a[`a1] in `f`s; :`cmd`a1`a2!(a`cmd;(`f`s!`fun`str) a`a1 ;`proc`assign!(`;a`a2) ) ];  
+ if[a[`a1] like "?:*";
+  a1: `$":" vs string a[`a1];
+  :`cmd`a1`a2!(a`cmd;(`s`f!`str`fun)a1 0;`proc`assign!(a1 1;a`a2) ) ];
+ if[a[`a1] in .remote.summary[]`uid; :`cmd`a1`a2!(a`cmd;`str;`proc`assign!a`a1`a2) ];
+ if[a[`a1] in `str`fun; :`cmd`a1`a2!(a`cmd;a`a1;get string a`a2) ]; 
+ :`cmd`a1`a2!(a`cmd;`str;`proc`assign!(`;a`a1))
+ }
+
+.f.e:{[x] a:.f.p x;.f.r:.f.cmd0[a`a1]a;.f.r }
+
+d).f.e
+ Function to give a query of available connection
+ q) .f.proc:`rdb
+ f) til 10 
+ f) til 10 || proc ~~ assign
+ f) til 10 || assign
+ f) til 10 || f ~~ assign
+ f) til 10 || s ~~ assign
+ f) til 10 || s:proc ~~ assign 
+ f) til 10 || str ~~ `proc`set!(`dontcare;`tmp) 
+ f) til 10 || proc ~~ assign 
+
 
 .f.proc:`self
 

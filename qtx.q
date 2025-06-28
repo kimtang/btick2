@@ -39,9 +39,7 @@ system "c 1000 1000"
 
 .qtx.exit:{[arg]
  if[arg[`cmd] in `debug`watch;
-  @[system;;{-1 "Not able to set port due to error: ",x }] .bt.print["p %1"]8012^arg`port;
-  :();
-  ];
+  @[system;;{-1 "Not able to set port due to error: ",x }] .bt.print["p %1"]8012^arg`port;:();];
  if[arg`exit;exit 0];
  if[not null arg`port;system .bt.print["p %port%"]arg]; 
  }
