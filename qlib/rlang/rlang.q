@@ -162,7 +162,7 @@ d).rlang.Rset0
 .rlang.t0[`string]:{ `$x }
 
 .rlang.t0[`data.frame]:{[x]
- c:`$x[0]`names;
+ c:(),`$x[0]`names;
  flip c!.rlang.rget @'x[1]
  }
 
