@@ -89,6 +89,15 @@ d).rlang.Rset0
 .r.cmd0[`view]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["View(%cmd%)"]a}
 .r.cmd0[`plot]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
 
+.r.cmd0[`writeClipboard]:{[a]
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["tmp.writeClipboard <- %cmd%"]a;
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["writeClipboard(tmp.writeClipboard)"]a; 
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["tmp.writeClipboard"]a
+ }
+
+
+
+
 .r.cmd0[`ggsave]:{[a]
  .r.default.picPath:hsym`$.r.default.wd;
  if[()~key .r.default.picPath; .Q.dd[.r.default.picPath;`dontcare.txt] 0: ();hdel .Q.dd[.r.default.picPath;`dontcare.txt]];
@@ -166,10 +175,12 @@ d).rlang.Rset0
  flip c!.rlang.rget @'x[1]
  }
 
-.rlang.t:key .rlang.t0 / `data.frame`Date`yearweek`yearmonth
+.rlang.t0[`knitr_kable]:{[x] "\n"sv  enlist[1#"/"],x[1],enlist[1#"\\"]} 
+
+/ .rlang.t:key .rlang.t0 / `data.frame`Date`yearweek`yearmonth
 
 .rlang.rget:{[x] if[not (0h=type x) & 2=count x;:@[`$;x;{[x;y]x}[x]]];if[not 99h=type x 0;:x];
- c:(),`$(x0:x 0)`class; c:first c where c in .rlang.t;
+ c:(),`$(x0:x 0)`class; c:first c where c in key .rlang.t0;
  .rlang.t0[c] x
  }
 
