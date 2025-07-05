@@ -100,7 +100,7 @@ d).util.deepMerge
 
 .util.sleep0:()!()
 /.util.sleep0[1b]:{system .bt.print["timeout %0 /nobreak"] enlist x; }
-.util.sleep0["w"]:{system .bt.print["sleep %0"] enlist x; }
+.util.sleep0["w"]:{system .bt.print["ping -n %0 127.0.0.1 > NUL"] enlist 1+x; }
 .util.sleep0["l"]:{system .bt.print["sleep %0"] enlist x; }
 
 .util.sleep:{[secs] .util.sleep0[.self.os] secs }
