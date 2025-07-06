@@ -89,13 +89,11 @@ d).rlang.Rset0
 .r.cmd0[`view]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["View(%cmd%)"]a}
 .r.cmd0[`plot]:{[a] .r.cmd0[`] a,.bt.md[`cmd] .bt.print["plot(%cmd%)"]a}
 
-.r.cmd0[`writeClipboard]:{[a]
- .r.cmd0[`] a,.bt.md[`cmd] .bt.print["tmp.writeClipboard <- %cmd%"]a;
- .r.cmd0[`] a,.bt.md[`cmd] .bt.print["writeClipboard(tmp.writeClipboard)"]a; 
- .r.cmd0[`] a,.bt.md[`cmd] .bt.print["tmp.writeClipboard"]a
+.r.cmd0[`clip]:{[a]
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["rlang.writeClipboard <- %cmd%"]a;
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["writeClipboard(rlang.writeClipboard)"]a; 
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["rlang.writeClipboard"]a
  }
-
-
 
 
 .r.cmd0[`ggsave]:{[a]
@@ -113,7 +111,7 @@ d).rlang.Rset0
  .rlang.rcmd "dev.off()";
  arg:.bt.md[`arg].bt.print[.bt.print["{%0}"] enlist ", "sv k0{string[x],"=",y }'k k0:k0 except `filename]a2;
  if[0=count k0;:.bt.print["  /  ![](%wd%/%filename%){width=480, height=480}"]a2];
- :.bt.print["  /  ![](%wd%/%filename%)%arg%"]a2,arg
+ :.bt.print[" /  ![](%wd%/%filename%)%arg%"]a2,arg
  }
 
 .r.cmd0[`pic]:{[a]
@@ -134,13 +132,24 @@ d).rlang.Rset0
  :.bt.print["  /  ![](%wd%/%filename%)%arg%"]a2,arg
  }
 
+.r.cmd1:()!()
+
+.r.cmd1[`]:{[a;r] @[.rlang.rget;r;r]}
+
+.r.cmd1[`ggsave]:{[a;r]
+ .rlang.rset0["rlang.writeClipboard"] r;
+ .r.cmd0[`] a,.bt.md[`cmd] .bt.print["writeClipboard(rlang.writeClipboard)"]a;
+ r
+ }
+
 
 .r.e:{
  if[not .rlang.calc;:0N!"R turned off"];
  a:.util.pcmd x;
  r:.r.cmd0[a`a1]a;
  .r.s:r;
- .r.r:@[.rlang.rget;.r.s;.r.s] ;
+ .r.r:.r.cmd1[a`a1][a;r]; 
+ / .r.r:@[.rlang.rget;.r.s;.r.s] ;
  .r.r
  }
 
@@ -175,12 +184,29 @@ d).rlang.Rset0
  flip c!.rlang.rget @'x[1]
  }
 
+.rlang.t0[`dgCMatrix]:{[x]
+ x0:x 0;i:x0`i;
+ M:{x#enlist y#0f} . Dim:x0`Dim;
+ V:(Dim[0]#p cut x0`i){enlist[x;y]}'Dim[0]#(p:x0`p) cut x0`x; 
+ m:M{[m;v] @[m;v 0;:;v 1] }'V;
+ `name xcols update name:(`$x0[`Dimnames][1]) from flip(`$x0[`Dimnames][0])!m
+ }
+
+.rlang.t0[`names]:{[x]
+ (`$x[0]`names)!x 1
+ }
+
 .rlang.t0[`knitr_kable]:{[x] "\n"sv  enlist[1#"/"],x[1],enlist[1#"\\"]} 
 
 / .rlang.t:key .rlang.t0 / `data.frame`Date`yearweek`yearmonth
 
+/ x:.r.r
+
 .rlang.rget:{[x] if[not (0h=type x) & 2=count x;:@[`$;x;{[x;y]x}[x]]];if[not 99h=type x 0;:x];
- c:(),`$(x0:x 0)`class; c:first c where c in key .rlang.t0;
+ if[`names in key x0:x 0;:.rlang.t0[`names]x];
+ c:(),`$(x0:x 0)`class;
+ c:c where -11h = type@'c;
+ c:first c where c in key .rlang.t0;
  .rlang.t0[c] x
  }
 
