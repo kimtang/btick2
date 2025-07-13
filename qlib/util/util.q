@@ -232,6 +232,3 @@ d).util.pcmd
  q) .util.pcmd "str || a1 " 
  q) .util.pcmd "str || a1 ~~  a2" 
  q) .util.pcmd "str || ~~  a2" 
-
-
-

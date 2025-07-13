@@ -134,7 +134,11 @@ d).rlang.Rset0
 
 .r.cmd1:()!()
 
-.r.cmd1[`]:{[a;r] @[.rlang.rget;r;r]}
+.r.cmd1[`]:{[a;r]
+ r:@[.rlang.rget;r;r];
+ if[not null a1:a`a1;a1 set r];
+ r
+ }
 
 .r.cmd1[`ggsave]:{[a;r]
  .rlang.rset0["rlang.writeClipboard"] r;
@@ -146,9 +150,9 @@ d).rlang.Rset0
 .r.e:{
  if[not .rlang.calc;:0N!"R turned off"];
  a:.util.pcmd x;
- r:.r.cmd0[a`a1]a;
+ r:.r.cmd0[ (k!k:key .r.cmd0) a`a1]a;
  .r.s:r;
- .r.r:.r.cmd1[a`a1][a;r]; 
+ .r.r:.r.cmd1[(k!k:key .r.cmd1) a`a1][a;r]; 
  / .r.r:@[.rlang.rget;.r.s;.r.s] ;
  .r.r
  }
@@ -193,20 +197,18 @@ d).rlang.Rset0
  }
 
 .rlang.t0[`names]:{[x]
- (`$x[0]`names)!x 1
+ (`$x[0]`names)!.rlang.rget@'x 1
  }
 
 .rlang.t0[`knitr_kable]:{[x] "\n"sv  enlist[1#"/"],x[1],enlist[1#"\\"]} 
 
-/ .rlang.t:key .rlang.t0 / `data.frame`Date`yearweek`yearmonth
-
-/ x:.r.r
-
 .rlang.rget:{[x] if[not (0h=type x) & 2=count x;:@[`$;x;{[x;y]x}[x]]];if[not 99h=type x 0;:x];
- if[`names in key x0:x 0;:.rlang.t0[`names]x];
- c:(),`$(x0:x 0)`class;
+ c:`#();x0:x 0;
+ if[`class in key x0;c,:`$x0`class];
+ if[`names in key x0;c,:`names]; 
+ / c:(),`$(x0:x 0)`class;
  c:c where -11h = type@'c;
- c:first c where c in key .rlang.t0;
+ c:first k asc distinct (k:key .rlang.t0)?c;
  .rlang.t0[c] x
  }
 

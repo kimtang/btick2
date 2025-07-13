@@ -155,9 +155,23 @@ d).remote.a
   a1: `$":" vs string a[`a1];
   :`cmd`a1`a2!(a`cmd;(`s`f!`str`fun)a1 0;`proc`assign!(a1 1;a`a2) ) ];
  if[a[`a1] in .remote.summary[]`uid; :`cmd`a1`a2!(a`cmd;`str;`proc`assign!a`a1`a2) ];
- if[a[`a1] in `str`fun; :`cmd`a1`a2!(a`cmd;a`a1;get string a`a2) ]; 
+ if[a[`a1] in key .f.cmd0; :`cmd`a1`a2!(a`cmd;a`a1;get string a`a2) ]; 
  :`cmd`a1`a2!(a`cmd;`str;`proc`assign!(`;a`a1))
  }
+
+.f.cmd0[`clip]:{[a]
+  a2:`proc`assign!.f.proc,`;
+  if[99h=type a`a2;a2:a2,a`a2 ];
+  r:.remote.qs[a2`proc;] a`cmd;
+  if[not null assign:a2[`assign]; assign set r; ];
+  tmpFolder:.util.genTmpFolder[];
+  (hsym`$tmpFolder`path)1: "x"$ .Q.s1 r;
+  cmd:.bt.print["clip < %path%"] tmpFolder;
+  if["l"=.self.os;cmd:.bt.print["xclip -i -selection c %path%"]tmpFolder];
+  @[system;cmd;{}];
+  hdel (hsym`$tmpFolder`path);
+  :r
+ } 
 
 .f.e:{[x] a:.f.p x;.f.r:.f.cmd0[a`a1]a;.f.r }
 
@@ -172,6 +186,8 @@ d).f.e
  f) til 10 || s:proc ~~ assign 
  f) til 10 || str ~~ `proc`set!(`dontcare;`tmp) 
  f) til 10 || proc ~~ assign 
+ f) til 10 || clip 
+
 
 
 .f.proc:`self
