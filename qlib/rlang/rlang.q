@@ -80,8 +80,10 @@ d).rlang.Rset0
 .r.cmd0:()!()
 
 .r.cmd0[`]:{[a]
- .rlang.Rset t:.rlang.con cmd:a`cmd; 
- r:.rlang.rget0 str:ssr[;"`";""] cmd;
+ .rlang.Rset t:.rlang.con cmd:a`cmd;
+ str:ssr[;"`";""] cmd;
+ .rlang.rset0[`.rlang.tmpstr]str;
+ r:.rlang.rget0 "eval(parse(text=.rlang.tmpstr))";
  r
  }
 
