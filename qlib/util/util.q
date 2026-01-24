@@ -232,3 +232,33 @@ d).util.pcmd
  q) .util.pcmd "str || a1 " 
  q) .util.pcmd "str || a1 ~~  a2" 
  q) .util.pcmd "str || ~~  a2" 
+
+.util.rpath:{[path]
+ if[t0:(type path) in -10 10h;path:`$path]; 
+ if[0>t1:type path;path:enlist path ];
+ path0:string path;
+ w:where ":"=path0[;0];
+ path0:`$@[path0;w;{1_x}];
+ if[0>t1;path0:path0 0];
+ if[t0;path0:string path0];
+ path0
+ }
+
+.util.spath:{[path]
+ if[t0:(type path) in -10 10h;path:`$path]; 
+ if[0>t1:type path;path:enlist path ];
+ path0:string path;
+ w:where not ":"=path0[;0];
+ path0:`$@[path0;w;{":",x}];
+ if[0>t1;path0:path0 0];
+ if[t0;path0:string path0];
+ path0
+ } 
+
+.c.e:{
+ tmpFile:.util.genTmpFolder[];
+ (file:hsym`$tmpFile`path) 1: "x"$.Q.s1 r:value x;
+ system .bt.print["clip.exe < %path%"]tmpFile;
+ hdel file;
+ r
+ }

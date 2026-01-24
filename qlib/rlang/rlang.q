@@ -230,7 +230,7 @@ d).rlang.Rset0
  }
 
 
-.rlang.Rframe:{  .rlang.Rframe0 .rlang.Rget x }
+.rlang.Rframe:{  .rlang.Rframe0 .rlang.rget0 x }
 
 d).rlang.Rframe
  Function to set the variable
