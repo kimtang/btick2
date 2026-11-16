@@ -1,0 +1,32 @@
+# Optional: not a required check.
+name: tests (optional)
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: tests (optional)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - id: pq
+        uses: peachq-org/setup-peachq@v1.0.0
+        with:
+          version: 0.92.20261116
+      - shell: bash
+        env:
+          btick2: ${{ github.workspace }}
+        run: |
+          rm qlib/baum/test/001.q
+          rm qlib/dbmaint/test/001.q
+          rm qlib/proto/test/001.q
+          $QCMD qtx.q test -classic | tee out.txt
+          awk '$3$4 ~ /^[0-9]+$/ {n+=$3; p+=$4} END {print "**peachq ${{ steps.pq.outputs.version }}:** " p " of " n " checks passed" >> ENVIRON["GITHUB_STEP_SUMMARY"]; exit !n || p<n}' out.txt
